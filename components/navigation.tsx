@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 import {
   NavigationMenu,
@@ -26,75 +26,57 @@ interface NavigationProps {
 }
 
 export function Navigation({ dir }: NavigationProps) {
-  const locale = useLocale();
   const t = useTranslations();
-
-  const navigationItems = [
-    {
-      title: t("navigation.home"),
-      href: "/",
-      description:
-        locale === "ar" ? "ابدأ مع Nexshad" : "Get started with Nexshad",
-    },
-    {
-      title: t("navigation.about"),
-      href: "/about",
-      description:
-        locale === "ar"
-          ? "تعرف على الميزات والتكنولوجيا"
-          : "Learn about features and tech",
-    },
-    {
-      title: t("navigation.contact"),
-      href: "/contact",
-      description:
-        locale === "ar"
-          ? "تواصل معنا للحصول على الدعم"
-          : "Contact us for support",
-    },
-  ];
 
   return (
     <NavigationMenu dir={dir}>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>{t("navigation.home")}</NavigationMenuTrigger>
+          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+            <Link href="/">{t("navigation.home")}</Link>
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>
+            {t("navigation.resources")}
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <Link
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                    href="/"
+                    className="flex h-full w-full flex-col justify-end rounded-md bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-rose-500/10 p-6 no-underline transition-all outline-none select-none hover:from-amber-500/15 hover:via-orange-500/15 hover:to-rose-500/15 focus:shadow-md"
+                    href="/docs"
                   >
-                    <div className="mb-2 text-lg font-medium">Nexshad</div>
+                    <div className="mb-2 text-lg font-medium">Nexcn</div>
                     <p className="text-muted-foreground text-sm leading-tight">
-                      {locale === "ar"
-                        ? "Next.js Starter مع shadcn و next-intl"
-                        : "Next.js starter with shadcn and next-intl"}
+                      {t("navigation.nexcnDescription")}
                     </p>
                   </Link>
                 </NavigationMenuLink>
               </li>
-              {navigationItems.slice(1).map((item) => (
-                <ListItem key={item.title} title={item.title} href={item.href}>
-                  {item.description}
-                </ListItem>
-              ))}
+              <ListItem
+                href="https://nextjs.org"
+                title={t("navigation.nextjs")}
+              >
+                {t("navigation.nextjsDescription")}
+              </ListItem>
+              <ListItem
+                href="https://ui.shadcn.com"
+                title={t("navigation.shadcn")}
+              >
+                {t("navigation.shadcnDescription")}
+              </ListItem>
+              <ListItem
+                href="https://next-intl.dev/docs/getting-started/app-router"
+                title={t("navigation.nextIntl")}
+              >
+                {t("navigation.nextIntlDescription")}
+              </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-
-        {navigationItems.map((item) => (
-          <NavigationMenuItem key={item.title}>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link href={item.href}>{item.title}</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        ))}
       </NavigationMenuList>
     </NavigationMenu>
   );
@@ -109,7 +91,10 @@ function ListItem({
   return (
     <li {...props}>
       <NavigationMenuLink asChild>
-        <Link href={href}>
+        <Link
+          href={href}
+          className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none"
+        >
           <div className="text-sm leading-none font-medium">{title}</div>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
