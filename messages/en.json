@@ -1,16 +1,46 @@
 {
   "cta": {
-    "deploy": "Deploy Now",
-    "documentation": "View Docs"
+    "shadcnDocs": "Shadcn/ui Docs",
+    "nextjsDocs": "Next.js Docs"
   },
   "content": {
-    "title": "Next.js Starter with shadcn and i18n",
-    "description": {
-      "start": "A modern boilerplate for building multilingual Next.js applications with ",
-      "templates": "shadcn/ui components",
-      "middle": " and ",
-      "learning": "next-intl",
-      "end": " for seamless internationalization."
+    "title": "Production-Ready Next.js 16 Starter",
+    "subtitle": "Built with TypeScript, shadcn/ui, and best practices",
+    "description": "A modern, type-safe boilerplate featuring Next.js 16, React 19, Tailwind CSS v4, comprehensive testing, and bilingual support (EN/AR) out of the box.",
+    "instructions": {
+      "line1": "Get started by editing app/[locale]/page.tsx",
+      "line2": "Edit navbar in components/navigation.tsx",
+      "line3": "Edit footer in components/footer.tsx",
+      "line4": "Customize content and translations in messages/en.json and messages/ar.json"
+    },
+    "features": {
+      "title": "What's Included",
+      "items": {
+        "framework": {
+          "label": "Next.js 16 + React 19",
+          "description": "Latest stable versions with App Router and Server Components"
+        },
+        "typescript": {
+          "label": "Strict TypeScript",
+          "description": "Enhanced type safety with strict compiler options"
+        },
+        "ui": {
+          "label": "shadcn/ui + Tailwind v4",
+          "description": "Beautiful, accessible components with modern styling"
+        },
+        "i18n": {
+          "label": "Bilingual (EN/AR)",
+          "description": "Full RTL support with next-intl"
+        },
+        "testing": {
+          "label": "Vitest + Playwright",
+          "description": "Unit and E2E testing configured"
+        },
+        "quality": {
+          "label": "Code Quality Tools",
+          "description": "ESLint, Prettier, Husky pre-commit hooks"
+        }
+      }
     }
   },
   "theme": {
@@ -28,20 +58,39 @@
     "home": "Home",
     "about": "About",
     "contact": "Contact",
-    "deploy": "Deploy",
-    "documentation": "Documentation"
+    "resources": "Resources",
+    "nextjs": "Next.js",
+    "shadcn": "shadcn/ui",
+    "nextIntl": "next-intl",
+    "nexcnDescription": "Next.js starter with shadcn and next-intl",
+    "nextjsDescription": "The React Framework for the Web",
+    "shadcnDescription": "Beautifully designed components",
+    "nextIntlDescription": "Internationalization for Next.js",
+    "homeDescription": "Get started with Nexcn",
+    "aboutDescription": "Learn about features and tech",
+    "contactDescription": "Contact us for support"
   },
   "footer": {
-    "description": "A modern Next.js starter template with shadcn/ui and next-intl for seamless multilingual development.",
+    "description": "Production-ready Next.js 16 starter with TypeScript, shadcn/ui, comprehensive testing, and bilingual support.",
     "links": {
-      "product": "Product",
-      "features": "Features",
-      "documentation": "Documentation",
-      "company": "Company",
-      "about": "About",
-      "contact": "Contact",
-      "social": "Social"
+      "resources": "Resources",
+      "social": "Social",
+      "github": "GitHub",
+      "x": "X (Twitter)"
     },
-    "copyright": "© 2025 Nexshad. All rights reserved."
+    "copyright": "© 2025 Nexcn. All rights reserved."
+  },
+  "error": {
+    "title": "Something went wrong!",
+    "description": "An unexpected error occurred. Please try again.",
+    "retry": "Try Again",
+    "back": "Go Back",
+    "home": "Go Home"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "back": "Go Back",
+    "home": "Go Home"
   }
 }

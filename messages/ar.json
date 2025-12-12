@@ -1,16 +1,46 @@
 {
   "cta": {
-    "deploy": "انشر الآن",
-    "documentation": "شوف الأدلة"
+    "shadcnDocs": "مستندات Shadcn/ui",
+    "nextjsDocs": "مستندات Next.js"
   },
   "content": {
-    "title": "Next.js Starter مع shadcn و i18n",
-    "description": {
-      "start": "نموذج بدء حديث لبناء تطبيقات Next.js متعددة اللغات مع ",
-      "templates": "مكونات shadcn/ui",
-      "middle": " و ",
-      "learning": "next-intl",
-      "end": " للترجمة السلسة."
+    "title": "قالب Next.js 16 جاهز للإنتاج",
+    "subtitle": "مبني باستخدام TypeScript و shadcn/ui وأفضل الممارسات",
+    "description": "قالب حديث وآمن من حيث الأنواع يتضمن Next.js 16 و React 19 و Tailwind CSS v4 واختبارات شاملة ودعم ثنائي اللغة (EN/AR) جاهز للاستخدام.",
+    "instructions": {
+      "line1": "ابدأ بتحرير app/[locale]/page.tsx",
+      "line2": "حرر شريط التنقل في components/navigation.tsx",
+      "line3": "حرر التذييل في components/footer.tsx",
+      "line4": "خصص المحتوى والترجمات في messages/en.json و messages/ar.json"
+    },
+    "features": {
+      "title": "ما يتضمنه القالب",
+      "items": {
+        "framework": {
+          "label": "Next.js 16 + React 19",
+          "description": "أحدث الإصدارات المستقرة مع App Router و Server Components"
+        },
+        "typescript": {
+          "label": "TypeScript صارم",
+          "description": "أمان محسّن للأنواع مع خيارات مترجم صارمة"
+        },
+        "ui": {
+          "label": "shadcn/ui + Tailwind v4",
+          "description": "مكونات جميلة وسهلة الوصول مع تصميم حديث"
+        },
+        "i18n": {
+          "label": "ثنائي اللغة (EN/AR)",
+          "description": "دعم كامل للكتابة من اليمين لليسار مع next-intl"
+        },
+        "testing": {
+          "label": "Vitest + Playwright",
+          "description": "اختبارات الوحدة والشاملة مُعدّة مسبقًا"
+        },
+        "quality": {
+          "label": "أدوات جودة الكود",
+          "description": "ESLint و Prettier و Husky pre-commit hooks"
+        }
+      }
     }
   },
   "theme": {
@@ -28,20 +58,39 @@
     "home": "الرئيسية",
     "about": "معلومات",
     "contact": "اتصل بنا",
-    "deploy": "انشر",
-    "documentation": "الأدلة"
+    "resources": "المصادر",
+    "nextjs": "Next.js",
+    "shadcn": "shadcn/ui",
+    "nextIntl": "next-intl",
+    "nexcnDescription": "Next.js Starter مع shadcn و next-intl",
+    "nextjsDescription": "إطار React للويب",
+    "shadcnDescription": "مكونات مصممة بشكل جميل",
+    "nextIntlDescription": "دعم تعدد اللغات لـ Next.js",
+    "homeDescription": "ابدأ مع Nexcn",
+    "aboutDescription": "تعرف على الميزات والتكنولوجيا",
+    "contactDescription": "تواصل معنا للحصول على الدعم"
   },
   "footer": {
-    "description": "نموذج Next.js حديث مع shadcn/ui و next-intl لتطوير متعدد اللغات بسلاسة.",
+    "description": "قالب Next.js 16 جاهز للإنتاج مع TypeScript و shadcn/ui واختبارات شاملة ودعم ثنائي اللغة.",
     "links": {
-      "product": "المنتج",
-      "features": "الميزات",
-      "documentation": "الأدلة",
-      "company": "الشركة",
-      "about": "معلومات",
-      "contact": "اتصل بنا",
-      "social": "التواصل الاجتماعي"
+      "resources": "المصادر",
+      "social": "التواصل الاجتماعي",
+      "github": "GitHub",
+      "x": "X (تويتر)"
     },
-    "copyright": "© 2025 Nexshad. جميع الحقوق محفوظة."
+    "copyright": "© 2025 Nexcn. جميع الحقوق محفوظة."
+  },
+  "error": {
+    "title": "حدث خطأ ما!",
+    "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    "retry": "حاول مرة أخرى",
+    "back": "رجوع",
+    "home": "العودة للرئيسية"
+  },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "back": "رجوع",
+    "home": "العودة للرئيسية"
   }
 }
