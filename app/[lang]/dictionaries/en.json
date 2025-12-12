@@ -1,0 +1,19 @@
+{
+  "navigation": {
+    "deploy": "Deploy Now",
+    "documentation": "Documentation"
+  },
+  "content": {
+    "title": "To get started, edit the page.tsx file.",
+    "description": {
+      "start": "Looking for a starting point or more instructions? Head over to ",
+      "templates": "Templates",
+      "middle": " or the ",
+      "learning": "Learning",
+      "end": " center."
+    }
+  },
+  "theme": {
+    "toggleLabel": "Toggle theme"
+  }
+}

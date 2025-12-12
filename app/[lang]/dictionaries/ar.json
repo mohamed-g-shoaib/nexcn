@@ -1,0 +1,19 @@
+{
+  "navigation": {
+    "deploy": "انشر الآن",
+    "documentation": "الوثائق"
+  },
+  "content": {
+    "title": "للبدء، قم بتحرير ملف page.tsx.",
+    "description": {
+      "start": "تبحث عن نقطة بداية أو تعليمات إضافية؟ توجه إلى ",
+      "templates": "القوالب",
+      "middle": " أو ",
+      "learning": "التعلم",
+      "end": "."
+    }
+  },
+  "theme": {
+    "toggleLabel": "تبديل السمة"
+  }
+}
