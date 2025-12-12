@@ -14,6 +14,14 @@
     }
   },
   "theme": {
-    "toggleLabel": "تبديل السمة"
+    "toggleLabel": "تبديل السمة",
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية",
+    "switchLabel": "تبديل اللغة"
   }
 }

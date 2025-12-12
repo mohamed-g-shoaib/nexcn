@@ -14,6 +14,14 @@
     }
   },
   "theme": {
-    "toggleLabel": "Toggle theme"
+    "toggleLabel": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "languages": {
+    "english": "English",
+    "arabic": "العربية",
+    "switchLabel": "Switch language"
   }
 }
