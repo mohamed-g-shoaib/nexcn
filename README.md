@@ -1,5 +1,7 @@
 # Nexcn Starter
 
+![Nexcn Starter Banner](./app/opengraph-image.png)
+
 A production-ready Next.js boilerplate with internationalization, testing, and modern tooling.
 
 ## Features
