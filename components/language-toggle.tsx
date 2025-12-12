@@ -13,6 +13,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { Locale } from "@/app/[lang]/dictionaries";
 
+// Extend DropdownMenu to accept dir prop
+declare module "@/components/ui/dropdown-menu" {
+  interface DropdownMenuProps {
+    dir?: "ltr" | "rtl";
+  }
+}
+
 interface LanguageToggleProps {
   translations: {
     english: string;
@@ -36,14 +43,14 @@ export function LanguageToggle({ translations, dir }: LanguageToggleProps) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu dir={dir}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" suppressHydrationWarning={true}>
           <Languages className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">{translations.switchLabel}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" dir={dir || "ltr"}>
+      <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => switchLanguage("en")}>
           {translations.english}
         </DropdownMenuItem>

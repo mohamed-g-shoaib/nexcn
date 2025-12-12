@@ -12,6 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Extend DropdownMenu to accept dir prop
+declare module "@/components/ui/dropdown-menu" {
+  interface DropdownMenuProps {
+    dir?: "ltr" | "rtl";
+  }
+}
+
 interface ModeToggleProps {
   translations: {
     light: string;
@@ -26,7 +33,7 @@ export function ModeToggle({ translations, dir }: ModeToggleProps) {
   const { setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu dir={dir}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" suppressHydrationWarning={true}>
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
@@ -34,7 +41,7 @@ export function ModeToggle({ translations, dir }: ModeToggleProps) {
           <span className="sr-only">{translations.toggleLabel}</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" dir={dir || "ltr"}>
+      <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           {translations.light}
         </DropdownMenuItem>
