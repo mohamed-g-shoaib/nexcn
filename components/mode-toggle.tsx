@@ -17,42 +17,35 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// Extend DropdownMenu to accept dir prop
-declare module "@/components/ui/dropdown-menu" {
-  interface DropdownMenuProps {
-    dir?: "ltr" | "rtl";
-  }
-}
-
-interface ModeToggleProps {
-  dir?: "ltr" | "rtl";
-}
-
-export function ModeToggle({ dir }: ModeToggleProps) {
+export function ModeToggle() {
   const { setTheme } = useTheme();
   const t = useTranslations();
 
   return (
-    <DropdownMenu dir={dir}>
+    <DropdownMenu>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              suppressHydrationWarning={true}
-            >
-              <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-              <span className="sr-only">{t("theme.toggleLabel")}</span>
-            </Button>
-          </DropdownMenuTrigger>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  suppressHydrationWarning={true}
+                />
+              }
+            />
+          }
+        >
+          <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <span className="sr-only">{t("theme.toggleLabel")}</span>
         </TooltipTrigger>
         <TooltipContent>
           <p>{t("theme.toggleLabel")}</p>
         </TooltipContent>
       </Tooltip>
-      <DropdownMenuContent align={dir === "rtl" ? "start" : "end"}>
+      <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           {t("theme.light")}
         </DropdownMenuItem>

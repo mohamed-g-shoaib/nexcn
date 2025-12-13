@@ -17,22 +17,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-// Extend DropdownMenu to accept dir prop
-declare module "@/components/ui/dropdown-menu" {
-  interface DropdownMenuProps {
-    dir?: "ltr" | "rtl";
-  }
-}
-
-interface LanguageToggleProps {
-  dir?: "ltr" | "rtl";
-}
-
-export function LanguageToggle({ dir }: LanguageToggleProps) {
+export function LanguageToggle() {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations();
+  const isRTL = locale === "ar";
 
   const switchLanguage = (newLocale: string) => {
     // Remove the current locale from pathname
@@ -43,25 +33,29 @@ export function LanguageToggle({ dir }: LanguageToggleProps) {
   };
 
   return (
-    <DropdownMenu dir={dir}>
+    <DropdownMenu>
       <Tooltip>
-        <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              size="icon"
-              suppressHydrationWarning={true}
-            >
-              <Languages className="h-[1.2rem] w-[1.2rem]" />
-              <span className="sr-only">{t("languages.switchLabel")}</span>
-            </Button>
-          </DropdownMenuTrigger>
+        <TooltipTrigger
+          render={
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  suppressHydrationWarning={true}
+                />
+              }
+            />
+          }
+        >
+          <Languages className="h-[1.2rem] w-[1.2rem]" />
+          <span className="sr-only">{t("languages.switchLabel")}</span>
         </TooltipTrigger>
         <TooltipContent>
           <p>{t("languages.switchLabel")}</p>
         </TooltipContent>
       </Tooltip>
-      <DropdownMenuContent align={dir === "rtl" ? "start" : "end"}>
+      <DropdownMenuContent align={isRTL ? "start" : "end"}>
         <DropdownMenuItem onClick={() => switchLanguage("en")}>
           {t("languages.english")}
         </DropdownMenuItem>
