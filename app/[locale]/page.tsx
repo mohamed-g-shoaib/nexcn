@@ -11,10 +11,12 @@
  */
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ModeToggle } from "@/components/mode-toggle";
 import { LanguageToggle } from "@/components/language-toggle";
 import { Navigation } from "@/components/navigation";
+import { MobileNavigation } from "@/components/mobile-navigation";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 
@@ -33,7 +35,10 @@ export default function Home() {
         <div className="flex items-center justify-center px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex w-full max-w-4xl items-center justify-between">
             {/* Logo/Brand - Replace with your own logo and brand name */}
-            <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-2 transition-opacity hover:opacity-80"
+            >
               <Image
                 className="dark:invert"
                 src="/nexcn.svg" // Replace with your logo path
@@ -42,18 +47,26 @@ export default function Home() {
                 height={24}
                 style={{ width: "24px", height: "24px" }}
               />
+              {/* Nexcn - Replace with your brand name */}
               <span className="text-lg font-semibold text-black dark:text-white">
-                Nexcn {/* Replace with your brand name */}
+                Nexcn
               </span>
-            </div>
+            </Link>
 
-            {/* Navigation Menu - Center */}
+            {/* Navigation Menu - Desktop (navigation.tsx) and Mobile Drawer (mobile-navigation.tsx) */}
             <div className="hidden md:flex md:flex-1 md:justify-center">
               <Navigation dir={isRTL ? "rtl" : "ltr"} />
             </div>
 
-            {/* Switchers - Right/Left */}
-            <div className={`flex gap-2 ${isRTL ? "flex-row-reverse" : ""}`}>
+            {/* Mobile Navigation - Shows on mobile only (< 768px). Drawer opens from bottom with language and theme multi-button switchers */}
+            <div className="md:hidden">
+              <MobileNavigation dir={isRTL ? "rtl" : "ltr"} />
+            </div>
+
+            {/* Switchers - Desktop only */}
+            <div
+              className={`hidden gap-2 md:flex ${isRTL ? "flex-row-reverse" : ""}`}
+            >
               <LanguageToggle />
               <ModeToggle />
             </div>
@@ -75,6 +88,9 @@ export default function Home() {
               </h1>
               <p className="text-lg text-zinc-600 dark:text-zinc-400">
                 {t("content.subtitle")}
+              </p>
+              <p className="max-w-2xl text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+                {t("content.description")}
               </p>
               <div className="flex flex-col gap-1">
                 <p className="text-sm text-zinc-500 dark:text-zinc-500">
