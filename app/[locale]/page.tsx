@@ -113,19 +113,19 @@ export default function Home() {
                 {t("content.description")}
               </p>
               <div className="flex flex-col gap-1">
-                <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                <p className="text-sm text-zinc-700 dark:text-zinc-300">
                   {t("content.instructions.line1")}
                 </p>
-                <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                <p className="text-sm text-zinc-700 dark:text-zinc-300">
                   {t("content.instructions.line2")}
                 </p>
-                <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                <p className="text-sm text-zinc-700 dark:text-zinc-300">
                   {t("content.instructions.line3")}
                 </p>
-                <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                <p className="text-sm text-zinc-700 dark:text-zinc-300">
                   {t("content.instructions.line4")}
                 </p>
-                <p className="text-sm text-zinc-500 dark:text-zinc-500">
+                <p className="text-sm text-zinc-700 dark:text-zinc-300">
                   {t("content.instructions.line5")}
                 </p>
               </div>
