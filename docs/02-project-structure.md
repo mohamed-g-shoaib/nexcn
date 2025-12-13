@@ -32,6 +32,12 @@ Uses the Next.js 16 App Router.
 ### Components (`components/`)
 
 - **`ui/`**: Contains unstyled Base UI components. These are your building blocks.
+- **`navigation.tsx`**: Desktop navigation menu with resource dropdown.
+- **`mobile-navigation.tsx`**: Mobile drawer navigation (shown on screens < 768px).
+- **`mode-toggle.tsx`**: Simple theme toggle dropdown (desktop navbar).
+- **`language-toggle.tsx`**: Simple language toggle dropdown (desktop navbar).
+- **`theme-switcher-multi-button.tsx`**: Compact three-option theme switcher (mobile drawer).
+- **`language-switcher-multi-button.tsx`**: Compact language switcher (mobile drawer).
 - **Root level**: Place your feature-specific components here (e.g., `Header.tsx`, `Hero.tsx`).
 
 ### Internationalization (`messages/`)
@@ -46,6 +52,36 @@ Contains the actual text content for the site.
 - **`next.config.ts`**: Core Next.js settings.
 - **`tailwind.config.ts`**: Design system configuration (colors, fonts).
 - **`i18n/routing.ts`**: Defines supported locales and default language.
+
+## Navbar Architecture
+
+The navbar implements a responsive design with different layouts for desktop and mobile:
+
+**Desktop Layout:**
+
+- Logo/Brand on the left
+- Desktop navigation menu in the center
+- Theme and language toggle dropdowns on the right
+
+**Mobile Layout:**
+
+- Logo/Brand on the left
+- Mobile menu button (hamburger) that opens a drawer on the right
+- Theme and language multi-button switchers inside the drawer
+
+**Key Components:**
+
+- **Navigation Flow**: `[locale]/page.tsx` → `<nav>` → `<Navigation/>` (desktop) or `<MobileNavigation/>` (mobile)
+- **Language Switching**: Uses `next-intl` routing to preserve path and switch locales
+- **Theme Switching**: Uses `next-themes` provider for theme persistence
+- **RTL Support**: Both desktop and mobile navigation components handle Arabic RTL correctly
+
+**Multi-Button Switchers** (in mobile drawer):
+
+- Compact design showing all options at once
+- Theme switcher: System (monitor icon), Light (sun), Dark (moon)
+- Language switcher: EN, ع (Arabic)
+- Active state indicated by background highlight with smooth animation
 
 ## Best Practices
 
