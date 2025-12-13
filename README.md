@@ -42,13 +42,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 Read the guides in order to get started:
 
-1. **[Getting Started](./Docs/01-getting-started.md)** - Prerequisites, environment setup, and initial configuration
-2. **[Project Structure](./Docs/02-project-structure.md)** - Folder organization and where to add your code
-3. **[Styling Guide](./Docs/03-styling-guide.md)** - Using Tailwind CSS v4 and customizing components
-4. **[Adding Components](./Docs/04-adding-components.md)** - Creating reusable components with Base UI and shadcn/ui
-5. **[Internationalization](./Docs/05-internationalization-guide.md)** - Setting up multi-language support with next-intl
-6. **[Testing Guide](./Docs/06-testing-guide.md)** - Writing unit and E2E tests with Vitest and Playwright
-7. **[Cheat Sheet](./Docs/07-cheat-sheet.md)** - Quick reference for common tasks and commands
+1. **[Getting Started](./docs/01-getting-started.md)** - Prerequisites, environment setup, and initial configuration
+2. **[Project Structure](./docs/02-project-structure.md)** - Folder organization and where to add your code
+3. **[Styling Guide](./docs/03-styling-guide.md)** - Using Tailwind CSS v4 and customizing components
+4. **[Adding Components](./docs/04-adding-components.md)** - Creating reusable components with Base UI and shadcn/ui
+5. **[Internationalization](./docs/05-internationalization-guide.md)** - Setting up multi-language support with next-intl
+6. **[Testing Guide](./docs/06-testing-guide.md)** - Writing unit and E2E tests with Vitest and Playwright
+7. **[SEO Optimization](./docs/08-seo-optimization.md)** - Optimize for Google ranking, sitemap, JSON-LD schema, and LLM crawling
+8. **[Cheat Sheet](./docs/07-cheat-sheet.md)** - Quick reference for common tasks and commands
 
 ## Commands
 
