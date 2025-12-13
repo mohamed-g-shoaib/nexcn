@@ -4,7 +4,7 @@
 
 ## Overview
 
-- [Introduction](https://ui.shadcn.com/docs): Core principles—Open Code, Composition, Distribution, Beautiful Defaults, and AI-Ready design.
+- [Introduction](https://ui.shadcn.com/docs): Core principles-Open Code, Composition, Distribution, Beautiful Defaults, and AI-Ready design.
 - [CLI](https://ui.shadcn.com/docs/cli): Command-line tool for installing and managing components.
 - [components.json](https://ui.shadcn.com/docs/components-json): Configuration file for customizing the CLI and component installation.
 - [Theming](https://ui.shadcn.com/docs/theming): Guide to customizing colors, typography, and design tokens.
