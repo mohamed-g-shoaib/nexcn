@@ -30,8 +30,6 @@
   "navigation": {
     "menu": "Menu",
     "home": "Home",
-    "about": "About",
-    "contact": "Contact",
     "resources": "Resources",
     "nextjs": "Next.js",
     "baseUi": "Base UI",
@@ -43,8 +41,6 @@
     "shadcnDescription": "Beautifully designed, copy-paste components",
     "nextIntlDescription": "Internationalization for Next.js",
     "homeDescription": "Get started with Nexcn",
-    "aboutDescription": "Learn about the stack and features",
-    "contactDescription": "Get in touch for support",
     "settings": "Settings",
     "language": "Language",
     "theme": "Theme"

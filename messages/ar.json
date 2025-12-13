@@ -30,8 +30,6 @@
   "navigation": {
     "menu": "القائمة",
     "home": "الرئيسية",
-    "about": "معلومات",
-    "contact": "اتصل بنا",
     "resources": "مصادر",
     "nextjs": "Next.js",
     "baseUi": "Base UI",
@@ -43,8 +41,6 @@
     "shadcnDescription": "مكونات مصممة بشكل جميل وجاهزة للنسخ واللصق",
     "nextIntlDescription": "دعم تعدد اللغات لـ Next.js",
     "homeDescription": "ابدأ مع Nexcn",
-    "aboutDescription": "اعرف عن التقنيات والمميزات",
-    "contactDescription": "تواصل معانا للدعم",
     "settings": "الإعدادات",
     "language": "اللغة",
     "theme": "السمة"
