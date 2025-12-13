@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial release of Nexcn starter boilerplate
-- Interactive CLI tool - Run `npx @mg/nexcn my-app` to create new projects
+- Interactive CLI tool - Run `npx create-nexcn my-app` to create new projects
 - Next.js 16 with App Router and React 19
 - TypeScript with strict mode enabled
 - Tailwind CSS v4 with Base UI components
