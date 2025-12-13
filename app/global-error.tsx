@@ -74,7 +74,7 @@ export default function GlobalError({
               <div className="flex w-full flex-col gap-3 sm:flex-row">
                 <Button
                   onClick={reset}
-                  className="flex-1 cursor-pointer"
+                  className="w-full cursor-pointer sm:flex-1"
                   size="lg"
                 >
                   Try Again
@@ -82,7 +82,7 @@ export default function GlobalError({
                 <Button
                   onClick={() => window.history.back()}
                   variant="outline"
-                  className="flex-1 cursor-pointer"
+                  className="w-full cursor-pointer sm:flex-1"
                   size="lg"
                 >
                   Go Back
@@ -90,7 +90,7 @@ export default function GlobalError({
                 <Button
                   render={<Link href="/" />}
                   variant="outline"
-                  className="flex-1 cursor-pointer"
+                  className="w-full cursor-pointer sm:flex-1"
                   size="lg"
                 >
                   Go Home

@@ -42,14 +42,14 @@ export default function NotFound() {
           <Button
             onClick={() => window.history.back()}
             variant="outline"
-            className="flex-1 cursor-pointer"
+            className="w-full cursor-pointer sm:flex-1"
             size="lg"
           >
             {t("notFound.back")}
           </Button>
           <Button
             render={<Link href="/" />}
-            className="flex-1 cursor-pointer"
+            className="w-full cursor-pointer sm:flex-1"
             size="lg"
           >
             {t("notFound.home")}

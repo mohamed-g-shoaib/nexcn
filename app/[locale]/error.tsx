@@ -63,13 +63,17 @@ export default function Error({
 
         {/* Buttons */}
         <div className="flex w-full flex-col gap-3 sm:flex-row">
-          <Button onClick={reset} className="flex-1 cursor-pointer" size="lg">
+          <Button
+            onClick={reset}
+            className="w-full cursor-pointer sm:flex-1"
+            size="lg"
+          >
             {t("error.retry")}
           </Button>
           <Button
             onClick={() => window.history.back()}
             variant="outline"
-            className="flex-1 cursor-pointer"
+            className="w-full cursor-pointer sm:flex-1"
             size="lg"
           >
             {t("error.back")}
@@ -77,7 +81,7 @@ export default function Error({
           <Button
             render={<Link href="/" />}
             variant="outline"
-            className="flex-1 cursor-pointer"
+            className="w-full cursor-pointer sm:flex-1"
             size="lg"
           >
             {t("error.home")}
