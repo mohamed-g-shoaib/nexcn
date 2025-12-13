@@ -1,17 +1,19 @@
 {
   "cta": {
+    "baseUiDocs": "مستندات Base UI",
     "shadcnDocs": "مستندات Shadcn/ui",
     "nextjsDocs": "مستندات Next.js"
   },
   "content": {
     "title": "قالب Next.js 16 جاهز للإنتاج",
-    "subtitle": "مبني باستخدام TypeScript و shadcn/ui وأفضل الممارسات",
-    "description": "قالب حديث وآمن من حيث الأنواع يتضمن Next.js 16 و React 19 و Tailwind CSS v4 واختبارات شاملة ودعم ثنائي اللغة (EN/AR) جاهز للاستخدام.",
+    "subtitle": "جاهز للاستخدام: Next.js 16، React 19، TypeScript، Tailwind CSS v4، Base UI، shadcn/ui، next-intl (EN/AR)، Vitest، Playwright، ESLint، Prettier، Husky، وتحسينات SEO.",
+    "description": "",
     "instructions": {
-      "line1": "ابدأ بتحرير app/[locale]/page.tsx",
-      "line2": "حرر شريط التنقل في components/navigation.tsx",
-      "line3": "حرر التذييل في components/footer.tsx",
-      "line4": "خصص المحتوى والترجمات في messages/en.json و messages/ar.json"
+      "line1": "- هذه هي الصفحة الرئيسية. عدلها في app/[locale]/page.tsx",
+      "line2": "- حرر شريط التنقل في components/navigation.tsx، والتذييل في components/footer.tsx",
+      "line3": "- الشعار في /public/nexcn.svg، الأيقونة وصور OpenGraph في /app",
+      "line4": "- المحتوى والترجمات في messages/en.json و messages/ar.json",
+      "line5": "- بيانات SEO في app/[locale]/layout.tsx، وخريطة الموقع في app/sitemap.ts"
     },
     "features": {
       "title": "ما يتضمنه القالب",
@@ -25,8 +27,12 @@
           "description": "أمان محسّن للأنواع مع خيارات مترجم صارمة"
         },
         "ui": {
-          "label": "shadcn/ui + Tailwind v4",
-          "description": "مكونات جميلة وسهلة الوصول مع تصميم حديث"
+          "label": "Base UI + Tailwind v4",
+          "description": "مكونات غير منسقة وسهلة الوصول مع تصميم حديث"
+        },
+        "shadcn": {
+          "label": "shadcn/ui",
+          "description": "مكونات جميلة وسهلة الوصول"
         },
         "i18n": {
           "label": "ثنائي اللغة (EN/AR)",
@@ -60,10 +66,12 @@
     "contact": "اتصل بنا",
     "resources": "المصادر",
     "nextjs": "Next.js",
+    "baseUi": "Base UI",
     "shadcn": "shadcn/ui",
     "nextIntl": "next-intl",
-    "nexcnDescription": "Next.js Starter مع shadcn و next-intl",
+    "nexcnDescription": "Next.js Starter مع Base UI و next-intl",
     "nextjsDescription": "إطار React للويب",
+    "baseUiDescription": "مكونات واجهة مستخدم أساسية غير منسقة",
     "shadcnDescription": "مكونات مصممة بشكل جميل",
     "nextIntlDescription": "دعم تعدد اللغات لـ Next.js",
     "homeDescription": "ابدأ مع Nexcn",
@@ -71,7 +79,7 @@
     "contactDescription": "تواصل معنا للحصول على الدعم"
   },
   "footer": {
-    "description": "قالب Next.js 16 جاهز للإنتاج مع TypeScript و shadcn/ui واختبارات شاملة ودعم ثنائي اللغة.",
+    "description": "قالب Next.js 16 جاهز للإنتاج مع TypeScript و Base UI واختبارات شاملة ودعم ثنائي اللغة.",
     "links": {
       "resources": "المصادر",
       "social": "التواصل الاجتماعي",

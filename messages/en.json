@@ -1,17 +1,19 @@
 {
   "cta": {
-    "shadcnDocs": "Shadcn/ui Docs",
+    "baseUiDocs": "Base UI Docs",
+    "shadcnDocs": "shadcn/ui Docs",
     "nextjsDocs": "Next.js Docs"
   },
   "content": {
     "title": "Production-Ready Next.js 16 Starter",
-    "subtitle": "Built with TypeScript, shadcn/ui, and best practices",
-    "description": "A modern, type-safe boilerplate featuring Next.js 16, React 19, Tailwind CSS v4, comprehensive testing, and bilingual support (EN/AR) out of the box.",
+    "subtitle": "Out of the box you have: Next.js 16, React 19, TypeScript, Tailwind CSS v4, Base UI, shadcn/ui, next-intl (EN/AR), Vitest, Playwright, ESLint, Prettier, Husky, and SEO optimizations.",
+    "description": "",
     "instructions": {
-      "line1": "Get started by editing app/[locale]/page.tsx",
-      "line2": "Edit navbar in components/navigation.tsx",
-      "line3": "Edit footer in components/footer.tsx",
-      "line4": "Customize content and translations in messages/en.json and messages/ar.json"
+      "line1": "- This is the homepage. Edit it at app/[locale]/page.tsx",
+      "line2": "- Edit navbar in components/navigation.tsx, and footer in components/footer.tsx",
+      "line3": "- Logo in /public/nexcn.svg, favicon and OpenGraph images in /app",
+      "line4": "- Content and translations in messages/en.json and messages/ar.json",
+      "line5": "- SEO metadata in app/[locale]/layout.tsx, sitemap in app/sitemap.ts"
     },
     "features": {
       "title": "What's Included",
@@ -25,8 +27,12 @@
           "description": "Enhanced type safety with strict compiler options"
         },
         "ui": {
-          "label": "shadcn/ui + Tailwind v4",
-          "description": "Beautiful, accessible components with modern styling"
+          "label": "Base UI + Tailwind v4",
+          "description": "Accessible, unstyled components with modern styling"
+        },
+        "shadcn": {
+          "label": "shadcn/ui",
+          "description": "Beautiful, accessible components"
         },
         "i18n": {
           "label": "Bilingual (EN/AR)",
@@ -60,10 +66,12 @@
     "contact": "Contact",
     "resources": "Resources",
     "nextjs": "Next.js",
+    "baseUi": "Base UI",
     "shadcn": "shadcn/ui",
     "nextIntl": "next-intl",
-    "nexcnDescription": "Next.js starter with shadcn and next-intl",
+    "nexcnDescription": "Next.js starter with Base UI and next-intl",
     "nextjsDescription": "The React Framework for the Web",
+    "baseUiDescription": "Unstyled, accessible UI primitives",
     "shadcnDescription": "Beautifully designed components",
     "nextIntlDescription": "Internationalization for Next.js",
     "homeDescription": "Get started with Nexcn",
@@ -71,7 +79,7 @@
     "contactDescription": "Contact us for support"
   },
   "footer": {
-    "description": "Production-ready Next.js 16 starter with TypeScript, shadcn/ui, comprehensive testing, and bilingual support.",
+    "description": "Production-ready Next.js 16 starter with TypeScript, Base UI, comprehensive testing, and bilingual support.",
     "links": {
       "resources": "Resources",
       "social": "Social",
