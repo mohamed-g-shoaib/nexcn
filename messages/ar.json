@@ -5,48 +5,15 @@
     "nextjsDocs": "مستندات Next.js"
   },
   "content": {
-    "title": "قالب Next.js 16 جاهز للإنتاج",
-    "subtitle": "جاهز للاستخدام: Next.js 16، React 19، TypeScript، Tailwind CSS v4، Base UI، shadcn/ui، next-intl (EN/AR)، Vitest، Playwright، ESLint، Prettier، Husky، وتحسينات SEO.",
+    "title": "ابدأ أسرع مع Nexcn",
+    "subtitle": "قالب Next.js 16 مع TypeScript و Tailwind CSS v4 و Base UI و shadcn/ui ودعم تعدد اللغات واختبارات وأدوات جودة الكود جاهزة من البداية.",
     "description": "",
     "instructions": {
-      "line1": "- هذه هي الصفحة الرئيسية. عدلها في app/[locale]/page.tsx",
-      "line2": "- حرر شريط التنقل في components/navigation.tsx (سطح المكتب) و components/mobile-navigation.tsx (درج الجوال)، والتذييل في components/footer.tsx",
-      "line3": "- الشعار في /public/nexcn.svg، الأيقونة وصور OpenGraph في /app",
+      "line1": "- دي الصفحة الرئيسية. عدلها في app/[locale]/page.tsx",
+      "line2": "- عدل شريط التنقل في components/navigation.tsx (ديسكتوب) و components/mobile-navigation.tsx (قائمة الموبايل)، والفوتر في components/footer.tsx",
+      "line3": "- اللوجو في /public/nexcn.svg، الأيقونة وصور OpenGraph في /app",
       "line4": "- المحتوى والترجمات في messages/en.json و messages/ar.json",
       "line5": "- بيانات SEO في app/[locale]/layout.tsx، وخريطة الموقع في app/sitemap.ts"
-    },
-    "features": {
-      "title": "ما يتضمنه القالب",
-      "items": {
-        "framework": {
-          "label": "Next.js 16 + React 19",
-          "description": "أحدث الإصدارات المستقرة مع App Router و Server Components"
-        },
-        "typescript": {
-          "label": "TypeScript صارم",
-          "description": "أمان محسّن للأنواع مع خيارات مترجم صارمة"
-        },
-        "ui": {
-          "label": "Base UI + Tailwind v4",
-          "description": "مكونات غير منسقة وسهلة الوصول مع تصميم حديث"
-        },
-        "shadcn": {
-          "label": "shadcn/ui",
-          "description": "مكونات جميلة وسهلة الوصول"
-        },
-        "i18n": {
-          "label": "ثنائي اللغة (EN/AR)",
-          "description": "دعم كامل للكتابة من اليمين لليسار مع next-intl"
-        },
-        "testing": {
-          "label": "Vitest + Playwright",
-          "description": "اختبارات الوحدة والشاملة مُعدّة مسبقًا"
-        },
-        "quality": {
-          "label": "أدوات جودة الكود",
-          "description": "ESLint و Prettier و Husky pre-commit hooks"
-        }
-      }
     }
   },
   "theme": {
@@ -65,44 +32,44 @@
     "home": "الرئيسية",
     "about": "معلومات",
     "contact": "اتصل بنا",
-    "resources": "المصادر",
+    "resources": "مصادر",
     "nextjs": "Next.js",
     "baseUi": "Base UI",
     "shadcn": "shadcn/ui",
     "nextIntl": "next-intl",
-    "nexcnDescription": "Next.js Starter مع Base UI و next-intl",
-    "nextjsDescription": "إطار React للويب",
-    "baseUiDescription": "مكونات واجهة مستخدم أساسية غير منسقة",
-    "shadcnDescription": "مكونات مصممة بشكل جميل",
+    "nexcnDescription": "قالب Next.js مع Base UI ودعم تعدد اللغات",
+    "nextjsDescription": "إطار React لبناء تطبيقات الويب",
+    "baseUiDescription": "مكونات واجهة مستخدم سهلة الوصول وغير منسقة",
+    "shadcnDescription": "مكونات مصممة بشكل جميل وجاهزة للنسخ واللصق",
     "nextIntlDescription": "دعم تعدد اللغات لـ Next.js",
     "homeDescription": "ابدأ مع Nexcn",
-    "aboutDescription": "تعرف على الميزات والتكنولوجيا",
-    "contactDescription": "تواصل معنا للحصول على الدعم",
+    "aboutDescription": "اعرف عن التقنيات والمميزات",
+    "contactDescription": "تواصل معانا للدعم",
     "settings": "الإعدادات",
     "language": "اللغة",
     "theme": "السمة"
   },
   "footer": {
-    "description": "قالب Next.js 16 جاهز للإنتاج مع TypeScript و Base UI واختبارات شاملة ودعم ثنائي اللغة.",
+    "description": "قالب Next.js 16 مع TypeScript و Tailwind CSS v4 و Base UI واختبارات ودعم لغتين جاهز من البداية.",
     "links": {
-      "resources": "المصادر",
+      "resources": "مصادر",
       "social": "التواصل الاجتماعي",
       "github": "GitHub",
       "x": "X (تويتر)"
     },
-    "copyright": "© 2025 Nexcn. جميع الحقوق محفوظة."
+    "copyright": "© 2025 Nexcn. مرخص تحت MIT."
   },
   "error": {
-    "title": "حدث خطأ ما!",
-    "description": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
-    "retry": "حاول مرة أخرى",
-    "back": "رجوع",
-    "home": "العودة للرئيسية"
+    "title": "حصل خطأ",
+    "description": "حصل خطأ أثناء تحميل الصفحة. جرب تحدث الصفحة أو ارجع.",
+    "retry": "جرب تاني",
+    "back": "ارجع",
+    "home": "الصفحة الرئيسية"
   },
   "notFound": {
-    "title": "الصفحة غير موجودة",
-    "description": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
-    "back": "رجوع",
-    "home": "العودة للرئيسية"
+    "title": "الصفحة مش موجودة",
+    "description": "الصفحة دي مش موجودة أو اتنقلت.",
+    "back": "ارجع",
+    "home": "الصفحة الرئيسية"
   }
 }

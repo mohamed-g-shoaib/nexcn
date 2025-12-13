@@ -5,8 +5,8 @@
     "nextjsDocs": "Next.js Docs"
   },
   "content": {
-    "title": "Production-Ready Next.js 16 Starter",
-    "subtitle": "Out of the box you have: Next.js 16, React 19, TypeScript, Tailwind CSS v4, Base UI, shadcn/ui, next-intl (EN/AR), Vitest, Playwright, ESLint, Prettier, Husky, and SEO optimizations.",
+    "title": "Ship faster with Nexcn",
+    "subtitle": "A Next.js 16 starter with TypeScript, Tailwind CSS v4, Base UI, shadcn/ui, internationalization, testing, and code quality tools configured out of the box.",
     "description": "",
     "instructions": {
       "line1": "- This is the homepage. Edit it at app/[locale]/page.tsx",
@@ -14,39 +14,6 @@
       "line3": "- Logo in /public/nexcn.svg, favicon and OpenGraph images in /app",
       "line4": "- Content and translations in messages/en.json and messages/ar.json",
       "line5": "- SEO metadata in app/[locale]/layout.tsx, sitemap in app/sitemap.ts"
-    },
-    "features": {
-      "title": "What's Included",
-      "items": {
-        "framework": {
-          "label": "Next.js 16 + React 19",
-          "description": "Latest stable versions with App Router and Server Components"
-        },
-        "typescript": {
-          "label": "Strict TypeScript",
-          "description": "Enhanced type safety with strict compiler options"
-        },
-        "ui": {
-          "label": "Base UI + Tailwind v4",
-          "description": "Accessible, unstyled components with modern styling"
-        },
-        "shadcn": {
-          "label": "shadcn/ui",
-          "description": "Beautiful, accessible components"
-        },
-        "i18n": {
-          "label": "Bilingual (EN/AR)",
-          "description": "Full RTL support with next-intl"
-        },
-        "testing": {
-          "label": "Vitest + Playwright",
-          "description": "Unit and E2E testing configured"
-        },
-        "quality": {
-          "label": "Code Quality Tools",
-          "description": "ESLint, Prettier, Husky pre-commit hooks"
-        }
-      }
     }
   },
   "theme": {
@@ -70,38 +37,38 @@
     "baseUi": "Base UI",
     "shadcn": "shadcn/ui",
     "nextIntl": "next-intl",
-    "nexcnDescription": "Next.js starter with Base UI and next-intl",
-    "nextjsDescription": "The React Framework for the Web",
-    "baseUiDescription": "Unstyled, accessible UI primitives",
-    "shadcnDescription": "Beautifully designed components",
+    "nexcnDescription": "Next.js starter with Base UI and internationalization",
+    "nextjsDescription": "The React Framework for production",
+    "baseUiDescription": "Accessible, unstyled UI components",
+    "shadcnDescription": "Beautifully designed, copy-paste components",
     "nextIntlDescription": "Internationalization for Next.js",
     "homeDescription": "Get started with Nexcn",
-    "aboutDescription": "Learn about features and tech",
-    "contactDescription": "Contact us for support",
+    "aboutDescription": "Learn about the stack and features",
+    "contactDescription": "Get in touch for support",
     "settings": "Settings",
     "language": "Language",
     "theme": "Theme"
   },
   "footer": {
-    "description": "Production-ready Next.js 16 starter with TypeScript, Base UI, comprehensive testing, and bilingual support.",
+    "description": "A Next.js 16 starter with TypeScript, Tailwind CSS v4, Base UI, testing, and bilingual support built in.",
     "links": {
       "resources": "Resources",
       "social": "Social",
       "github": "GitHub",
       "x": "X (Twitter)"
     },
-    "copyright": "© 2025 Nexcn. All rights reserved."
+    "copyright": "© 2025 Nexcn. MIT Licensed."
   },
   "error": {
-    "title": "Something went wrong!",
-    "description": "An unexpected error occurred. Please try again.",
+    "title": "Something went wrong",
+    "description": "An error occurred while loading this page. Try refreshing or going back.",
     "retry": "Try Again",
     "back": "Go Back",
     "home": "Go Home"
   },
   "notFound": {
-    "title": "Page Not Found",
-    "description": "The page you're looking for doesn't exist or has been moved.",
+    "title": "Page not found",
+    "description": "This page doesn't exist or has been moved.",
     "back": "Go Back",
     "home": "Go Home"
   }
