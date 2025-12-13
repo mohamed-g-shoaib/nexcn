@@ -1,6 +1,6 @@
 {
   "name": "create-nexcn",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Next.js 16 starter with TypeScript, Tailwind CSS v4, Base UI, internationalization, and testing configured out of the box",
   "keywords": [
     "nextjs",
