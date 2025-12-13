@@ -2,6 +2,8 @@
 
 Interactive command-line tool for creating new Nexcn projects.
 
+> **Note:** Use `npx` to run this tool. Do not install it as a dependency.
+
 ## Usage
 
 ```bash

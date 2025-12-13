@@ -6,9 +6,34 @@
 [![npm downloads](https://img.shields.io/npm/dm/create-nexcn.svg)](https://www.npmjs.com/package/create-nexcn)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A Next.js 16 starter with everything you need to ship fast: TypeScript, Tailwind CSS v4, Base UI, internationalization, and testing configured out of the box.
+## 🚀 How to Use
+
+To create a new project, run one of the following commands:
+
+### Option 1: Using npx
+
+```bash
+npx create-nexcn my-app
+```
+
+### Option 2: Using npm init
+
+```bash
+npm init nexcn my-app
+```
+
+### Then
+
+```bash
+cd my-app
+pnpm dev
+```
+
+> ⚠️ **Important:** Please **ignore** the `npm i create-nexcn` instruction in the sidebar. This package is an interactive CLI tool, not a dependency.
 
 ## About Nexcn
+
+A Next.js 16 starter with everything you need to ship fast: TypeScript, Tailwind CSS v4, Base UI, internationalization, and testing configured out of the box.
 
 Nexcn is designed for developers who want to build modern web applications without spending time on boilerplate configuration. Whether you're building a personal project, SaaS product, or multi-language application, Nexcn comes pre-configured with production-ready tooling and best practices so you can focus on building your product.
 
@@ -21,28 +46,9 @@ Before getting started, make sure you have:
 
 ## Quick Start
 
-### Option 1: Using npx (Recommended) ⚡
+See the [How to Use](#-how-to-use) section above.
 
-```bash
-npx create-nexcn my-app
-```
-
-This will:
-
-- ✓ Check prerequisites (Node.js, Git, pnpm)
-- ✓ Download the latest version
-- ✓ Install dependencies
-- ✓ Initialize git repository
-- ✓ Display beautiful ASCII art 🎨
-
-Then:
-
-```bash
-cd my-app
-pnpm dev
-```
-
-### Option 2: Manual Installation
+### Manual Installation
 
 ```bash
 # Clone the repository
