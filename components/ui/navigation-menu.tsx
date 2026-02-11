@@ -1,4 +1,5 @@
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
+import type { ComponentPropsWithoutRef } from "react";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -27,7 +28,7 @@ function NavigationMenu({
 function NavigationMenuList({
   className,
   ...props
-}: NavigationMenuPrimitive.List.Props) {
+}: ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>) {
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
@@ -43,7 +44,7 @@ function NavigationMenuList({
 function NavigationMenuItem({
   className,
   ...props
-}: NavigationMenuPrimitive.Item.Props) {
+}: ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Item>) {
   return (
     <NavigationMenuPrimitive.Item
       data-slot="navigation-menu-item"
@@ -145,7 +146,7 @@ function NavigationMenuLink({
 function NavigationMenuIndicator({
   className,
   ...props
-}: NavigationMenuPrimitive.Icon.Props) {
+}: ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Icon>) {
   return (
     <NavigationMenuPrimitive.Icon
       data-slot="navigation-menu-indicator"
