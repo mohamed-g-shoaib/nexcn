@@ -193,6 +193,22 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `web-design-guidelines`
 - Priority for Forge: Medium-high for the marketing site
 
+### `monorepo-management`
+
+- Purpose: Monorepo architecture and tooling guidance for pnpm workspaces, Turborepo, Nx, shared package structure, dependency management, and build orchestration.
+- Use when:
+  - deciding whether Forge should move to a monorepo
+  - setting up `apps/*` and `packages/*` workspace layouts
+  - evaluating Turborepo vs plain workspaces vs Nx
+  - designing shared package boundaries, dependency flow, or CI for a multi-package repo
+  - migrating Forge from a single-package repo to a multi-package workspace later
+- Best paired with:
+  - `shadcn`
+  - `next-best-practices`
+  - `react-vite-best-practices`
+  - `tanstack-start-best-practices`
+- Priority for Forge: Medium for now, high if the repo grows into multiple actively developed apps/packages
+
 ## Recommended Skill Bundles
 
 ### 1. Generator and starter scaffolding
@@ -238,12 +254,21 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `next-best-practices`
   - `web-design-guidelines`
 
+### 7. Monorepo and workspace decisions
+
+- Primary: `monorepo-management`
+- Add:
+  - `shadcn`
+  - one framework skill when the workspace decision affects a specific starter or app
+
 ## Forge-Specific Defaults
 
 For this project, default skill choices should usually be:
 
 - Generator architecture or component scaffolding:
   - `shadcn`
+- Monorepo or workspace-structure decisions:
+  - `monorepo-management`
 - Next.js marketing site work:
   - `next-best-practices`
   - `vercel-react-best-practices`
