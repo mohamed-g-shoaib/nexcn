@@ -16,9 +16,12 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `next + radix + rtl`
   - `vite + base + rtl`
   - `vite + radix + rtl`
+  - `start + base + rtl`
+  - `start + radix + rtl`
 - Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
 - Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
+- Forge now retains verified regression fixtures for Next, Vite, and TanStack Start.
 - Forge now supports three code-quality options in the active Next happy path:
   - `Biome`
   - `ESLint + Prettier`
@@ -155,6 +158,15 @@ Current Next.js implementation direction:
   - `/ar`
 - use `/` only as an entry path that redirects to the preferred locale
 
+Current TanStack Start implementation direction:
+
+- use route-based locale handling
+- use all-prefixed locale routes:
+  - `/en`
+  - `/ar`
+- use `/` only as an entry path that redirects to the default locale
+- derive `html lang` and `html dir` from the active route locale in the root document shell
+
 This must be handled in framework-specific root shells:
 
 - Next.js:
@@ -176,6 +188,7 @@ Direction should not rely only on inheritance when official docs indicate explic
 Theme-dependent UI in generated apps must not render server/client-varying labels or icon states before mount when the active theme cannot be known during SSR.
 
 For Next.js starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
+For TanStack Start starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
 
 ## Sound and Polish Decisions
 
@@ -295,5 +308,6 @@ Do not re-browse by default just because a spec edit is being made.
 
 - keep the retained Next fixtures healthy as regression targets
 - keep the retained Vite fixtures healthy as regression targets
-- implement TanStack Start after the first Vite matrix expansion is stable
+- keep the retained TanStack Start fixtures healthy as regression targets
 - revisit whether Vite locale should stay storage-first or gain a URL-aware route contract later
+- keep code-quality behavior aligned across all three frameworks, especially where framework tooling generates files during build

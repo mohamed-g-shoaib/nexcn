@@ -110,6 +110,8 @@ Current status:
   - `next + radix + rtl`
   - `vite + base + rtl`
   - `vite + radix + rtl`
+  - `start + base + rtl`
+  - `start + radix + rtl`
 - scaffold execution works through shadcn
 - Next overlay is applied
 - Vite overlay is now applied for the first Base UI happy path
@@ -120,13 +122,15 @@ Current status:
 - the active Next path now uses route-based locale handling with `/en` and `/ar`
 - retained fixtures can now be generated intentionally under `fixtures/`
 - the active Vite path now uses client-persisted locale handling with runtime `document.documentElement` sync
+- the active TanStack Start path now uses route-based locale handling with `/en` and `/ar`
 - generated app typecheck and build pass
+- Start verification intentionally runs `build` before `typecheck` because TanStack generates the route tree during the build flow
 
 ## Proposed Build Order
 
-1. Keep the retained Next and Vite fixtures healthy as regression targets.
-2. Expand to `start`.
-3. Revisit Vite locale architecture once the cross-framework matrix is stable.
+1. Keep the retained Next, Vite, and TanStack Start fixtures healthy as regression targets.
+2. Revisit Vite locale architecture once the cross-framework matrix is stable.
+3. Broaden cross-framework verification for secondary tooling choices where needed.
 4. Build the marketing site after the generator contract and CLI are stable.
 
 ## Risk Areas To Track

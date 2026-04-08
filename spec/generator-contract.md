@@ -240,6 +240,12 @@ Use the root document/app shell equivalent to manage:
 - provider composition
 - portal direction handling
 
+Preferred current locale strategy for TanStack Start:
+
+- use route-based locale handling for real multilingual starters
+- let the route locale drive document `lang`, document `dir`, and layout decisions
+- use `/` only as an entry path that redirects to a locale route
+
 ## Provider Composition Rules
 
 Every generated project must have a clear root provider composition strategy.
@@ -525,6 +531,10 @@ Generated projects should be validated before Forge considers generation success
 - typecheck passes when applicable
 - lint passes when applicable
 - build passes when practical for the framework
+
+Framework note:
+
+- TanStack Start verification may need `build` to run before `typecheck` because the framework generates its route tree during the build flow
 
 ### Fixture strategy
 

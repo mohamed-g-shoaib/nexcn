@@ -8,10 +8,12 @@ Current retained fixtures:
 - `forge-next-radix-rtl-fixture`
 - `forge-vite-base-rtl-fixture`
 - `forge-vite-radix-rtl-fixture`
+- `forge-start-base-rtl-fixture`
+- `forge-start-radix-rtl-fixture`
 
 Notes:
 
 - Generate fixtures with `forge generate --fixture ...`
 - Treat these as generated outputs, not hand-maintained starter apps
-- Forge prunes install and build artifacts from retained fixtures after verification
+- Forge prunes install and build artifacts from retained fixtures after verification, including nested `.git`, build output, and framework caches
 - Regenerate from Forge when the generator contract changes
