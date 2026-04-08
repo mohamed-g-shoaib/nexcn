@@ -11,6 +11,11 @@
       "sourceType": "github",
       "computedHash": "5f6e56c5c21945b635e1078243e38be5315730fd0980ce402f37dd6e5fe04ced"
     },
+    "monorepo-management": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "computedHash": "4de056e92cfea38bf92ca8217864588e8f32130f57798d2ef72ace27385ea4c7"
+    },
     "next-best-practices": {
       "source": "vercel-labs/next-skills",
       "sourceType": "github",
