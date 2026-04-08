@@ -15,14 +15,19 @@ It captures:
 
 ## Status
 
-This is a pre-implementation spec.
+This is now an active implementation record for the first Vite path.
 
-Vite support is not implemented in Forge yet.
+Vite support is implemented for the first verified path:
+
+- `vite + base + rtl`
+- `vite + radix + rtl`
 
 The current verified paths are:
 
 - `next + base + rtl`
 - `next + radix + rtl`
+- `vite + base + rtl`
+- `vite + radix + rtl`
 
 ## Carry-Forward Lessons From Next
 
@@ -142,7 +147,7 @@ The same feature-pack concepts used by Next should be reused:
 
 ## Preferred Vite v1 Locale Strategy
 
-This is an implementation recommendation, not yet a completed code path.
+This is now the active implementation direction for the first Vite path.
 
 Because the initial Vite starter is a client-rendered SPA with no server document pass:
 
@@ -222,13 +227,28 @@ Definition of done:
 - README is clear
 - `lint`, `format:check`, `typecheck`, and `build` all pass
 
+Current status:
+
+- complete for `vite + base + rtl`
+- complete for `vite + radix + rtl`
+- verified through Forge generation
+- verified with:
+  - `lint`
+  - `format:check`
+  - `typecheck`
+  - `build`
+  - React Doctor `100/100` for the Base fixture
+- retained fixture:
+  - `fixtures/forge-vite-base-rtl-fixture`
+  - `fixtures/forge-vite-radix-rtl-fixture`
+
 ## Follow-Up After First Vite Path
 
-After `vite + base + rtl` is verified:
+After the current Vite RTL matrix:
 
-1. add `vite + radix + rtl`
-2. add non-RTL Vite variants
-3. compare whether locale persistence should remain storage-first or graduate to a URL-aware router contract later
+1. add non-RTL Vite variants
+2. compare whether locale persistence should remain storage-first or graduate to a URL-aware router contract later
+3. carry the same implementation lessons into TanStack Start
 
 ## Sources
 

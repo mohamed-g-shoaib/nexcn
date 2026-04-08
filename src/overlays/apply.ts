@@ -1,5 +1,6 @@
 import type { GenerationContext } from "../types.js";
 import { applyNextOverlay } from "./next-apply.js";
+import { applyViteOverlay } from "./vite-apply.js";
 
 export async function applyFrameworkOverlay(
   context: GenerationContext,
@@ -7,6 +8,11 @@ export async function applyFrameworkOverlay(
 ): Promise<void> {
   if (context.config.framework === "next") {
     await applyNextOverlay(context, projectDirectory);
+    return;
+  }
+
+  if (context.config.framework === "vite") {
+    await applyViteOverlay(context, projectDirectory);
     return;
   }
 

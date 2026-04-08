@@ -14,6 +14,8 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - The first implemented and verified generation paths are:
   - `next + base + rtl`
   - `next + radix + rtl`
+  - `vite + base + rtl`
+  - `vite + radix + rtl`
 - Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
 - Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
@@ -292,5 +294,6 @@ Do not re-browse by default just because a spec edit is being made.
 ## Next Implementation Tasks
 
 - keep the retained Next fixtures healthy as regression targets
-- implement the Vite happy path using [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md)
-- expand Vite to `radix` after the first Vite happy path is verified
+- keep the retained Vite fixtures healthy as regression targets
+- implement TanStack Start after the first Vite matrix expansion is stable
+- revisit whether Vite locale should stay storage-first or gain a URL-aware route contract later

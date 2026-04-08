@@ -108,23 +108,26 @@ Current status:
 - complete for:
   - `next + base + rtl`
   - `next + radix + rtl`
+  - `vite + base + rtl`
+  - `vite + radix + rtl`
 - scaffold execution works through shadcn
 - Next overlay is applied
+- Vite overlay is now applied for the first Base UI happy path
 - the oversized Next overlay file has been refactored into smaller focused modules under `src/overlays/next/`
 - sound feature installation is real, not placeholder-only
 - code-quality normalization is implemented in the generator
 - `Biome`, `ESLint + Prettier`, and `Oxlint + Oxfmt` all generate successfully for the active Next path
 - the active Next path now uses route-based locale handling with `/en` and `/ar`
 - retained fixtures can now be generated intentionally under `fixtures/`
+- the active Vite path now uses client-persisted locale handling with runtime `document.documentElement` sync
 - generated app typecheck and build pass
 
 ## Proposed Build Order
 
-1. Keep the retained Next fixtures healthy as regression targets.
-2. Implement `vite + base + rtl` using [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md).
-3. Expand Vite to `radix`.
-4. Expand to `start`.
-5. Build the marketing site after the generator contract and CLI are stable.
+1. Keep the retained Next and Vite fixtures healthy as regression targets.
+2. Expand to `start`.
+3. Revisit Vite locale architecture once the cross-framework matrix is stable.
+4. Build the marketing site after the generator contract and CLI are stable.
 
 ## Risk Areas To Track
 

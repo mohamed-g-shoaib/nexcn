@@ -1,0 +1,77 @@
+export function getIndexHtmlTemplate(projectName: string): string {
+  return `<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${projectName}</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+`;
+}
+
+export function getMainTemplate(): string {
+  return `import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+import "./index.css";
+import App from "./App";
+import { AppProviders } from "@/components/app-providers";
+
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error('Expected the Vite root element with id="root".');
+}
+
+createRoot(rootElement).render(
+  <StrictMode>
+    <AppProviders>
+      <App />
+    </AppProviders>
+  </StrictMode>,
+);
+`;
+}
+
+export function getViteConfigTemplate(): string {
+  return `import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    target: "baseline-widely-available",
+    sourcemap: false,
+    chunkSizeWarningLimit: 500,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+        },
+      },
+    },
+  },
+  optimizeDeps: {
+    include: ["react", "react-dom"],
+  },
+  server: {
+    port: 3000,
+    hmr: {
+      overlay: true,
+    },
+  },
+});
+`;
+}

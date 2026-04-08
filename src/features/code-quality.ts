@@ -12,10 +12,15 @@ import {
 
 const DEFAULT_SCAFFOLD_TOOLING_DEPENDENCIES = [
   "@eslint/eslintrc",
+  "@eslint/js",
   "eslint",
   "eslint-config-next",
+  "eslint-plugin-react-hooks",
+  "eslint-plugin-react-refresh",
+  "globals",
   "prettier",
-  "prettier-plugin-tailwindcss"
+  "prettier-plugin-tailwindcss",
+  "typescript-eslint"
 ] as const;
 
 function getBiomeConfigTemplate(): string {
@@ -111,6 +116,33 @@ export default eslintConfig;
 `;
 }
 
+function getViteEslintConfigTemplate(): string {
+  return `import js from "@eslint/js";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+import { defineConfig, globalIgnores } from "eslint/config";
+
+export default defineConfig([
+  globalIgnores(["dist"]),
+  {
+    files: ["**/*.{ts,tsx}"],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser
+    }
+  }
+]);
+`;
+}
+
 async function removeIfExists(filePath: string): Promise<void> {
   await rm(filePath, { force: true });
 }
@@ -191,13 +223,21 @@ async function updatePackageScripts(
 }
 
 async function writeToolingFiles(context: GenerationContext, projectDirectory: string): Promise<void> {
-  const eslintConfigPath = path.join(projectDirectory, "eslint.config.mjs");
+  const eslintConfigPath = path.join(
+    projectDirectory,
+    context.config.framework === "vite" ? "eslint.config.js" : "eslint.config.mjs"
+  );
+  const legacyEslintConfigPath = path.join(
+    projectDirectory,
+    context.config.framework === "vite" ? "eslint.config.mjs" : "eslint.config.js"
+  );
   const prettierConfigPath = path.join(projectDirectory, ".prettierrc");
   const prettierIgnorePath = path.join(projectDirectory, ".prettierignore");
   const biomeConfigPath = path.join(projectDirectory, "biome.json");
   const oxlintConfigPath = path.join(projectDirectory, ".oxlintrc.json");
   const oxfmtConfigPath = path.join(projectDirectory, ".oxfmtrc.json");
 
+  await removeIfExists(legacyEslintConfigPath);
   await removeIfExists(biomeConfigPath);
   await removeIfExists(oxlintConfigPath);
   await removeIfExists(oxfmtConfigPath);
@@ -219,7 +259,11 @@ async function writeToolingFiles(context: GenerationContext, projectDirectory: s
     return;
   }
 
-  await writeFile(eslintConfigPath, getEslintConfigTemplate(), "utf8");
+  await writeFile(
+    eslintConfigPath,
+    context.config.framework === "vite" ? getViteEslintConfigTemplate() : getEslintConfigTemplate(),
+    "utf8"
+  );
   await writeFile(prettierConfigPath, getPrettierConfigTemplate(), "utf8");
 }
 

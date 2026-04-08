@@ -6,6 +6,8 @@ Current retained fixtures:
 
 - `forge-next-base-rtl-fixture`
 - `forge-next-radix-rtl-fixture`
+- `forge-vite-base-rtl-fixture`
+- `forge-vite-radix-rtl-fixture`
 
 Notes:
 
