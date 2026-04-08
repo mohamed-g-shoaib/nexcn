@@ -13,6 +13,7 @@ import {
 const DEFAULT_SCAFFOLD_TOOLING_DEPENDENCIES = [
   "@eslint/eslintrc",
   "@eslint/js",
+  "@tanstack/eslint-config",
   "eslint",
   "eslint-config-next",
   "eslint-plugin-react-hooks",
@@ -33,7 +34,7 @@ function getBiomeConfigTemplate(): string {
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc"]
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc", "!src/routeTree.gen.ts"]
   },
   "formatter": {
     "enabled": true,
@@ -143,6 +144,15 @@ export default defineConfig([
 `;
 }
 
+function getStartEslintConfigTemplate(): string {
+  return `// @ts-check
+
+import { tanstackConfig } from "@tanstack/eslint-config";
+
+export default [{ ignores: ["src/routeTree.gen.ts"] }, ...tanstackConfig];
+`;
+}
+
 async function removeIfExists(filePath: string): Promise<void> {
   await rm(filePath, { force: true });
 }
@@ -225,11 +235,11 @@ async function updatePackageScripts(
 async function writeToolingFiles(context: GenerationContext, projectDirectory: string): Promise<void> {
   const eslintConfigPath = path.join(
     projectDirectory,
-    context.config.framework === "vite" ? "eslint.config.js" : "eslint.config.mjs"
+    context.config.framework === "next" ? "eslint.config.mjs" : "eslint.config.js"
   );
   const legacyEslintConfigPath = path.join(
     projectDirectory,
-    context.config.framework === "vite" ? "eslint.config.mjs" : "eslint.config.js"
+    context.config.framework === "next" ? "eslint.config.js" : "eslint.config.mjs"
   );
   const prettierConfigPath = path.join(projectDirectory, ".prettierrc");
   const prettierIgnorePath = path.join(projectDirectory, ".prettierignore");
@@ -261,7 +271,11 @@ async function writeToolingFiles(context: GenerationContext, projectDirectory: s
 
   await writeFile(
     eslintConfigPath,
-    context.config.framework === "vite" ? getViteEslintConfigTemplate() : getEslintConfigTemplate(),
+    context.config.framework === "next"
+      ? getEslintConfigTemplate()
+      : context.config.framework === "start"
+        ? getStartEslintConfigTemplate()
+        : getViteEslintConfigTemplate(),
     "utf8"
   );
   await writeFile(prettierConfigPath, getPrettierConfigTemplate(), "utf8");

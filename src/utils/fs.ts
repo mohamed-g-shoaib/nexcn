@@ -18,8 +18,11 @@ export async function pathExists(targetPath: string): Promise<boolean> {
 
 export async function pruneFixtureArtifacts(projectDirectory: string): Promise<void> {
   await Promise.all([
+    rm(path.join(projectDirectory, ".git"), { recursive: true, force: true }),
     rm(path.join(projectDirectory, "node_modules"), { recursive: true, force: true }),
     rm(path.join(projectDirectory, ".next"), { recursive: true, force: true }),
+    rm(path.join(projectDirectory, ".output"), { recursive: true, force: true }),
+    rm(path.join(projectDirectory, ".tanstack"), { recursive: true, force: true }),
     rm(path.join(projectDirectory, "dist"), { recursive: true, force: true }),
     rm(path.join(projectDirectory, "coverage"), { recursive: true, force: true }),
     rm(path.join(projectDirectory, "tsconfig.tsbuildinfo"), { force: true })
