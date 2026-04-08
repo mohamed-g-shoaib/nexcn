@@ -16,6 +16,7 @@ It is the source of truth for:
 - provider wiring
 - docs boundaries
 - feature boundaries
+- code-quality tooling choices
 
 ## Product Goal
 
@@ -51,6 +52,11 @@ User-facing labels:
 
 - `rtl: true`
 - `rtl: false`
+
+### Default RTL Locales
+
+- primary LTR locale: `en`
+- primary RTL locale: `ar`
 
 ## Default shadcn Preset
 
@@ -105,12 +111,50 @@ Every generated Forge app should include:
 - an opinionated folder structure
 - a clear `README.md`
 - only necessary user-facing docs or guides
+- one selected code-quality tooling setup
+- support for the selected primitive base with explicit runtime provider composition where needed
 
 Generated apps should not include:
 
 - internal `spec/` files
 - internal skill setup
 - internal skill routing docs
+
+## Code Quality Tooling Contract
+
+Forge should support the following generated-app tooling choices in v1:
+
+- `biome`
+- `eslint-prettier`
+- `oxlint-oxfmt`
+
+This option is a valid part of starter generation, but should remain secondary to:
+
+- framework
+- base
+- RTL
+
+### User-facing labels
+
+- `Biome`
+- `ESLint + Prettier`
+- `Oxlint + Oxfmt`
+
+### Required guarantees
+
+Every generated app should include:
+
+- one selected lint/format stack
+- a stable command surface:
+  - `lint`
+  - `lint:fix`
+  - `format`
+  - `format:check`
+- lightweight README guidance describing the selected tooling
+
+### v1 implementation rule
+
+Do not let tooling choice delay the core generator architecture, runtime RTL contract, or framework happy paths.
 
 ## Starter UX Contract
 
@@ -131,7 +175,7 @@ The generated starter interface must stay intentionally minimal.
 The starter page should include only:
 
 - a small heading
-- one short description explaining where to start editing
+- one short description explaining where to start editing, preferably naming the first file or folder a low-knowledge user should open
 - theme switch control
 - language switch control when RTL mode is enabled
 
@@ -154,6 +198,7 @@ Forge must wire direction and language at runtime in the app shell.
 
 - set `lang` dynamically at the document/root level
 - set `dir` dynamically at the document/root level
+- preserve active locale/direction across refreshes
 - compose providers correctly around `children`
 - ensure portal-based components receive correct direction behavior
 - ensure fonts can switch appropriately for RTL locales where needed
@@ -170,6 +215,12 @@ Use the root layout/document shell pattern, such as `layout.tsx`, to manage:
 - tooltip provider
 - direction provider when required
 - any other top-level provider that affects `html`, `children`, or portal behavior
+
+Preferred long-term locale strategy for Next.js:
+
+- use route-based locale handling for real multilingual starters
+- let the route locale drive document `lang`, document `dir`, dictionaries, and layout decisions
+- use `/` only as an entry path that redirects to a locale route
 
 #### Vite
 
@@ -200,6 +251,15 @@ Every generated project must have a clear root provider composition strategy.
 - direction provider where needed by the selected primitive system
 - any shared sound runtime entry point if one is used
 
+### Current Next.js implementation preference
+
+- keep the server root layout responsible for the stable document shell:
+  - font setup
+  - initial `html` attributes
+  - body wrapper
+- keep interactive/runtime providers in a dedicated client boundary such as `components/app-providers.tsx`
+- synchronize runtime `lang` and `dir` from that provider boundary instead of pushing client-only provider logic into `layout.tsx`
+
 ### Direction rules
 
 - `dir` must be driven from runtime locale or selected language state
@@ -216,11 +276,43 @@ When RTL mode is enabled, the generated app should include a language-aware root
 - dynamic `lang`
 - dynamic `dir`
 - language switch UI
+- persisted active locale between reloads
 - font switching where needed
 
 ### Important note
 
 Language switching and direction switching are related but not identical. Forge must keep them coordinated in the root shell.
+
+### Preferred architecture
+
+For frameworks with strong routing support, locale should eventually be URL-addressable rather than only client-stateful.
+
+This means:
+
+- refresh should preserve locale because the route preserves locale
+- shareable URLs should preserve locale
+- server rendering should know the locale without guessing from client state
+
+### URL strategy note
+
+The current preferred Next.js model is:
+
+- all locales prefixed:
+  - `/en`
+  - `/ar`
+- `/` redirects to one of those locale routes
+
+Forge should prefer the URL as the source of truth.
+
+## Theme Hydration Contract
+
+Generated apps must avoid hydration mismatches caused by rendering theme-dependent UI before the client has mounted.
+
+### Rules
+
+- do not render text or icon state derived from `useTheme` during SSR when the active theme is unknown on the server
+- render a stable fallback for theme controls until mount, or defer theme-dependent UI until after mount
+- keep `next-themes` hydration requirements in mind when rendering controls based on `theme` or `resolvedTheme`
 
 ## Sound Contract
 
@@ -278,6 +370,21 @@ Output:
 
 - a valid scaffolded project directory
 
+### Retained Fixtures
+
+Forge should support generating retained regression fixtures under a dedicated `fixtures/` root.
+
+Current CLI expectation:
+
+- `forge generate --fixture ...`
+
+Retained fixtures are generated outputs and should not be treated as hand-maintained example apps.
+
+Retained fixtures should be left in a lean state after verification:
+
+- keep source, config, and lock files
+- remove install/build artifacts such as `node_modules`, framework output folders, and TS build caches
+
 ### Layer 2: Framework Overlay
 
 Responsible for small framework-specific Forge additions.
@@ -297,6 +404,7 @@ Responsible for optional or cross-cutting additions owned by Forge.
 
 Initial feature packs:
 
+- `code-quality`
 - `rtl-runtime`
 - `sounds`
 - `starter-surface`
@@ -322,8 +430,10 @@ type ForgeConfig = {
   framework: "next" | "vite" | "start";
   base: "base" | "radix";
   rtl: boolean;
+  localePair: "en-ar";
   packageManager: "pnpm" | "npm" | "yarn" | "bun";
   presetCode: "b1VlIwYS";
+  codeQuality: "biome" | "eslint-prettier" | "oxlint-oxfmt";
 };
 ```
 
@@ -360,8 +470,27 @@ Every generated project should contain:
 - a clear place to edit immediately
 - a `README.md`
 - only necessary user-facing docs
+- one selected lint/format stack
 - no internal `spec/` files
 - no internal skill routing docs
+
+## Repository Structure Contract
+
+Forge itself should start as a single-package repository.
+
+### v1 repository rules
+
+- no monorepo workspace layout in the first implementation
+- no Turborepo in the first implementation
+- use `pnpm` for the Forge repository itself
+- keep the codebase structured so it can migrate to `pnpm` workspaces later if needed
+
+### Future migration rule
+
+If Forge later becomes a real multi-package repository, prefer:
+
+- `pnpm` workspaces as the foundation
+- `turbo` only after multiple actively developed apps/packages justify task orchestration
 
 ## Failure and Rollback Contract
 
@@ -400,6 +529,8 @@ Generated projects should be validated before Forge considers generation success
 ### Fixture strategy
 
 - example apps should be generated from Forge later as fixtures
+- the first implementation should directly verify the initial `next + base + rtl` happy path
+- each newly supported matrix combination should add one generated fixture as a regression target
 - fixture verification should replace hand-maintained starter copies where possible
 
 ## Marketing Site Contract
@@ -419,6 +550,7 @@ The marketing site should be separate from the generator implementation.
   - RTL
 - generate a copyable install command
 - show hero, features, and a template configurator
+- do not make package manager a primary configurator control in v1
 
 ### v1 should avoid
 
@@ -428,19 +560,13 @@ The marketing site should be separate from the generator implementation.
 
 ## Implementation Order
 
-1. Finalize this contract and the supporting spec surface.
-2. Define the repo structure plus config schema and adapter interfaces.
-3. Implement one happy path:
+1. Keep this contract aligned with implementation as the generator evolves.
+2. Refine the Next layering so cross-cutting behavior lives in explicit feature packs where possible.
+3. Retain one verified happy path:
    - `next + base + rtl`
-4. Validate runtime direction, providers, minimal starter UX, and sound wiring.
-5. Generate fixtures from the working generator.
+4. Generate fixtures from the working generator.
+5. Keep the implemented code-quality tooling choice aligned with the active happy path and fixture strategy.
 6. Add `next + radix`.
 7. Add `vite`.
 8. Add `start`.
 9. Build the marketing site after the CLI contract is stable.
-
-## Open Items
-
-- exact first locale pair for RTL-enabled starters
-- exact repository/package layout for implementation
-- exact verification matrix and fixture automation strategy

@@ -12,6 +12,9 @@ This note captures the current official state of the tools Forge plans to build 
 - shadcn/ui
 - Base UI
 - Radix UI
+- pnpm workspaces
+- Turborepo
+- Changesets
 
 It is intentionally focused on facts that affect generator architecture, scaffolding, RTL support, and long-term maintenance.
 
@@ -136,6 +139,28 @@ It is intentionally focused on facts that affect generator architecture, scaffol
   - RSC compatibility updates
 - Important RTL edge case from Radix releases:
   - Radix made a breaking change requiring `DirectionProvider` instead of relying on `dir` attribute inheritance alone for some RTL behavior.
+
+### pnpm Workspaces
+
+- pnpm `10.x` has built-in workspace support for multi-package repositories.
+- A workspace must have a `pnpm-workspace.yaml` file at the root.
+- The `workspace:` protocol forces resolution to local workspace packages and fails if the target package is not present locally.
+- `sharedWorkspaceLockfile` defaults to `true`, which gives one root lockfile and faster monorepo installs.
+- pnpm docs explicitly recommend Changesets or Rush for release workflows because pnpm itself does not provide built-in versioning for workspaces.
+- pnpm catalogs are now an official workspace feature for centralizing dependency versions in `pnpm-workspace.yaml`.
+
+### Turborepo
+
+- Current Turborepo docs describe it as a build system designed for scaling monorepos while also helping single-package workspaces.
+- Turborepo can be incrementally added to an existing repository.
+- Turborepo is built on top of package-manager workspaces rather than replacing them.
+- Turborepo docs still frame the main repository-structuring story around multi-package workspaces.
+
+### Changesets
+
+- Changesets is still positioned as versioning and changelog tooling focused on monorepos and multi-package repositories.
+- It coordinates version bumps, changelogs, and internal dependency updates across packages.
+- It is best introduced once a repo actually has publishable or release-managed multiple packages.
 
 ## Generator Implications
 
@@ -267,6 +292,39 @@ Implication:
 - Forge does not need to invent monorepo layout immediately
 - but it should avoid architecture choices that block monorepo support later
 
+### 9. pnpm Is A Better Future Foundation Than A Premature Monorepo Rewrite
+
+pnpm already provides the foundational workspace features Forge would need later:
+
+- root workspace definition
+- `workspace:` protocol
+- shared lockfile
+- recursive and filtered task execution
+- official catalog support for shared dependency versions
+
+Implication:
+
+- Forge can safely stay single-package now
+- if Forge later becomes multi-package, `pnpm` workspaces should be the first move
+
+### 10. Turborepo Is Best Added After Real Workspace Boundaries Exist
+
+Turborepo is designed for monorepo task orchestration, caching, and CI acceleration, but it sits on top of workspaces.
+
+Implication:
+
+- Forge should not add Turborepo before it has multiple active apps/packages with real shared task orchestration needs
+- Turborepo remains the preferred future orchestration layer if that threshold is crossed
+
+### 11. Changesets Should Follow Publishing Reality, Not Precede It
+
+Changesets is purpose-built for multi-package versioning and changelogs.
+
+Implication:
+
+- Forge should not add Changesets in the first single-package phase
+- add it only if Forge later publishes multiple packages or needs coordinated workspace releases
+
 ## Final Recommendation
 
 ### Build Forge as:
@@ -303,6 +361,13 @@ Implication:
    - runtime shell wiring
    - optional overlays and future feature packs
 4. Treat TanStack Start as supported-but-more-volatile until 1.0 lands.
+
+### Repository Decision
+
+- Start Forge as a single-package repo.
+- Use `pnpm` for the Forge repository itself.
+- Do not add Turborepo in the first implementation.
+- If Forge later becomes a real multi-package workspace, use `pnpm` workspaces first and add Turborepo only when task orchestration becomes worthwhile.
 
 ## Suggested Next Implementation Step
 

@@ -10,7 +10,17 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 
 - The old project has been moved into [deprecated/](/D:/Developer/nexcn/deprecated).
 - The active rebuild surface is now the repository root.
-- No new production generator scaffold has been created yet in the active root.
+- A real single-package Forge generator now exists in the active root under `src/`.
+- The first implemented and verified generation paths are:
+  - `next + base + rtl`
+  - `next + radix + rtl`
+- Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
+- The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
+- Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
+- Forge now supports three code-quality options in the active Next happy path:
+  - `Biome`
+  - `ESLint + Prettier`
+  - `Oxlint + Oxfmt`
 - `nexcn` is now legacy repository naming only and should not appear in new public-facing product copy or specs.
 
 ## Product Identity
@@ -63,7 +73,14 @@ Preferred implementation direction:
   - README and user-facing docs
   - opinionated structure
   - sound setup
+  - code-quality tooling setup
   - user-facing polish
+
+Repository structure decision:
+
+- Forge itself starts as a single-package repo
+- Forge does not use Turborepo in the first pass
+- Forge stays monorepo-ready for a future `pnpm` workspace migration if it grows into multiple active apps/packages
 
 ## shadcn Baseline
 
@@ -98,7 +115,7 @@ Users should be able to clean the starter in under 1 minute.
 The starter page should include only:
 
 - a small heading
-- one short description explaining where to start editing
+- one short description explaining exactly where to start editing, with explicit file references when helpful for low-knowledge users
 - theme switch control
 - language switch control when RTL mode is enabled
 
@@ -117,9 +134,24 @@ Forge-generated apps must handle direction at runtime in the app shell:
 
 - dynamic `lang`
 - dynamic `dir`
+- persisted locale/direction across refreshes
 - root-level provider composition
 - correct portal direction behavior
 - font switching where needed
+
+Preferred long-term direction:
+
+- locale should be represented in the route for frameworks that support SSR/routing well
+- persistence helpers such as cookies may be used to remember preference, but should not be the primary source of locale truth
+- the current cookie-based persistence path should be treated as a bridge, not the ideal final i18n architecture
+
+Current Next.js implementation direction:
+
+- use route-based locale handling
+- use all-prefixed locale routes:
+  - `/en`
+  - `/ar`
+- use `/` only as an entry path that redirects to the preferred locale
 
 This must be handled in framework-specific root shells:
 
@@ -138,6 +170,10 @@ Provider composition must account for:
 - any other provider or component that affects `html`, `children`, or portal behavior
 
 Direction should not rely only on inheritance when official docs indicate explicit direction handling is safer.
+
+Theme-dependent UI in generated apps must not render server/client-varying labels or icon states before mount when the active theme cannot be known during SSR.
+
+For Next.js starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
 
 ## Sound and Polish Decisions
 
@@ -180,8 +216,23 @@ Generated starter apps should include:
 
 - a clear `README.md`
 - only necessary user-facing docs or guides
+- the selected code-quality tooling setup when that option is enabled by the generator contract
 
 Forge itself should use the local installed skills during development, but generated apps should stay clean and user-facing.
+
+Forge implementation should treat the relevant local skills as the default source of engineering and design craft:
+
+- `shadcn`
+- `emil-design-eng`
+- `make-interfaces-feel-better`
+- `userinterface-wiki`
+- `next-best-practices`
+- `react-useeffect`
+- `vercel-react-best-practices`
+- `tanstack-start-best-practices`
+- `vercel-composition-patterns`
+
+Vite preparation should start from [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md), not from a blank planning pass.
 
 ## Marketing Site Direction
 
@@ -204,6 +255,13 @@ Users should choose:
 - framework
 - base
 - RTL yes/no
+- code-quality tooling as a secondary choice:
+  - `Biome`
+  - `ESLint + Prettier`
+  - `Oxlint + Oxfmt`
+
+The landing page should not expose package manager as a primary choice in v1.
+The landing page should not let secondary tooling choices overshadow the core starter decisions.
 
 The marketing site should not become a multi-page docs-heavy site before the generator contract is stable.
 
@@ -219,10 +277,20 @@ Do not re-browse by default just because a spec edit is being made.
 - Generate examples later as fixtures from the generator.
 - Do not hand-maintain a farm of example starters.
 - Do not manually scaffold the marketing site before the generator contract and first happy path are stable.
+- Keep code-quality tooling choice aligned with the generator roadmap rather than letting it become a separate product track.
 
-## Open Questions
+## Locked Defaults
 
-- What repository structure best supports the first implementation without over-engineering the rebuild?
-- What should the normalized config and adapter interfaces look like in code?
-- What exact locale pair should the RTL starter ship with for the first language switch?
-- What verification strategy should be used for generated fixtures across the supported matrix?
+- RTL starter language pair: `en` + `ar`
+- Forge repository package manager: `pnpm`
+- Example apps are generated fixtures, not hand-maintained apps
+- Generated apps will support a user-facing code-quality choice:
+  - `Biome`
+  - `ESLint + Prettier`
+  - `Oxlint + Oxfmt`
+
+## Next Implementation Tasks
+
+- keep the retained Next fixtures healthy as regression targets
+- implement the Vite happy path using [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md)
+- expand Vite to `radix` after the first Vite happy path is verified

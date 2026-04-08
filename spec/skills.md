@@ -22,6 +22,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
 - If a task is primarily about UI feel, motion, sound, polish, or visual refinement, load one design/UI skill first, then add framework skills only if needed.
 - Avoid loading many overlapping skills unless the task clearly spans multiple concerns.
 - Prefer one primary skill plus one or two complementary skills.
+- For Forge implementation work, treat relevant local skills as the default source of craft guidance and implementation truth, not as optional inspiration.
 
 ## Installed Skills
 
@@ -209,6 +210,55 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `tanstack-start-best-practices`
 - Priority for Forge: Medium for now, high if the repo grows into multiple actively developed apps/packages
 
+### `biome`
+
+- Purpose: Biome toolchain guidance for generating a fast all-in-one formatter/linter setup.
+- Use when:
+  - implementing Forge support for the `Biome` option
+  - creating `biome.json` and related scripts
+  - deciding how Biome should appear in generated app docs
+- Best paired with:
+  - one framework skill
+  - `vercel-react-best-practices`
+- Priority for Forge: High when implementing code-quality tooling choice
+
+### `eslint-prettier-config`
+
+- Purpose: ESLint + Prettier setup guidance for the familiar dual-tooling path.
+- Use when:
+  - implementing Forge support for `ESLint + Prettier`
+  - generating `eslint.config.*`, Prettier config, and scripts
+  - choosing framework-aware lint packages and avoiding config conflicts
+- Best paired with:
+  - one framework skill
+  - `react-useeffect`
+  - `vercel-react-best-practices`
+- Priority for Forge: High when implementing code-quality tooling choice
+
+### `migrate-oxfmt`
+
+- Purpose: Oxfmt-oriented guidance that clarifies config shape, migration path, and script ergonomics for the Oxc formatter path.
+- Use when:
+  - implementing Forge support for `Oxlint + Oxfmt`
+  - choosing `.oxfmtrc.json` shape and formatter scripts
+  - understanding how Oxfmt differs from Prettier or Biome
+- Best paired with:
+  - `migrate-oxlint`
+  - one framework skill
+- Priority for Forge: High when implementing the Oxc tooling option
+
+### `migrate-oxlint`
+
+- Purpose: Oxlint-oriented guidance for mapping ESLint-like expectations into Oxlint configuration and scripts.
+- Use when:
+  - implementing Forge support for `Oxlint + Oxfmt`
+  - generating lint scripts and config
+  - deciding what should stay conservative in the Oxc path
+- Best paired with:
+  - `migrate-oxfmt`
+  - one framework skill
+- Priority for Forge: High when implementing the Oxc tooling option
+
 ## Recommended Skill Bundles
 
 ### 1. Generator and starter scaffolding
@@ -261,6 +311,15 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `shadcn`
   - one framework skill when the workspace decision affects a specific starter or app
 
+### 8. Code-quality tooling generation
+
+- Primary:
+  - `biome` for the Biome path
+  - `eslint-prettier-config` for the ESLint + Prettier path
+  - `migrate-oxlint` plus `migrate-oxfmt` for the Oxc path
+- Add:
+  - one framework skill so the generated config matches the starter architecture
+
 ## Forge-Specific Defaults
 
 For this project, default skill choices should usually be:
@@ -269,6 +328,12 @@ For this project, default skill choices should usually be:
   - `shadcn`
 - Monorepo or workspace-structure decisions:
   - `monorepo-management`
+- Next.js starter implementation:
+  - `next-best-practices`
+  - `react-useeffect`
+  - `vercel-react-best-practices`
+  - `vercel-composition-patterns`
+  - `shadcn`
 - Next.js marketing site work:
   - `next-best-practices`
   - `vercel-react-best-practices`
@@ -287,6 +352,27 @@ For this project, default skill choices should usually be:
   - `make-interfaces-feel-better`
 - Shared component API design:
   - `vercel-composition-patterns`
+- Code-quality tooling generation:
+  - `biome`
+  - `eslint-prettier-config`
+  - `migrate-oxlint`
+  - `migrate-oxfmt`
+
+## Forge Craft Stack
+
+When implementing Forge, the default craft stack should be:
+
+- `shadcn` for component and scaffold correctness
+- `emil-design-eng` for interaction taste and motion quality
+- `make-interfaces-feel-better` for polish details such as press scale, typography, surfaces, and exit/enter feel
+- `userinterface-wiki` for motion, sound, timing, accessibility, and advanced UI behavior
+- `next-best-practices` for Next.js starter correctness
+- `react-useeffect` for avoiding unnecessary Effects and keeping state flow clean
+- `vercel-react-best-practices` for React and Next performance patterns
+- `tanstack-start-best-practices` when working on the TanStack Start adapter
+- `vercel-composition-patterns` for component API and provider composition design
+
+These are the baseline implementation guides for Forge quality.
 
 ## Notes on Structure
 

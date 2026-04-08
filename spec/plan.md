@@ -27,8 +27,10 @@ The current planning surface now covers:
 - research
 - local skill routing
 - generator contract
+- repository structure
+- code-quality tooling choice
 
-The next logical planning step is to lock the implementation shape of the generator itself so coding can begin without reopening core architecture debates.
+The initial implementation shape is now locked and active in code. The next planning concern is to keep the layering clean while expanding support beyond the first verified path.
 
 ## Core Implementation Principles
 
@@ -41,7 +43,7 @@ The next logical planning step is to lock the implementation shape of the genera
 
 ## Next Planning Step
 
-Define the repository and runtime shape for the first implementation.
+Refine the implementation boundaries inside the locked single-package repository shape.
 
 ### Recommended first-pass repo structure
 
@@ -59,6 +61,7 @@ Define the repository and runtime shape for the first implementation.
 - `src/overlays/`
   - framework-specific overlays for `next`, `vite`, and `start`
 - `src/features/`
+  - `code-quality`
   - `rtl-runtime`
   - `sounds`
   - `starter-surface`
@@ -76,6 +79,8 @@ Define the repository and runtime shape for the first implementation.
   - product and implementation specs only
 
 This keeps the first implementation in one package instead of introducing a monorepo before the generator core exists.
+
+Locked by [repository-structure.md](/D:/Developer/nexcn/spec/repository-structure.md).
 
 ## First Coding Milestone
 
@@ -98,18 +103,28 @@ Definition of done for that milestone:
 - `README.md` is present and user-facing
 - verification passes
 
+Current status:
+
+- complete for:
+  - `next + base + rtl`
+  - `next + radix + rtl`
+- scaffold execution works through shadcn
+- Next overlay is applied
+- the oversized Next overlay file has been refactored into smaller focused modules under `src/overlays/next/`
+- sound feature installation is real, not placeholder-only
+- code-quality normalization is implemented in the generator
+- `Biome`, `ESLint + Prettier`, and `Oxlint + Oxfmt` all generate successfully for the active Next path
+- the active Next path now uses route-based locale handling with `/en` and `/ar`
+- retained fixtures can now be generated intentionally under `fixtures/`
+- generated app typecheck and build pass
+
 ## Proposed Build Order
 
-1. Create the generator codebase skeleton and normalized config schema.
-2. Implement the scaffold adapter around the preferred shadcn init flow.
-3. Implement the Next.js overlay and root shell wiring.
-4. Implement the `rtl-runtime`, `sounds`, `starter-surface`, `docs`, and `polish-css` feature packs for the first happy path.
-5. Add verification commands for generated output.
-6. Generate the first fixture from the generator and use it as a regression target.
-7. Expand to `next + radix`.
-8. Expand to `vite`.
-9. Expand to `start`.
-10. Build the marketing site after the generator contract and CLI are stable.
+1. Keep the retained Next fixtures healthy as regression targets.
+2. Implement `vite + base + rtl` using [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md).
+3. Expand Vite to `radix`.
+4. Expand to `start`.
+5. Build the marketing site after the generator contract and CLI are stable.
 
 ## Risk Areas To Track
 
@@ -119,6 +134,7 @@ Definition of done for that milestone:
 - portal direction edge cases
 - generated-code drift between framework overlays
 - fixture verification cost across the supported matrix
+- future package-splitting pressure if Forge grows beyond a single active app/package
 
 ## Non-Goals For The First Pass
 
