@@ -26,9 +26,9 @@ export function getAppProvidersTemplate(base: BaseLibrary): string {
   return `import * as React from "react";
 ${getDirectionProviderImport(base)}
 
+import type { Locale } from "@/lib/i18n";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LocaleProvider, useLocale } from "@/hooks/use-locale";
-import type { Locale } from "@/lib/i18n";
 
 function DocumentRootSync() {
   const { direction, locale } = useLocale();
@@ -78,6 +78,7 @@ export function AppProviders({
 
 export function getLocaleHookTemplate(): string {
   return `import * as React from "react";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 
 import {
   type Direction,
@@ -137,6 +138,8 @@ export function LocaleProvider({
   locale: Locale;
   children: React.ReactNode;
 }) {
+  const location = useLocation();
+  const navigate = useNavigate();
   const direction = getDirectionForLocale(locale);
   const nextLocale = getAlternateLocale(locale);
 
@@ -147,14 +150,14 @@ export function LocaleProvider({
       messages: MESSAGES[locale],
       nextLocale,
       switchLocale: () => {
-        const nextHref = getLocaleHref(window.location.pathname, nextLocale);
-
-        window.setTimeout(() => {
-          window.location.assign(nextHref);
-        }, 40);
+        React.startTransition(() => {
+          navigate({
+            to: getLocaleHref(location.pathname, nextLocale),
+          });
+        });
       },
     }),
-    [direction, locale, nextLocale],
+    [direction, locale, location.pathname, navigate, nextLocale],
   );
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
@@ -196,7 +199,7 @@ type ThemeProviderState = {
 };
 
 const COLOR_SCHEME_QUERY = "(prefers-color-scheme: dark)";
-const THEME_VALUES: Theme[] = ["dark", "light", "system"];
+const THEME_VALUES: Array<Theme> = ["dark", "light", "system"];
 
 const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>(undefined);
 
