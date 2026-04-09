@@ -11,6 +11,14 @@ async function removeLegacyRootFiles(projectDirectory: string): Promise<void> {
   ]);
 }
 
+async function removeLegacyLocaleFiles(projectDirectory: string): Promise<void> {
+  await Promise.all([
+    rm(path.join(projectDirectory, "app", "[locale]"), { recursive: true, force: true }),
+    rm(path.join(projectDirectory, "proxy.ts"), { force: true }),
+    rm(path.join(projectDirectory, "components", "language-toggle.tsx"), { force: true })
+  ]);
+}
+
 async function writeOverlayFiles(fileWrites: Map<string, string>): Promise<void> {
   for (const [filePath, fileContents] of fileWrites) {
     await mkdir(path.dirname(filePath), { recursive: true });
@@ -27,6 +35,6 @@ export async function applyNextOverlay(
   await Promise.all([
     patchGlobalsCss(projectDirectory),
     patchButtonComponent(projectDirectory),
-    removeLegacyRootFiles(projectDirectory)
+    context.config.rtl ? removeLegacyRootFiles(projectDirectory) : removeLegacyLocaleFiles(projectDirectory)
   ]);
 }

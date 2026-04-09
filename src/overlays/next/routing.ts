@@ -1,4 +1,59 @@
-export function getLayoutTemplate(): string {
+export function getLayoutTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `import { cookies } from "next/headers";
+import { Geist, Geist_Mono } from "next/font/google";
+
+import "./globals.css";
+import { AppProviders } from "@/components/app-providers";
+import { cn } from "@/lib/utils";
+
+type ThemeCookieValue = "dark" | "light" | "system";
+
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-sans"
+});
+
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono"
+});
+
+function getThemeFromCookie(value: string | undefined): ThemeCookieValue {
+  if (value === "dark" || value === "light" || value === "system") {
+    return value;
+  }
+
+  return "system";
+}
+
+export default async function RootLayout({
+  children
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const cookieStore = await cookies();
+  const storedTheme = getThemeFromCookie(cookieStore.get("forge-theme")?.value);
+  const initialThemeClass = storedTheme === "system" ? undefined : storedTheme;
+  const initialColorScheme = storedTheme === "system" ? undefined : storedTheme;
+
+  return (
+    <html
+      lang="en"
+      dir="ltr"
+      className={initialThemeClass}
+      style={initialColorScheme ? { colorScheme: initialColorScheme } : undefined}
+      suppressHydrationWarning
+    >
+      <body className={cn("antialiased", "font-sans", geist.variable, fontMono.variable)}>
+        <AppProviders locale="en">{children}</AppProviders>
+      </body>
+    </html>
+  );
+}
+`;
+  }
+
   return `import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -110,7 +165,32 @@ export const config = {
 `;
 }
 
-export function getI18nTemplate(): string {
+export function getI18nTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `export const locales = ["en"] as const;
+export const defaultLocale = "en";
+
+export type Locale = (typeof locales)[number];
+export type Direction = "ltr" | "rtl";
+
+export function isLocale(value: string | undefined): value is Locale {
+  return value === "en";
+}
+
+export function getDirectionForLocale(_locale: Locale): Direction {
+  return "ltr";
+}
+
+export function getAlternateLocale(locale: Locale): Locale {
+  return locale;
+}
+
+export function getLocaleHref(pathname: string, _locale: Locale): string {
+  return pathname;
+}
+`;
+  }
+
   return `export const locales = ["en", "ar"] as const;
 export const defaultLocale = "en";
 

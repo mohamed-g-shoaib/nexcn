@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { GenerationContext } from "../types.js";
 import { getInstallDependenciesCommand, runCommand } from "../utils/index.js";
@@ -16,12 +16,21 @@ export async function applyViteOverlay(
   context: GenerationContext,
   projectDirectory: string,
 ): Promise<void> {
-  await runCommand(
-    getInstallDependenciesCommand(context.config.packageManager, ["react-router"]),
-    projectDirectory,
-  );
+  if (context.config.rtl) {
+    await runCommand(
+      getInstallDependenciesCommand(context.config.packageManager, ["react-router"]),
+      projectDirectory,
+    );
+  }
 
   await writeOverlayFiles(getViteOverlayFiles(context, projectDirectory));
+
+  if (!context.config.rtl) {
+    await Promise.all([
+      rm(path.join(projectDirectory, "src", "components", "language-toggle.tsx"), { force: true }),
+      rm(path.join(projectDirectory, "src", "lib", "i18n.ts"), { force: true }),
+    ]);
+  }
 
   await Promise.all([
     patchIndexCss(projectDirectory),

@@ -1,4 +1,29 @@
-export function getI18nTemplate(): string {
+export function getI18nTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `export const locales = ["en"] as const;
+export const defaultLocale = "en";
+
+export type Locale = (typeof locales)[number];
+export type Direction = "ltr" | "rtl";
+
+export function isLocale(value: string | undefined): value is Locale {
+  return value === "en";
+}
+
+export function getDirectionForLocale(_locale: Locale): Direction {
+  return "ltr";
+}
+
+export function getAlternateLocale(locale: Locale): Locale {
+  return locale;
+}
+
+export function getLocaleHref(pathname: string, _locale: Locale): string {
+  return pathname;
+}
+`;
+  }
+
   return `export const locales = ["en", "ar"] as const;
 export const defaultLocale = "en";
 
@@ -30,7 +55,16 @@ export function getLocaleHref(pathname: string, locale: Locale): string {
 `;
 }
 
-export function getAppTemplate(): string {
+export function getAppTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `import { StarterShell } from "@/components/starter-shell";
+
+export default function App() {
+  return <StarterShell />;
+}
+`;
+  }
+
   return `import { Navigate, Route, Routes, useParams } from "react-router";
 
 import { StarterShell } from "@/components/starter-shell";
