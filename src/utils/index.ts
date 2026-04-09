@@ -10,5 +10,6 @@ export {
   getTemporaryPackageCommand
 } from "./package-manager.js";
 export { readPackageJson, writePackageJson } from "./package-json.js";
+export { fetchLatestPackageVersion } from "./registry.js";
 export { resolveTargetDirectory } from "./paths.js";
 export { runCommand } from "./process.js";

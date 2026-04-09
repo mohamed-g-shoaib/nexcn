@@ -76,7 +76,19 @@ export async function patchStartPackageJson(projectDirectory: string): Promise<v
 
   delete packageJson.dependencies?.["@tanstack/react-devtools"];
   delete packageJson.dependencies?.["@tanstack/react-router-devtools"];
+  delete packageJson.dependencies?.["vite-tsconfig-paths"];
   delete packageJson.devDependencies?.["@tanstack/devtools-vite"];
 
   await writePackageJson(packageJsonPath, packageJson);
+}
+
+export async function patchStartTsconfig(projectDirectory: string): Promise<void> {
+  const tsconfigPath = path.join(projectDirectory, "tsconfig.json");
+  const currentTsconfig = await readFile(tsconfigPath, "utf8");
+
+  const nextTsconfig = currentTsconfig.replace('"***.tsx"', '"**/*.tsx"');
+
+  if (nextTsconfig !== currentTsconfig) {
+    await writeFile(tsconfigPath, nextTsconfig, "utf8");
+  }
 }

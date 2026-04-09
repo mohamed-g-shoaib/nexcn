@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { GenerationContext } from "../../types.js";
+import { getCssImportDeclarationsTemplate } from "../shared/types.js";
 import {
   getAppProvidersTemplate,
   getLocaleHookTemplate,
@@ -26,6 +27,7 @@ export function getNextOverlayFiles(
   projectDirectory: string
 ): Map<string, string> {
   const files = new Map<string, string>([
+    [path.join(projectDirectory, "global.d.ts"), getCssImportDeclarationsTemplate()],
     [path.join(projectDirectory, "components", "app-providers.tsx"), getAppProvidersTemplate(context.config.base)],
     [path.join(projectDirectory, "components", "theme-provider.tsx"), getThemeProviderTemplate()],
     [path.join(projectDirectory, "components", "theme-toggle.tsx"), getThemeToggleTemplate()],

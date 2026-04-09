@@ -1,10 +1,12 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { GenerationContext } from "../types.js";
+import { removeDeprecatedBaseUrl } from "./shared/tsconfig.js";
 import { getStartOverlayFiles } from "./start/files.js";
 import {
   patchButtonComponent,
   patchStartPackageJson,
+  patchStartTsconfig,
   patchStylesCss,
   removeStartDemoArtifacts,
 } from "./start/patches.js";
@@ -35,4 +37,7 @@ export async function applyStartOverlay(
     removeStartDemoArtifacts(projectDirectory),
     patchStartPackageJson(projectDirectory),
   ]);
+
+  await removeDeprecatedBaseUrl(path.join(projectDirectory, "tsconfig.json"));
+  await patchStartTsconfig(projectDirectory);
 }

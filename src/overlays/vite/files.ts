@@ -1,5 +1,6 @@
 import path from "node:path";
 import type { GenerationContext } from "../../types.js";
+import { getCssImportDeclarationsTemplate } from "../shared/types.js";
 import {
   getAppProvidersTemplate,
   getLocaleHookTemplate,
@@ -22,6 +23,7 @@ export function getViteOverlayFiles(
 ): Map<string, string> {
   const files = new Map<string, string>([
     [path.join(projectDirectory, "index.html"), getIndexHtmlTemplate(context.config.projectName)],
+    [path.join(projectDirectory, "src", "css.d.ts"), getCssImportDeclarationsTemplate()],
     [path.join(projectDirectory, "src", "main.tsx"), getMainTemplate(context.config.rtl)],
     [path.join(projectDirectory, "src", "App.tsx"), getAppTemplate(context.config.rtl)],
     [

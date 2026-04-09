@@ -2,6 +2,7 @@ import { firstHappyPathInput } from "../config/defaults.js";
 import { normalizeConfig } from "../config/normalize.js";
 import {
   CodeQualityFeaturePack,
+  DependencyFreshnessFeaturePack,
   DocsFeaturePack,
   PolishCssFeaturePack,
   RtlRuntimeFeaturePack,
@@ -26,6 +27,7 @@ const featurePacks: FeaturePack[] = [
   new CodeQualityFeaturePack(),
   new RtlRuntimeFeaturePack(),
   new SoundsFeaturePack(),
+  new DependencyFreshnessFeaturePack(),
   new StarterSurfaceFeaturePack(),
   new DocsFeaturePack(),
   new PolishCssFeaturePack()

@@ -84,18 +84,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    target: "baseline-widely-available",
-    sourcemap: false,
-    chunkSizeWarningLimit: 500,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ${vendorDependencies},
-        },
-      },
-    },
-  },
   optimizeDeps: {
     include: ${vendorDependencies},
   },

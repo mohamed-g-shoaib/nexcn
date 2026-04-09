@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { GenerationContext } from "../types.js";
 import { getInstallDependenciesCommand, runCommand } from "../utils/index.js";
+import { removeDeprecatedBaseUrl } from "./shared/tsconfig.js";
 import { getViteOverlayFiles } from "./vite/files.js";
 import { patchButtonComponent, patchIndexCss, removeViteDemoArtifacts } from "./vite/patches.js";
 
@@ -35,6 +36,8 @@ export async function applyViteOverlay(
   await Promise.all([
     patchIndexCss(projectDirectory),
     patchButtonComponent(projectDirectory),
+    removeDeprecatedBaseUrl(path.join(projectDirectory, "tsconfig.json")),
+    removeDeprecatedBaseUrl(path.join(projectDirectory, "tsconfig.app.json")),
     removeViteDemoArtifacts(projectDirectory),
   ]);
 }

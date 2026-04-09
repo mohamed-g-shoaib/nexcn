@@ -1,4 +1,5 @@
 export { CodeQualityFeaturePack } from "./code-quality.js";
+export { DependencyFreshnessFeaturePack } from "./dependency-freshness.js";
 export { DocsFeaturePack } from "./docs.js";
 export { PolishCssFeaturePack } from "./polish-css.js";
 export { RtlRuntimeFeaturePack } from "./rtl-runtime.js";

@@ -1,6 +1,7 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { GenerationContext } from "../types.js";
+import { removeDeprecatedBaseUrl } from "./shared/tsconfig.js";
 import { getNextOverlayFiles } from "./next/files.js";
 import { patchButtonComponent, patchGlobalsCss } from "./next/patches.js";
 
@@ -35,6 +36,7 @@ export async function applyNextOverlay(
   await Promise.all([
     patchGlobalsCss(projectDirectory),
     patchButtonComponent(projectDirectory),
+    removeDeprecatedBaseUrl(path.join(projectDirectory, "tsconfig.json")),
     context.config.rtl ? removeLegacyRootFiles(projectDirectory) : removeLegacyLocaleFiles(projectDirectory)
   ]);
 }
