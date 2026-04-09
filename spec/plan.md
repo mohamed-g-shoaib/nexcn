@@ -121,16 +121,17 @@ Current status:
 - `Biome`, `ESLint + Prettier`, and `Oxlint + Oxfmt` all generate successfully for the active Next path
 - the active Next path now uses route-based locale handling with `/en` and `/ar`
 - retained fixtures can now be generated intentionally under `fixtures/`
-- the active Vite path now uses client-persisted locale handling with runtime `document.documentElement` sync
+- the active Vite path now uses React Router locale handling with `/en` and `/ar`
 - the active TanStack Start path now uses route-based locale handling with `/en` and `/ar`
 - generated app typecheck and build pass
 - Start verification intentionally runs `build` before `typecheck` because TanStack generates the route tree during the build flow
+- secondary code-quality verification now passes for the active Base happy paths across Next, Vite, and TanStack Start
 
 ## Proposed Build Order
 
 1. Keep the retained Next, Vite, and TanStack Start fixtures healthy as regression targets.
-2. Revisit Vite locale architecture once the cross-framework matrix is stable.
-3. Broaden cross-framework verification for secondary tooling choices where needed.
+2. Add non-RTL variants across Next, Vite, and TanStack Start now that the RTL matrix is code-proven.
+3. Keep secondary code-quality verification healthy as the matrix expands.
 4. Build the marketing site after the generator contract and CLI are stable.
 
 ## Risk Areas To Track

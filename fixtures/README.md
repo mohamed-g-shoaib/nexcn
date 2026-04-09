@@ -17,3 +17,4 @@ Notes:
 - Treat these as generated outputs, not hand-maintained starter apps
 - Forge prunes install and build artifacts from retained fixtures after verification, including nested `.git`, build output, and framework caches
 - Regenerate from Forge when the generator contract changes
+- The retained Vite fixtures now use locale-prefixed React Router paths (`/en` and `/ar`)

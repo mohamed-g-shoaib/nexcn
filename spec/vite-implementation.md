@@ -147,24 +147,25 @@ The same feature-pack concepts used by Next should be reused:
 
 ## Preferred Vite v1 Locale Strategy
 
-This is now the active implementation direction for the first Vite path.
+This is now the active implementation direction.
 
-Because the initial Vite starter is a client-rendered SPA with no server document pass:
+Current implementation:
 
-- Forge should treat client runtime as the source of active locale state
-- Forge should persist locale between refreshes using a client persistence layer
-- Forge should still synchronize `document.documentElement.lang` and `dir`
-- Forge should initialize `index.html` with the default locale shell
+- use React Router declarative mode
+- keep the router on `BrowserRouter`
+- use locale-prefixed routes:
+  - `/en`
+  - `/ar`
+- use `/` as an entry path that redirects to the default locale
+- treat the active locale route as the source of truth for `lang` and `dir`
+- keep `index.html` on the default shell values so the SPA can boot predictably before routing
 
-Current recommendation:
+Why this is the active direction:
 
-- default initial shell: `en` / `ltr`
-- runtime language switch: `en` <-> `ar`
-- persistence: local storage or an equivalent client-side persisted setting
-
-Inference:
-
-- unlike the Next path, route-first locale handling is not the best first Vite step unless Forge also introduces a router-level URL contract for Vite starters
+- it matches the common React + Vite ecosystem path
+- it gives Vite shareable and refresh-safe locale URLs
+- it avoids inventing a custom pathname layer
+- it keeps the routing layer smaller than moving Vite into a framework-style contract
 
 ## Provider Strategy
 
@@ -247,8 +248,8 @@ Current status:
 After the current Vite RTL matrix:
 
 1. add non-RTL Vite variants
-2. compare whether locale persistence should remain storage-first or graduate to a URL-aware router contract later
-3. carry the same implementation lessons into TanStack Start
+2. keep the route-based locale contract stable while the broader matrix expands
+3. carry the same implementation lessons into future matrix work
 
 ## Sources
 
@@ -256,6 +257,8 @@ Official sources used for this spec:
 
 - [Vite Guide](https://vite.dev/guide/)
 - [Vite Env and Mode Guide](https://vite.dev/guide/env-and-mode)
+- [React Router Declarative Mode Installation](https://reactrouter.com/start/declarative/installation)
+- [React Router BrowserRouter API](https://reactrouter.com/api/declarative-routers/BrowserRouter)
 - [shadcn Vite Installation](https://ui.shadcn.com/docs/installation/vite)
 - [shadcn Vite RTL Guide](https://ui.shadcn.com/docs/rtl/vite)
 - [shadcn RTL Guide](https://ui.shadcn.com/docs/rtl)
