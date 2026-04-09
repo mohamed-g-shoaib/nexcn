@@ -6,11 +6,11 @@ import { nitro } from "nitro/vite"
 import viteTsConfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     nitro(),
-    viteTsConfigPaths({
-      projects: ["./tsconfig.json"],
-    }),
     tailwindcss(),
     tanstackStart(),
     viteReact(),

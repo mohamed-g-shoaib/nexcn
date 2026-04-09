@@ -10,18 +10,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    target: "baseline-widely-available",
-    sourcemap: false,
-    chunkSizeWarningLimit: 500,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router"],
-        },
-      },
-    },
-  },
   optimizeDeps: {
     include: ["react", "react-dom", "react-router"],
   },
