@@ -1,9 +1,8 @@
-import type * as React from "react"
 import { HeadContent, Scripts, createRootRoute, useParams } from "@tanstack/react-router"
-
+import appCss from "../styles.css?url"
+import type * as React from "react"
 import { AppProviders } from "@/components/app-providers"
 import { defaultLocale, getDirectionForLocale, isLocale } from "@/lib/i18n"
-import appCss from "../styles.css?url"
 
 export const Route = createRootRoute({
   head: () => ({

@@ -2,9 +2,9 @@ import * as React from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { Tooltip } from "@base-ui/react/tooltip"
 
+import type { Locale } from "@/lib/i18n"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LocaleProvider, useLocale } from "@/hooks/use-locale"
-import type { Locale } from "@/lib/i18n"
 
 function DocumentRootSync() {
   const { direction, locale } = useLocale()

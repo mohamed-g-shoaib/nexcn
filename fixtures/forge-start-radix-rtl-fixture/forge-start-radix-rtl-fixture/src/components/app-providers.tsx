@@ -1,9 +1,9 @@
 import * as React from "react"
 import { Direction, Tooltip } from "radix-ui"
 
+import type { Locale } from "@/lib/i18n"
 import { ThemeProvider } from "@/components/theme-provider"
 import { LocaleProvider, useLocale } from "@/hooks/use-locale"
-import type { Locale } from "@/lib/i18n"
 
 function DocumentRootSync() {
   const { direction, locale } = useLocale()

@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useLocation, useNavigate } from "@tanstack/react-router"
 
 import {
   type Direction,
@@ -58,6 +59,8 @@ export function LocaleProvider({
   locale: Locale
   children: React.ReactNode
 }) {
+  const location = useLocation()
+  const navigate = useNavigate()
   const direction = getDirectionForLocale(locale)
   const nextLocale = getAlternateLocale(locale)
 
@@ -68,14 +71,14 @@ export function LocaleProvider({
       messages: MESSAGES[locale],
       nextLocale,
       switchLocale: () => {
-        const nextHref = getLocaleHref(window.location.pathname, nextLocale)
-
-        window.setTimeout(() => {
-          window.location.assign(nextHref)
-        }, 40)
+        React.startTransition(() => {
+          navigate({
+            to: getLocaleHref(location.pathname, nextLocale),
+          })
+        })
       },
     }),
-    [direction, locale, nextLocale],
+    [direction, locale, location.pathname, navigate, nextLocale],
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>

@@ -61,6 +61,23 @@ function ThemeHotkey() {
   return null
 }
 
+function ThemeCookieSync() {
+  const { theme } = useTheme()
+
+  React.useEffect(() => {
+    if (!theme) {
+      return
+    }
+
+    // biome-ignore lint/suspicious/noDocumentCookie: Forge persists the explicit theme across SSR locale navigations.
+    document.cookie = [`forge-theme=${theme}`, "Path=/", "Max-Age=31536000", "SameSite=Lax"].join(
+      "; ",
+    )
+  }, [theme])
+
+  return null
+}
+
 export function ThemeProvider({
   children,
   ...props
@@ -73,6 +90,7 @@ export function ThemeProvider({
       disableTransitionOnChange
       {...props}
     >
+      <ThemeCookieSync />
       <ThemeHotkey />
       {children}
     </NextThemesProvider>
