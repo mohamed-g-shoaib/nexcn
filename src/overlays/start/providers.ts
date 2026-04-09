@@ -9,7 +9,9 @@ function getDirectionProviderImport(base: BaseLibrary): string {
 }
 
 function getDirectionProviderOpen(base: BaseLibrary): string {
-  return base === "base" ? "<DirectionProvider direction={direction}>" : "<Direction.Provider dir={direction}>";
+  return base === "base"
+    ? "<DirectionProvider direction={direction}>"
+    : "<Direction.Provider dir={direction}>";
 }
 
 function getDirectionProviderClose(base: BaseLibrary): string {
@@ -18,11 +20,51 @@ function getDirectionProviderClose(base: BaseLibrary): string {
 
 function getTooltipProviderOpen(base: BaseLibrary): string {
   return base === "base"
-    ? '<Tooltip.Provider delay={400} closeDelay={150} timeout={500}>'
+    ? "<Tooltip.Provider delay={400} closeDelay={150} timeout={500}>"
     : "<Tooltip.Provider delayDuration={400} skipDelayDuration={150}>";
 }
 
-export function getAppProvidersTemplate(base: BaseLibrary): string {
+export function getAppProvidersTemplate(
+  base: BaseLibrary,
+  rtl: boolean,
+): string {
+  if (!rtl) {
+    return `import * as React from "react";
+${getDirectionProviderImport(base)}
+
+import { ThemeProvider } from "@/components/theme-provider";
+import { LocaleProvider } from "@/hooks/use-locale";
+
+function AppShellProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    ${base === "base" ? '<DirectionProvider direction="ltr">' : '<Direction.Provider dir="ltr">'}
+      ${getTooltipProviderOpen(base)}
+        {children}
+      </Tooltip.Provider>
+    ${base === "base" ? "</DirectionProvider>" : "</Direction.Provider>"}
+  );
+}
+
+export function AppProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ThemeProvider>
+      <LocaleProvider>
+        <AppShellProviders>{children}</AppShellProviders>
+      </LocaleProvider>
+    </ThemeProvider>
+  );
+}
+`;
+  }
+
   return `import * as React from "react";
 ${getDirectionProviderImport(base)}
 
@@ -108,10 +150,8 @@ const MESSAGES: LocaleMessages = {
 const LocaleContext = React.createContext<LocaleContextValue | null>(null);
 
 export function LocaleProvider({
-  locale: _locale,
   children,
 }: {
-  locale?: "en" | "ar";
   children: React.ReactNode;
 }) {
   const value: LocaleContextValue = {

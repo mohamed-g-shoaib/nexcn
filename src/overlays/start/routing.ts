@@ -1,6 +1,9 @@
 import { getThemeBootstrapScript } from "../shared/theme-bootstrap.js";
 
-export function getRootRouteTemplate(projectName: string, rtl: boolean): string {
+export function getRootRouteTemplate(
+  projectName: string,
+  rtl: boolean,
+): string {
   const themeBootstrapScript = JSON.stringify(getThemeBootstrapScript());
 
   if (!rtl) {
@@ -43,7 +46,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body className="min-h-svh bg-background font-sans text-foreground antialiased">
         <ScriptOnce>{${themeBootstrapScript}}</ScriptOnce>
-        <AppProviders locale="en">{children}</AppProviders>
+        <AppProviders>{children}</AppProviders>
         <Scripts />
       </body>
     </html>
