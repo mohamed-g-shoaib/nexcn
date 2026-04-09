@@ -17,6 +17,7 @@ export function getIndexHtmlTemplate(projectName: string): string {
 export function getMainTemplate(): string {
   return `import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router";
 
 import "./index.css";
 import App from "./App";
@@ -30,9 +31,11 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <AppProviders>
-      <App />
-    </AppProviders>
+    <BrowserRouter>
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </BrowserRouter>
   </StrictMode>,
 );
 `;
@@ -58,13 +61,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ["react", "react-dom"],
+          vendor: ["react", "react-dom", "react-router"],
         },
       },
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom"],
+    include: ["react", "react-dom", "react-router"],
   },
   server: {
     port: 3000,

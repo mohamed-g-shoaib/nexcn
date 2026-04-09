@@ -1,5 +1,25 @@
 import type { PackageManager, ScaffoldCommand } from "../types.js";
 
+export function getInstallDependenciesCommand(
+  packageManager: PackageManager,
+  dependencies: string[]
+): ScaffoldCommand {
+  if (dependencies.length === 0) {
+    throw new Error("Expected at least one dependency to install.");
+  }
+
+  switch (packageManager) {
+    case "pnpm":
+      return { command: "pnpm", args: ["add", ...dependencies] };
+    case "npm":
+      return { command: "npm", args: ["install", ...dependencies] };
+    case "yarn":
+      return { command: "yarn", args: ["add", ...dependencies] };
+    case "bun":
+      return { command: "bun", args: ["add", ...dependencies] };
+  }
+}
+
 export function getInstallDevDependenciesCommand(
   packageManager: PackageManager,
   dependencies: string[]

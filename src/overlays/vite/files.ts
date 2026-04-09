@@ -6,9 +6,9 @@ import {
   getThemeProviderTemplate,
   getUiSoundHookTemplate,
 } from "./providers.js";
+import { getAppTemplate, getI18nTemplate } from "./routing.js";
 import { getIndexHtmlTemplate, getMainTemplate, getViteConfigTemplate } from "./shell.js";
 import {
-  getAppTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
   getSoundAssetTemplate,
@@ -24,6 +24,7 @@ export function getViteOverlayFiles(
     [path.join(projectDirectory, "index.html"), getIndexHtmlTemplate(context.config.projectName)],
     [path.join(projectDirectory, "src", "main.tsx"), getMainTemplate()],
     [path.join(projectDirectory, "src", "App.tsx"), getAppTemplate()],
+    [path.join(projectDirectory, "src", "lib", "i18n.ts"), getI18nTemplate()],
     [
       path.join(projectDirectory, "src", "components", "app-providers.tsx"),
       getAppProvidersTemplate(context.config.base),

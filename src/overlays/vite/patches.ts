@@ -55,7 +55,13 @@ export async function patchButtonComponent(projectDirectory: string): Promise<vo
   const buttonPath = path.join(projectDirectory, "src", "components", "ui", "button.tsx");
   const currentButton = await readFile(buttonPath, "utf8");
 
-  let nextButton = currentButton.replace(
+  let nextButton = currentButton;
+
+  if (!nextButton.startsWith("/* eslint-disable react-refresh/only-export-components */")) {
+    nextButton = `/* eslint-disable react-refresh/only-export-components */\n${nextButton}`;
+  }
+
+  nextButton = nextButton.replace(
     "transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px",
     "transition-[background-color,color,border-color,box-shadow,transform] duration-150 ease-out outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 active:not-aria-[haspopup]:translate-y-px active:not-aria-[haspopup]:scale-[0.96]",
   );

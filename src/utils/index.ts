@@ -2,6 +2,7 @@ export { ensureParentDirectory, pathExists, pruneFixtureArtifacts } from "./fs.j
 export { formatCommand, formatNamedPlanItem } from "./format.js";
 export { resolveGeneratedProjectPaths } from "./generated-project.js";
 export {
+  getInstallDependenciesCommand,
   getInstallDevDependenciesCommand,
   getRemoveDependenciesCommand
 } from "./package-manager.js";

@@ -67,6 +67,15 @@ function getPrettierConfigTemplate(): string {
 `;
 }
 
+function getPrettierIgnoreTemplate(config: ForgeConfig): string {
+  if (config.framework === "start") {
+    return `src/routeTree.gen.ts
+`;
+  }
+
+  return "";
+}
+
 function getOxlintConfigTemplate(config: ForgeConfig): string {
   const plugins = config.framework === "next" ? ["typescript", "react", "nextjs", "import", "jsx-a11y"] : ["typescript", "react", "import", "jsx-a11y"];
 
@@ -149,7 +158,27 @@ function getStartEslintConfigTemplate(): string {
 
 import { tanstackConfig } from "@tanstack/eslint-config";
 
-export default [{ ignores: ["src/routeTree.gen.ts"] }, ...tanstackConfig];
+export default [
+  {
+    ignores: [
+      ".output/**",
+      ".tanstack/**",
+      "coverage/**",
+      "dist/**",
+      "node_modules/**",
+      "src/routeTree.gen.ts",
+    ],
+  },
+  ...tanstackConfig,
+  {
+    rules: {
+      "@typescript-eslint/array-type": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "import/consistent-type-specifier-style": "off",
+      "sort-imports": "off",
+    },
+  },
+];
 `;
 }
 
@@ -263,7 +292,7 @@ async function writeToolingFiles(context: GenerationContext, projectDirectory: s
   if (context.config.codeQuality === "oxlint-oxfmt") {
     await removeIfExists(eslintConfigPath);
     await removeIfExists(prettierConfigPath);
-    await removeIfExists(prettierIgnorePath);
+    await writeFile(prettierIgnorePath, getPrettierIgnoreTemplate(context.config), "utf8");
     await writeFile(oxlintConfigPath, getOxlintConfigTemplate(context.config), "utf8");
     await writeFile(oxfmtConfigPath, getOxfmtConfigTemplate(), "utf8");
     return;
@@ -279,6 +308,7 @@ async function writeToolingFiles(context: GenerationContext, projectDirectory: s
     "utf8"
   );
   await writeFile(prettierConfigPath, getPrettierConfigTemplate(), "utf8");
+  await writeFile(prettierIgnorePath, getPrettierIgnoreTemplate(context.config), "utf8");
 }
 
 export class CodeQualityFeaturePack implements FeaturePack {
