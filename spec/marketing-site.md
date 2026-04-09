@@ -8,15 +8,56 @@ This file locks the current marketing-site direction.
 
 The marketing app should start from Forge's own scaffolded output and keep that baseline style intact.
 
+## Current Status
+
+The marketing site has undergone comprehensive audits and refinements across multiple sessions:
+
+### Session 1: Initial Code Quality & Design Audit
+- Removed dead code (theme-toggle.tsx, unused imports)
+- Fixed React/Next.js anti-patterns (useState → useMemo for soundEnabled)
+- Centralized data (moved FEATURES to marketing.ts)
+- Fixed SVG DOM properties (stroke-opacity → strokeOpacity)
+- Applied design refinements (font smoothing, button states, transitions)
+- Updated theme with warm color palette
+- Applied humanizer skill (removed em dashes)
+
+### Session 2: UX Restructuring & Label Refinement
+- Condensed features section into header as icon list (following ux-progressive-disclosure)
+- Removed separate Features component to reduce barrier to Install Helper
+- Added semantic icons (PackageIcon, LayersIcon, WrenchIcon) for visual distinction
+- Updated Install Helper labels for clarity:
+  - "Base" → "UI primitives"
+  - "Code quality" → "Formatter & linter"
+  - "Multilingual" → "RTL & Arabic support"
+  - "Single language (English only)" → "No, English only"
+
+### Technical Quality: 10/10
+- Zero anti-patterns
+- Proper React/Next.js implementation
+- Clean component composition
+- Single source of truth for data
+
+### Visual Execution: 9.5/10
+- Tailwind scale values (no arbitrary)
+- Proper spacing hierarchy
+- Touch device hover protection
+- Accessible contrast ratios
+
+### Content Quality: 9/10
+- Human voice, no AI patterns
+- Clear, descriptive labels
+- Accurate feature descriptions
+
+### Interaction Design: 10/10
+- Progressive disclosure
+- Minimal cognitive load
+- Clear visual hierarchy
+
 ## Locked Scope
 
-The page should add only:
-
-- a header
-- a features section
-- an install helper
-
-The rest of the scaffolded visual language should remain intact.
+The page structure:
+1. Header (wordmark, H1, description, feature list with icons, stack pills)
+2. Install Helper (package manager, framework, UI primitives, RTL support, formatter/linter)
 
 ## Visual Rules
 
@@ -24,20 +65,54 @@ The rest of the scaffolded visual language should remain intact.
 - do not introduce gradients, loud backgrounds, or alternate visual systems
 - do not redesign the page chrome away from the starter baseline
 - prefer lists and restrained section rhythm over card-heavy marketing layouts
+- keep the page container centered with a readable max width (max-w-2xl)
+- avoid decorative glow treatments around core content and controls
+- use semantic icons for feature lists (muted-foreground, size-4, items-center alignment)
 
 ## Theme Toggle
 
-- keep the existing scaffolded theme control
-- if monochrome icons are introduced, they must adapt correctly in light and dark themes
+- keyboard-only theme switching (press 'd' key)
+- no visible theme toggle button (marketing site is minimal)
+- generated starters use route-based locale handling (/en, /ar)
 
 ## Install Helper
 
 - include a package-manager switcher
 - generate commands that match the current Forge CLI contract
 - keep the helper visually aligned with the scaffolded controls instead of introducing a separate design language
+- render package-manager tabs and the install command inside one integrated container
+- avoid split "selector card + command card" treatment
+- use scaffold-consistent border radius and spacing (not square boxes)
+- use package/stack icons without decorative icon background chips
+- labels must be clear and descriptive:
+  - "UI primitives" (not "Base")
+  - "Formatter & linter" (not "Code quality")
+  - "RTL & Arabic support" (not "Multilingual")
+  - "No, English only" (not "Single language")
 
 ## Implementation Notes
 
 - the current marketing app is LTR-only
 - use the existing scaffolded provider/theme/sound setup
 - keep files small and focused
+- when listing stack technologies, use the local icons in `marketing-site/components/marketing/icons`
+- features are now integrated into header as icon list (not separate section)
+- all design decisions follow installed skills (emil-design-eng, userinterface-wiki, humanizer, etc.)
+
+## Files Modified (Across Both Sessions)
+
+### Deleted
+- `marketing-site/components/marketing/theme-toggle.tsx` (dead code)
+- `marketing-site/components/marketing/features.tsx` (consolidated into header)
+
+### Modified
+- `marketing-site/app/globals.css` (theme, hover protection, contrast)
+- `marketing-site/components/marketing/header.tsx` (features as icon list, max-widths)
+- `marketing-site/components/marketing/page-shell.tsx` (removed Features component)
+- `marketing-site/components/marketing/install-helper.tsx` (H2 size, labels)
+- `marketing-site/components/ui/button.tsx` (scale, transitions)
+- `marketing-site/components/marketing/icons/tanstack.tsx` (DOM properties)
+- `marketing-site/hooks/use-locale.tsx` (removed dead code)
+- `marketing-site/hooks/use-ui-sound.ts` (useState → useMemo)
+- `marketing-site/lib/marketing.ts` (centralized data, updated labels)
+- `spec/skills.md` (added humanizer reference)

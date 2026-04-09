@@ -233,6 +233,20 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `userinterface-wiki`
 - Priority for Forge: High during review passes
 
+### `humanizer`
+
+- Purpose: Remove AI writing patterns from text to make it sound more natural and human-written. Detects and fixes inflated symbolism, promotional language, vague attributions, em dash overuse, AI vocabulary words, and other patterns documented in Wikipedia's "Signs of AI writing" guide.
+- Use when:
+  - writing or editing marketing copy, documentation, or user-facing text
+  - reviewing content for AI-isms and unnatural phrasing
+  - ensuring text has personality and voice, not just technical correctness
+  - removing em dashes, promotional language, or vague attributions
+- Best paired with:
+  - `minimalist-ui`
+  - `design-taste-frontend`
+  - `web-design-guidelines`
+- Priority for Forge: High for all user-facing content
+
 ### `seo-audit`
 
 - Purpose: SEO review and diagnosis skill for technical SEO, metadata, indexation, Core Web Vitals, on-page optimization, and audit prioritization.
