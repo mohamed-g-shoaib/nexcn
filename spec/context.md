@@ -35,6 +35,10 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - Forge now normalizes generated projects back to the user-selected package manager after scaffold-time temp commands so internal shadcn execution does not leak the wrong lockfile or install layout into the final app.
 - Generated starter READMEs now reflect the selected package manager instead of assuming `pnpm`.
 - Forge package-manager verification is now code-proven for `pnpm`, `npm`, `bun`, and `yarn`.
+- Forge dependency freshness is now an active generator concern rather than manual cleanup:
+  - generated apps normalize direct dependencies and devDependencies to current npm `latest` dist-tags before final install
+  - current latest verification has been exercised across Next, Vite, and TanStack Start
+  - compatibility follow-through now includes TypeScript 6 CSS declarations, Vite 8 config cleanup, and TanStack Start tsconfig normalization
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
@@ -295,40 +299,9 @@ Forge implementation should treat the relevant local skills as the default sourc
 - `vercel-composition-patterns`
 
 Vite preparation should start from [vite-implementation.md](/D:/Developer/nexcn/spec/vite-implementation.md), not from a blank planning pass.
-
-## Marketing Site Direction
-
-There will be a separate marketing site.
-
-Framework:
-
-- Next.js
-
-v1 scope:
-
-- a single landing page
-- hero section
-- features
-- template options/configurator
-- copyable install command
-
-Users should choose:
-
-- framework
-- base
-- RTL yes/no
-- code-quality tooling as a secondary choice:
-  - `Biome`
-  - `ESLint + Prettier`
-  - `Oxlint + Oxfmt`
-
-The landing page should not expose package manager as a primary choice in v1.
-The landing page should not let secondary tooling choices overshadow the core starter decisions.
-
-The marketing site should not become a multi-page docs-heavy site before the generator contract is stable.
-The detailed v1 landing-page direction is locked in [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md).
-The implementation sequence for that landing page is locked in [marketing-implementation-plan.md](/D:/Developer/nexcn/spec/marketing-implementation-plan.md).
-The marketing site should start from Forge's own `next + base + non-rtl` scaffold path and remain LTR-only in v1.
+Dependency version freshness and deprecation handling should follow [dependency-freshness.md](/D:/Developer/nexcn/spec/dependency-freshness.md).
+Forge should normalize generated app direct dependencies and devDependencies to current npm `latest` dist-tags before the final install so scaffold drift does not become product drift.
+Freshness normalization must stay verification-backed: current generated apps should remain compatible with TypeScript 6, Next 16.2, Vite 8, and the latest TanStack Start-compatible dependency set after Forge applies its overlay patches.
 
 ## Research Handling
 
@@ -341,7 +314,6 @@ Do not re-browse by default just because a spec edit is being made.
 - Build the generator first.
 - Generate examples later as fixtures from the generator.
 - Do not hand-maintain a farm of example starters.
-- Do not manually scaffold the marketing site before the generator contract and first happy path are stable.
 - Keep code-quality tooling choice aligned with the generator roadmap rather than letting it become a separate product track.
 
 ## Locked Defaults
@@ -361,3 +333,4 @@ Do not re-browse by default just because a spec edit is being made.
 - keep the retained TanStack Start fixtures healthy as regression targets
 - keep code-quality behavior aligned across all three frameworks, especially where framework tooling generates files during build
 - keep the retained non-RTL fixtures healthy now that the full direction matrix is implemented
+- keep dependency freshness normalization aligned with current npm `latest` dist-tags for direct generated-app dependencies

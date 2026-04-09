@@ -590,35 +590,9 @@ Framework note:
 - fixture verification should replace hand-maintained starter copies where possible
 - retained fixtures should cover both RTL and non-RTL generation paths once both are implemented
 
-## Marketing Site Contract
-
-The marketing site should be separate from the generator implementation.
-
-### Framework
-
-- use Next.js
-
-### v1 responsibilities
-
-- explain Forge simply
-- let users choose:
-  - framework
-  - base
-  - RTL
-- generate a copyable install command
-- show hero, features, and a template configurator
-- do not make package manager a primary configurator control in v1
-
-### v1 should avoid
-
-- complicated dashboards
-- large interactive demos
-- too many pages before the generator contract is stable
-
 ## Implementation Order
 
 1. Keep this contract aligned with implementation as the generator evolves.
 2. Keep the retained RTL fixtures healthy across Next, Vite, and TanStack Start.
 3. Keep the implemented code-quality tooling choices aligned with the active happy paths and fixture strategy.
 4. Keep the retained non-RTL fixtures healthy across Next, Vite, and TanStack Start.
-5. Build the marketing site after the CLI contract is stable.

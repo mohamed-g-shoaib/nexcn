@@ -330,7 +330,6 @@ Implication:
 ### Build Forge as:
 
 - one CLI
-- one marketing site
 - one spec-driven product layer
 - three framework adapters:
   - Next.js

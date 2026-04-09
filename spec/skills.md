@@ -54,7 +54,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `shadcn`
   - `vercel-react-best-practices`
   - `vercel-composition-patterns`
-- Priority for Forge: Very high for the marketing site and any Next-based starter
+- Priority for Forge: Very high for any Next-based starter
 
 ### `react-vite-best-practices`
 
@@ -138,7 +138,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `make-interfaces-feel-better`
   - `userinterface-wiki`
   - `web-design-guidelines`
-- Priority for Forge: High for polished starter UX and marketing site work
+- Priority for Forge: High for polished starter UX
 
 ### `make-interfaces-feel-better`
 
@@ -165,7 +165,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `high-end-visual-design`
   - `minimalist-ui`
   - `emil-design-eng`
-- Priority for Forge: High for the marketing site
+- Priority for Forge: High when visual direction work becomes necessary
 
 ### `high-end-visual-design`
 
@@ -178,7 +178,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `design-taste-frontend`
   - `minimalist-ui`
   - `make-interfaces-feel-better`
-- Priority for Forge: Very high for the marketing site
+- Priority for Forge: Very high for high-polish page design work
 
 ### `minimalist-ui`
 
@@ -191,7 +191,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `design-taste-frontend`
   - `high-end-visual-design`
   - `web-design-guidelines`
-- Priority for Forge: Very high for the marketing site
+- Priority for Forge: Very high for minimal interface work
 
 ### `full-output-enforcement`
 
@@ -237,13 +237,13 @@ This file is intentionally a summary, not a replacement for the underlying skill
 
 - Purpose: SEO review and diagnosis skill for technical SEO, metadata, indexation, Core Web Vitals, on-page optimization, and audit prioritization.
 - Use when:
-  - auditing the marketing site
+  - auditing a user-facing web surface
   - reviewing metadata, sitemap, robots, canonicals, or search issues
   - diagnosing traffic, indexing, or ranking concerns
 - Best paired with:
   - `next-best-practices`
   - `web-design-guidelines`
-- Priority for Forge: Medium-high for the marketing site
+- Priority for Forge: Medium-high for user-facing web surfaces
 
 ### `monorepo-management`
 
@@ -334,7 +334,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `make-interfaces-feel-better`
   - `userinterface-wiki`
 
-### 4. Marketing page visual direction
+### 4. Visual direction work
 
 - Primary: `high-end-visual-design`
 - Add:
@@ -356,7 +356,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - one framework skill
   - one design skill if the review is visual rather than only structural
 
-### 7. Marketing site SEO pass
+### 7. SEO pass
 
 - Primary: `seo-audit`
 - Add:
@@ -393,13 +393,6 @@ For this project, default skill choices should usually be:
   - `vercel-react-best-practices`
   - `vercel-composition-patterns`
   - `shadcn`
-- Next.js marketing site work:
-  - `next-best-practices`
-  - `vercel-react-best-practices`
-  - `shadcn`
-  - `design-taste-frontend`
-  - `high-end-visual-design`
-  - `minimalist-ui`
 - Vite starter work:
   - `react-vite-best-practices`
   - `vercel-react-best-practices`

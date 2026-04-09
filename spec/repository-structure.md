@@ -35,7 +35,6 @@ The first delivery phase is:
 - one generator CLI
 - one implementation codebase
 - generated fixtures later
-- a marketing site later
 
 Adding monorepo orchestration before those become separate actively developed units would increase setup and maintenance complexity earlier than necessary.
 
@@ -76,7 +75,6 @@ Do not adopt Nx by default.
 Revisit the single-package decision only when at least two of these are true at the same time:
 
 - the Forge CLI is a real maintained package
-- the marketing site becomes a real maintained app in the same repository
 - shared internal packages emerge and are used by multiple apps/tools
 - generated fixture verification becomes large enough to benefit from workspace task orchestration
 

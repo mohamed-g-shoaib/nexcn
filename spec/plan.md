@@ -29,7 +29,7 @@ The current planning surface now covers:
 - generator contract
 - repository structure
 - code-quality tooling choice
-- marketing-site direction
+- dependency freshness policy
 
 The initial implementation shape is now locked and active in code. The next planning concern is to keep the layering clean while expanding support beyond the first verified path.
 
@@ -40,7 +40,6 @@ The initial implementation shape is now locked and active in code. The next plan
 - Let shadcn own as much scaffold complexity as possible.
 - Keep generated apps intentionally minimal.
 - Keep generated apps free of internal Forge specs and skill-routing files.
-- Treat the marketing site as a separate later deliverable.
 
 ## Next Planning Step
 
@@ -133,14 +132,13 @@ Current status:
 - generated app typecheck and build pass
 - Start verification intentionally runs `build` before `typecheck` because TanStack generates the route tree during the build flow
 - secondary code-quality verification now passes for the active Base happy paths across Next, Vite, and TanStack Start
+- generated apps should now normalize direct dependencies and devDependencies to current npm `latest` dist-tags before the final install instead of inheriting scaffold drift blindly
 
 ## Proposed Build Order
 
 1. Keep the retained RTL and non-RTL fixtures healthy across Next, Vite, and TanStack Start.
 2. Keep secondary code-quality verification healthy as the matrix expands.
-3. Build the marketing site after the generator contract and CLI are stable.
-   Use [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md) as the locked v1 page brief rather than starting from a fresh landing-page exploration.
-   Use [marketing-implementation-plan.md](/D:/Developer/nexcn/spec/marketing-implementation-plan.md) as the build sequence and icon handoff plan.
+3. Keep dependency freshness normalization healthy as upstream scaffold output changes.
 
 ## Risk Areas To Track
 
@@ -157,4 +155,3 @@ Current status:
 - supporting every framework shadcn can target
 - preserving the legacy `create-nexcn` implementation
 - shipping many optional features before the core generator works
-- building the marketing site before the generator has a stable happy path
