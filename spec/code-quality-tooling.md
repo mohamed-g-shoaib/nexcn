@@ -164,6 +164,7 @@ Framework-specific scripts such as `dev`, `build`, and `typecheck` should remain
 ## README Contract
 
 Generated README content should mention the selected code-quality tooling and show the common commands.
+Those commands should match the selected package manager rather than assuming `pnpm`.
 
 The README should not contain long comparisons between tooling options.
 
@@ -196,6 +197,8 @@ Minimum expectation per generated app:
 - install succeeds
 - `lint` command exists
 - `format:check` command exists
+- generated lint/format config should ignore package-manager artifacts that are not app source, such as Yarn PnP files when they appear
+- generated tooling should remain compatible with Yarn starter project boundaries and linker output
 
 For the first implementation slices, build/typecheck verification remains more important than exhaustive lint-style verification.
 

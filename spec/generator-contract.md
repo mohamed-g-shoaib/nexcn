@@ -76,10 +76,23 @@ Preferred scaffold command shape:
 
 - Base UI:
   - `pnpm dlx shadcn@latest init --preset b1VlIwYS --base base --template <framework> [--rtl]`
+  - `npx shadcn@latest init --preset b1VlIwYS --base base --template <framework> [--rtl]`
+  - `yarn dlx shadcn@latest init --preset b1VlIwYS --base base --template <framework> [--rtl]`
+  - `bunx --bun shadcn@latest init --preset b1VlIwYS --base base --template <framework> [--rtl]`
 - Radix UI:
   - `pnpm dlx shadcn@latest init --preset b1VlIwYS --template <framework> [--rtl]`
+  - `npx shadcn@latest init --preset b1VlIwYS --template <framework> [--rtl]`
+  - `yarn dlx shadcn@latest init --preset b1VlIwYS --template <framework> [--rtl]`
+  - `bunx --bun shadcn@latest init --preset b1VlIwYS --template <framework> [--rtl]`
 
 The generator may swap `pnpm` for the selected package manager, but the preset and template semantics should remain equivalent.
+If scaffold-time temp execution needs a compatibility fallback under the hood for a specific environment, Forge must still preserve these public command semantics and normalize the final generated project back to the user-selected package manager before verification completes.
+
+Yarn-specific rule:
+
+- Forge should treat modern Yarn as a Corepack-managed package manager, not as legacy global Yarn 1
+- internal Yarn execution may use `corepack yarn@stable ...` to guarantee a modern Yarn runtime
+- generated Yarn projects should establish their own project boundary and prefer `nodeLinker: node-modules` for broad ecosystem compatibility in Forge starters
 
 ## Non-Goals
 
@@ -150,6 +163,7 @@ Every generated app should include:
   - `lint:fix`
   - `format`
   - `format:check`
+- README command examples that match the selected package manager
 - lightweight README guidance describing the selected tooling
 
 ### v1 implementation rule
@@ -544,6 +558,8 @@ Generator execution must be resilient.
 
 - generate into a fresh directory
 - stop on first non-recoverable failure
+- normalize the final install state and lockfile back to the selected package manager before verification
+- preserve package-manager-specific project boundaries where required by the selected tool, such as Yarn project ownership rules
 - report which step failed:
   - scaffold
   - overlay

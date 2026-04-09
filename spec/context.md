@@ -32,6 +32,13 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `Biome`
   - `ESLint + Prettier`
   - `Oxlint + Oxfmt`
+- Forge now normalizes generated projects back to the user-selected package manager after scaffold-time temp commands so internal shadcn execution does not leak the wrong lockfile or install layout into the final app.
+- Generated starter READMEs now reflect the selected package manager instead of assuming `pnpm`.
+- Forge package-manager verification is now code-proven for `pnpm`, `npm`, `bun`, and `yarn`.
+- Yarn behavior is now explicitly understood rather than treated as an anomaly:
+  - Corepack resolves the nearest `package.json` with a `packageManager` field
+  - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
+  - Forge-generated Yarn apps should declare their own project boundary and prefer `nodeLinker: node-modules` for starter compatibility
 - `nexcn` is now legacy repository naming only and should not appear in new public-facing product copy or specs.
 
 ## Product Identity
@@ -114,8 +121,14 @@ Command shapes currently assumed by the generator contract:
 
 - Base UI:
   - `pnpm dlx shadcn@latest init --preset b1VlIwYS --base base --template next --rtl`
+  - `npx shadcn@latest init --preset b1VlIwYS --base base --template next --rtl`
+  - `yarn dlx shadcn@latest init --preset b1VlIwYS --base base --template next --rtl`
+  - `bunx --bun shadcn@latest init --preset b1VlIwYS --base base --template next --rtl`
 - Radix UI:
   - `pnpm dlx shadcn@latest init --preset b1VlIwYS --template next --rtl`
+  - `npx shadcn@latest init --preset b1VlIwYS --template next --rtl`
+  - `yarn dlx shadcn@latest init --preset b1VlIwYS --template next --rtl`
+  - `bunx --bun shadcn@latest init --preset b1VlIwYS --template next --rtl`
 
 ## Starter UX Decisions
 
