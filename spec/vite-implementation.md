@@ -1,6 +1,6 @@
 # Forge Vite Implementation Spec
 
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Purpose
 
@@ -17,17 +17,27 @@ It captures:
 
 This is now an active implementation record for the first Vite path.
 
-Vite support is implemented for the first verified path:
+Vite support is implemented for the verified matrix:
 
 - `vite + base + rtl`
 - `vite + radix + rtl`
+- `vite + base + non-rtl`
+- `vite + radix + non-rtl`
 
 The current verified paths are:
 
 - `next + base + rtl`
 - `next + radix + rtl`
+- `next + base + non-rtl`
+- `next + radix + non-rtl`
 - `vite + base + rtl`
 - `vite + radix + rtl`
+- `vite + base + non-rtl`
+- `vite + radix + non-rtl`
+- `start + base + rtl`
+- `start + radix + rtl`
+- `start + base + non-rtl`
+- `start + radix + non-rtl`
 
 ## Carry-Forward Lessons From Next
 
@@ -36,6 +46,7 @@ These lessons should be reused instead of rediscovered:
 - keep the document shell thin and explicit
 - keep runtime providers in a dedicated client boundary
 - keep theme-dependent UI hydration-safe where SSR exists
+- initialize the active explicit theme before paint where the framework would otherwise flash the wrong theme on load
 - keep direction explicit at both the document and provider layers
 - keep portal-sensitive direction handling intentional rather than inherited-by-accident
 - keep the starter minimal and easy to delete
@@ -159,6 +170,7 @@ Current implementation:
 - use `/` as an entry path that redirects to the default locale
 - treat the active locale route as the source of truth for `lang` and `dir`
 - keep `index.html` on the default shell values so the SPA can boot predictably before routing
+- bootstrap the stored explicit theme in `index.html` before React mounts so reloads do not flash the wrong theme
 
 Why this is the active direction:
 
@@ -232,6 +244,8 @@ Current status:
 
 - complete for `vite + base + rtl`
 - complete for `vite + radix + rtl`
+- complete for `vite + base + non-rtl`
+- complete for `vite + radix + non-rtl`
 - verified through Forge generation
 - verified with:
   - `lint`
@@ -242,13 +256,15 @@ Current status:
 - retained fixture:
   - `fixtures/forge-vite-base-rtl-fixture`
   - `fixtures/forge-vite-radix-rtl-fixture`
+  - `fixtures/forge-vite-base-ltr-fixture`
+  - `fixtures/forge-vite-radix-ltr-fixture`
 
 ## Follow-Up After First Vite Path
 
-After the current Vite RTL matrix:
+After the current Vite matrix:
 
-1. add non-RTL Vite variants
-2. keep the route-based locale contract stable while the broader matrix expands
+1. keep the route-based locale contract stable while the broader matrix expands
+2. keep secondary code-quality verification healthy across the Vite matrix
 3. carry the same implementation lessons into future matrix work
 
 ## Sources
