@@ -146,9 +146,8 @@ Forge-generated apps must handle direction at runtime in the app shell:
 
 Preferred long-term direction:
 
-- locale should be represented in the route for frameworks that support SSR/routing well
-- persistence helpers such as cookies may be used to remember preference, but should not be the primary source of locale truth
-- the current cookie-based persistence path should be treated as a bridge, not the ideal final i18n architecture
+- locale should be represented in the route for frameworks that support routing well
+- persistence helpers such as cookies or storage may remember preference, but should not be the primary source of locale truth
 
 Current Next.js implementation direction:
 
@@ -157,6 +156,15 @@ Current Next.js implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the preferred locale
+
+Current Vite implementation direction:
+
+- use route-based locale handling with React Router declarative mode
+- use all-prefixed locale routes:
+  - `/en`
+  - `/ar`
+- use `/` only as an entry path that redirects to the default locale
+- derive runtime `document.documentElement.lang` and `dir` from the active route locale
 
 Current TanStack Start implementation direction:
 
@@ -186,6 +194,7 @@ Provider composition must account for:
 Direction should not rely only on inheritance when official docs indicate explicit direction handling is safer.
 
 Theme-dependent UI in generated apps must not render server/client-varying labels or icon states before mount when the active theme cannot be known during SSR.
+For SSR frameworks, locale switches must not cause a temporary theme flash. The document shell should preserve the active explicit theme across locale navigations instead of repainting the default theme first.
 
 For Next.js starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
 For TanStack Start starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
@@ -309,5 +318,4 @@ Do not re-browse by default just because a spec edit is being made.
 - keep the retained Next fixtures healthy as regression targets
 - keep the retained Vite fixtures healthy as regression targets
 - keep the retained TanStack Start fixtures healthy as regression targets
-- revisit whether Vite locale should stay storage-first or gain a URL-aware route contract later
 - keep code-quality behavior aligned across all three frameworks, especially where framework tooling generates files during build

@@ -319,6 +319,13 @@ Generated apps must avoid hydration mismatches caused by rendering theme-depende
 - do not render text or icon state derived from `useTheme` during SSR when the active theme is unknown on the server
 - render a stable fallback for theme controls until mount, or defer theme-dependent UI until after mount
 - keep `next-themes` hydration requirements in mind when rendering controls based on `theme` or `resolvedTheme`
+- for SSR frameworks, locale navigation must not briefly repaint the wrong theme before the active explicit theme is restored
+
+### SSR theme persistence rule
+
+- Next.js and TanStack Start starters must preserve an explicitly selected light/dark theme across locale navigations
+- language changes should use client-side router navigation where the framework supports it cleanly
+- if the framework renders a fresh document shell during locale changes, the generated document shell must be able to initialize the current explicit theme before post-hydration theme effects run
 
 ## Sound Contract
 
@@ -571,12 +578,7 @@ The marketing site should be separate from the generator implementation.
 ## Implementation Order
 
 1. Keep this contract aligned with implementation as the generator evolves.
-2. Refine the Next layering so cross-cutting behavior lives in explicit feature packs where possible.
-3. Retain one verified happy path:
-   - `next + base + rtl`
-4. Generate fixtures from the working generator.
-5. Keep the implemented code-quality tooling choice aligned with the active happy path and fixture strategy.
-6. Add `next + radix`.
-7. Add `vite`.
-8. Add `start`.
-9. Build the marketing site after the CLI contract is stable.
+2. Keep the retained RTL fixtures healthy across Next, Vite, and TanStack Start.
+3. Keep the implemented code-quality tooling choices aligned with the active happy paths and fixture strategy.
+4. Add non-RTL variants without regressing the verified RTL matrix.
+5. Build the marketing site after the CLI contract is stable.
