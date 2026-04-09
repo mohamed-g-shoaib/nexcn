@@ -30,6 +30,7 @@ The current planning surface now covers:
 - repository structure
 - code-quality tooling choice
 - dependency freshness policy
+- marketing-site scope
 
 The initial implementation shape is now locked and active in code. The next planning concern is to keep the layering clean while expanding support beyond the first verified path.
 
@@ -142,6 +143,7 @@ Current status:
 1. Keep the retained RTL and non-RTL fixtures healthy across Next, Vite, and TanStack Start.
 2. Keep secondary code-quality verification healthy as the matrix expands.
 3. Keep dependency freshness normalization healthy as upstream scaffold output changes.
+4. Keep the marketing site constrained to the scaffold baseline while adding only the header, features, and install-helper surfaces locked in [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md).
 
 ## Risk Areas To Track
 

@@ -42,6 +42,10 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - generated apps normalize direct dependencies and devDependencies to current npm `latest` dist-tags before final install
   - current latest verification has been exercised across Next, Vite, and TanStack Start
   - compatibility follow-through now includes TypeScript 6 CSS declarations, Vite 8 config cleanup, and TanStack Start tsconfig normalization
+- A separate marketing app now exists again at [marketing-site/](/D:/Developer/nexcn/marketing-site), but its direction is intentionally narrow:
+  - keep the scaffolded Forge starter style intact
+  - add only a header, a features section, and an install helper
+  - avoid a redesign pass that drifts away from the scaffold baseline
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
@@ -305,6 +309,7 @@ Vite preparation should start from [vite-implementation.md](/D:/Developer/nexcn/
 Dependency version freshness and deprecation handling should follow [dependency-freshness.md](/D:/Developer/nexcn/spec/dependency-freshness.md).
 Forge should normalize generated app direct dependencies and devDependencies to current npm `latest` dist-tags before the final install so scaffold drift does not become product drift.
 Freshness normalization must stay verification-backed: current generated apps should remain compatible with TypeScript 6, Next 16.2, Vite 8, and the latest TanStack Start-compatible dependency set after Forge applies its overlay patches.
+The active marketing-site direction is locked in [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md).
 
 ## Research Handling
 
