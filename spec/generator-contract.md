@@ -1,6 +1,6 @@
 # Forge Generator Contract
 
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Purpose
 
@@ -179,6 +179,12 @@ The starter page should include only:
 - theme switch control
 - language switch control when RTL mode is enabled
 
+When `rtl: false`, the starter must stay genuinely single-language:
+
+- no language switch UI
+- no locale route segments created only for parity with the RTL path
+- no dead locale state or helper modules beyond what a shared provider contract strictly requires
+
 ### Starter content should avoid
 
 - large marketing copy
@@ -246,6 +252,12 @@ Preferred current locale strategy for TanStack Start:
 - let the route locale drive document `lang`, document `dir`, and layout decisions
 - use `/` only as an entry path that redirects to a locale route
 
+When `rtl: false`, framework overlays should prefer a simpler single-language shell:
+
+- Next.js should emit a root `app/layout.tsx` and `app/page.tsx` without locale routes
+- Vite should avoid a routing dependency if locale routing is not needed
+- TanStack Start should emit root routes without locale params
+
 ## Provider Composition Rules
 
 Every generated project must have a clear root provider composition strategy.
@@ -285,6 +297,13 @@ When RTL mode is enabled, the generated app should include a language-aware root
 - persisted active locale between reloads
 - font switching where needed
 
+When `rtl: false`, the minimum language contract becomes:
+
+- stable `lang="en"`
+- stable `dir="ltr"`
+- no language switch UI
+- no locale persistence mechanism that exists only for multilingual routing
+
 ### Important note
 
 Language switching and direction switching are related but not identical. Forge must keep them coordinated in the root shell.
@@ -310,6 +329,9 @@ The current preferred Next.js model is:
 
 Forge should prefer the URL as the source of truth.
 
+That rule applies only to multilingual starters.
+Single-language non-RTL starters should not pay the complexity cost of locale routing unless another product requirement needs it.
+
 ## Theme Hydration Contract
 
 Generated apps must avoid hydration mismatches caused by rendering theme-dependent UI before the client has mounted.
@@ -326,6 +348,7 @@ Generated apps must avoid hydration mismatches caused by rendering theme-depende
 - Next.js and TanStack Start starters must preserve an explicitly selected light/dark theme across locale navigations
 - language changes should use client-side router navigation where the framework supports it cleanly
 - if the framework renders a fresh document shell during locale changes, the generated document shell must be able to initialize the current explicit theme before post-hydration theme effects run
+- Vite and TanStack Start starters must bootstrap the stored explicit theme in the document shell before React mounts so reloads do not flash the wrong theme
 
 ## Sound Contract
 
@@ -549,6 +572,7 @@ Framework note:
 - the first implementation should directly verify the initial `next + base + rtl` happy path
 - each newly supported matrix combination should add one generated fixture as a regression target
 - fixture verification should replace hand-maintained starter copies where possible
+- retained fixtures should cover both RTL and non-RTL generation paths once both are implemented
 
 ## Marketing Site Contract
 
@@ -580,5 +604,5 @@ The marketing site should be separate from the generator implementation.
 1. Keep this contract aligned with implementation as the generator evolves.
 2. Keep the retained RTL fixtures healthy across Next, Vite, and TanStack Start.
 3. Keep the implemented code-quality tooling choices aligned with the active happy paths and fixture strategy.
-4. Add non-RTL variants without regressing the verified RTL matrix.
+4. Keep the retained non-RTL fixtures healthy across Next, Vite, and TanStack Start.
 5. Build the marketing site after the CLI contract is stable.

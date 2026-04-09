@@ -1,6 +1,6 @@
 # Forge Rebuild Plan
 
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Goal
 
@@ -108,10 +108,16 @@ Current status:
 - complete for:
   - `next + base + rtl`
   - `next + radix + rtl`
+  - `next + base + non-rtl`
+  - `next + radix + non-rtl`
   - `vite + base + rtl`
   - `vite + radix + rtl`
+  - `vite + base + non-rtl`
+  - `vite + radix + non-rtl`
   - `start + base + rtl`
   - `start + radix + rtl`
+  - `start + base + non-rtl`
+  - `start + radix + non-rtl`
 - scaffold execution works through shadcn
 - Next overlay is applied
 - Vite overlay is now applied for the first Base UI happy path
@@ -129,10 +135,9 @@ Current status:
 
 ## Proposed Build Order
 
-1. Keep the retained Next, Vite, and TanStack Start fixtures healthy as regression targets.
-2. Add non-RTL variants across Next, Vite, and TanStack Start now that the RTL matrix is code-proven.
-3. Keep secondary code-quality verification healthy as the matrix expands.
-4. Build the marketing site after the generator contract and CLI are stable.
+1. Keep the retained RTL and non-RTL fixtures healthy across Next, Vite, and TanStack Start.
+2. Keep secondary code-quality verification healthy as the matrix expands.
+3. Build the marketing site after the generator contract and CLI are stable.
 
 ## Risk Areas To Track
 

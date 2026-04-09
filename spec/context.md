@@ -1,6 +1,6 @@
 # Forge Context
 
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Purpose
 
@@ -14,10 +14,16 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - The first implemented and verified generation paths are:
   - `next + base + rtl`
   - `next + radix + rtl`
+  - `next + base + non-rtl`
+  - `next + radix + non-rtl`
   - `vite + base + rtl`
   - `vite + radix + rtl`
+  - `vite + base + non-rtl`
+  - `vite + radix + non-rtl`
   - `start + base + rtl`
   - `start + radix + rtl`
+  - `start + base + non-rtl`
+  - `start + radix + non-rtl`
 - Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
 - Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
@@ -124,6 +130,12 @@ The starter page should include only:
 - theme switch control
 - language switch control when RTL mode is enabled
 
+When RTL mode is disabled, generated starters should stay clearly single-language:
+
+- no language switch control
+- no dead locale helpers or route segments
+- no hidden multilingual state that survives from the RTL path
+
 The starter should avoid:
 
 - large marketing copy
@@ -156,6 +168,10 @@ Current Next.js implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the preferred locale
+- when RTL mode is disabled:
+  - generate a single-language LTR app shell
+  - do not generate locale routes or language switching UI
+  - keep `lang="en"` and `dir="ltr"` stable without locale-routing overhead
 
 Current Vite implementation direction:
 
@@ -165,6 +181,10 @@ Current Vite implementation direction:
   - `/ar`
 - use `/` only as an entry path that redirects to the default locale
 - derive runtime `document.documentElement.lang` and `dir` from the active route locale
+- when RTL mode is disabled:
+  - generate a single-language LTR app shell
+  - do not install or depend on React Router only for locale handling
+  - keep `document.documentElement.lang="en"` and `dir="ltr"` stable through the root provider layer
 
 Current TanStack Start implementation direction:
 
@@ -174,6 +194,10 @@ Current TanStack Start implementation direction:
   - `/ar`
 - use `/` only as an entry path that redirects to the default locale
 - derive `html lang` and `html dir` from the active route locale in the root document shell
+- when RTL mode is disabled:
+  - generate a single-language LTR app shell
+  - do not generate locale-param routes or language switching UI
+  - keep `html lang="en"` and `html dir="ltr"` stable from the root document shell
 
 This must be handled in framework-specific root shells:
 
@@ -195,6 +219,7 @@ Direction should not rely only on inheritance when official docs indicate explic
 
 Theme-dependent UI in generated apps must not render server/client-varying labels or icon states before mount when the active theme cannot be known during SSR.
 For SSR frameworks, locale switches must not cause a temporary theme flash. The document shell should preserve the active explicit theme across locale navigations instead of repainting the default theme first.
+For Vite and TanStack Start starters, the document shell should apply the stored explicit theme before React mounts so a dark/light flash does not appear on initial load or refresh.
 
 For Next.js starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
 For TanStack Start starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
@@ -319,3 +344,4 @@ Do not re-browse by default just because a spec edit is being made.
 - keep the retained Vite fixtures healthy as regression targets
 - keep the retained TanStack Start fixtures healthy as regression targets
 - keep code-quality behavior aligned across all three frameworks, especially where framework tooling generates files during build
+- keep the retained non-RTL fixtures healthy now that the full direction matrix is implemented
