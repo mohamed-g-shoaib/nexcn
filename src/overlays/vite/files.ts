@@ -39,7 +39,12 @@ export function getViteOverlayFiles(
     [path.join(projectDirectory, "vite.config.ts"), getViteConfigTemplate(context.config.rtl)],
     [
       path.join(projectDirectory, "README.md"),
-      getReadmeTemplate(context.config.projectName, context.config.codeQualityLabel, context.config.rtl),
+      getReadmeTemplate(
+        context.config.projectName,
+        context.config.codeQualityLabel,
+        context.config.rtl,
+        context.config.packageManager
+      ),
     ],
   ]);
 

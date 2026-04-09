@@ -34,7 +34,7 @@ function getBiomeConfigTemplate(): string {
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc", "!src/routeTree.gen.ts"]
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc", "!src/routeTree.gen.ts", "!**/.yarn/**", "!**/.pnp.*"]
   },
   "formatter": {
     "enabled": true,
@@ -68,12 +68,16 @@ function getPrettierConfigTemplate(): string {
 }
 
 function getPrettierIgnoreTemplate(config: ForgeConfig): string {
+  const sharedIgnores = `.yarn/
+.pnp.*
+`;
+
   if (config.framework === "start") {
-    return `src/routeTree.gen.ts
+    return `${sharedIgnores}src/routeTree.gen.ts
 `;
   }
 
-  return "";
+  return sharedIgnores;
 }
 
 function getOxlintConfigTemplate(config: ForgeConfig): string {
@@ -86,7 +90,7 @@ function getOxlintConfigTemplate(config: ForgeConfig): string {
     "correctness": "error",
     "suspicious": "warn"
   },
-  "ignorePatterns": ["node_modules", ".next", "build", "dist", "coverage"],
+  "ignorePatterns": ["node_modules", ".next", "build", "dist", "coverage", ".yarn", ".pnp.*"],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "import/no-unassigned-import": "off"
@@ -119,7 +123,7 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"])
+  globalIgnores([".next/**", "out/**", "build/**", ".yarn/**", ".pnp.*", "next-env.d.ts"])
 ]);
 
 export default eslintConfig;
@@ -135,7 +139,7 @@ import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", ".yarn/**", ".pnp.*"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -163,6 +167,8 @@ export default [
     ignores: [
       ".output/**",
       ".tanstack/**",
+      ".yarn/**",
+      ".pnp.*",
       "coverage/**",
       "dist/**",
       "node_modules/**",

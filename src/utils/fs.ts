@@ -28,3 +28,16 @@ export async function pruneFixtureArtifacts(projectDirectory: string): Promise<v
     rm(path.join(projectDirectory, "tsconfig.tsbuildinfo"), { force: true })
   ]);
 }
+
+export async function resetProjectInstallArtifacts(projectDirectory: string): Promise<void> {
+  await Promise.all([
+    rm(path.join(projectDirectory, "node_modules"), { recursive: true, force: true }),
+    rm(path.join(projectDirectory, ".pnp.cjs"), { force: true }),
+    rm(path.join(projectDirectory, ".pnp.loader.mjs"), { force: true }),
+    rm(path.join(projectDirectory, "package-lock.json"), { force: true }),
+    rm(path.join(projectDirectory, "pnpm-lock.yaml"), { force: true }),
+    rm(path.join(projectDirectory, "yarn.lock"), { force: true }),
+    rm(path.join(projectDirectory, "bun.lock"), { force: true }),
+    rm(path.join(projectDirectory, "bun.lockb"), { force: true })
+  ]);
+}

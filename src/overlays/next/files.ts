@@ -39,7 +39,13 @@ export function getNextOverlayFiles(
     [path.join(projectDirectory, "next.config.mjs"), getNextConfigTemplate()],
     [
       path.join(projectDirectory, "README.md"),
-      getReadmeTemplate(context.config.projectName, context.config.codeQualityLabel, context.config.rtl)
+      getReadmeTemplate(
+        context.config.projectName,
+        context.config.codeQualityLabel,
+        context.config.rtl,
+        context.config.packageManager,
+        context.config.base
+      )
     ]
   ]);
 

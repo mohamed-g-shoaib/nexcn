@@ -2,7 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { FeaturePlan, GenerationContext } from "../types.js";
 import type { FeaturePack } from "./types.js";
-import { pathExists, runCommand } from "../utils/index.js";
+import { getTemporaryPackageCommand, pathExists, runCommand } from "../utils/index.js";
 
 async function patchGeneratedUseSound(projectDirectory: string, framework: GenerationContext["config"]["framework"]): Promise<void> {
   const hookPath =
@@ -52,18 +52,13 @@ export class SoundsFeaturePack implements FeaturePack {
 
   async apply(context: GenerationContext, projectDirectory: string): Promise<void> {
     await runCommand(
-      {
-        command: context.config.packageManager,
-        args: [
-          "dlx",
-          "shadcn@latest",
-          "add",
-          "@soundcn/use-sound",
-          "@soundcn/click-soft",
-          "@soundcn/switch-off",
-          "@soundcn/switch-on"
-        ]
-      },
+      getTemporaryPackageCommand(context.config.packageManager, "shadcn@latest", [
+        "add",
+        "@soundcn/use-sound",
+        "@soundcn/click-soft",
+        "@soundcn/switch-off",
+        "@soundcn/switch-on"
+      ]),
       projectDirectory
     );
 

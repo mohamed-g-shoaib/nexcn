@@ -1,5 +1,6 @@
 import type { GenerationContext, ScaffoldCommand } from "../types.js";
 import type { ScaffoldAdapter } from "./types.js";
+import { getTemporaryPackageCommand } from "../utils/package-manager.js";
 
 export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
   readonly name = "shadcn";
@@ -10,8 +11,6 @@ export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
 
   buildCommand(context: GenerationContext): ScaffoldCommand {
     const args = [
-      "dlx",
-      "shadcn@latest",
       "init",
       "--yes",
       "--preset",
@@ -32,9 +31,6 @@ export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
       args.push("--rtl");
     }
 
-    return {
-      command: context.config.packageManager,
-      args
-    };
+    return getTemporaryPackageCommand(context.config.packageManager, "shadcn@latest", args);
   }
 }

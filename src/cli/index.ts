@@ -45,6 +45,21 @@ function parseInputOverrides(args: string[], cwd: string): CliOptions {
       continue;
     }
 
+    if (arg === "--package-manager") {
+      const nextValue = args[index + 1];
+      if (!nextValue) {
+        throw new Error(`Missing value for "${arg}".`);
+      }
+
+      if (nextValue !== "pnpm" && nextValue !== "npm" && nextValue !== "yarn" && nextValue !== "bun") {
+        throw new Error(`Unsupported package manager "${nextValue}".`);
+      }
+
+      input.packageManager = nextValue;
+      index += 1;
+      continue;
+    }
+
     if (arg === "--framework") {
       const nextValue = args[index + 1];
       if (!nextValue) {
@@ -102,12 +117,14 @@ Usage:
   forge plan
   forge plan --framework next --base radix --rtl
   forge plan --code-quality biome
+  forge plan --package-manager npm
   forge generate
   forge generate --dry-run
   forge generate --name my-app
   forge generate --base radix
   forge generate --fixture
   forge generate --code-quality oxlint-oxfmt
+  forge generate --package-manager bun
 
 Current behavior:
   Prints or runs the locked first-pass generation plan for Forge.`);

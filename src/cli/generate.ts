@@ -1,12 +1,17 @@
-import { mkdir } from "node:fs/promises";
+import { cp, mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 import { buildGenerationPlanWithOptions } from "./plan.js";
 import { applyFrameworkOverlay } from "../overlays/index.js";
 import type { ForgeConfigInput, GenerateOptions } from "../types.js";
 import {
   ensureParentDirectory,
   formatCommand,
+  getInstallProjectCommand,
+  getRunScriptCommand,
   pathExists,
   pruneFixtureArtifacts,
+  resetProjectInstallArtifacts,
   resolveGeneratedProjectPaths,
   runCommand
 } from "../utils/index.js";
@@ -15,44 +20,79 @@ function getStepLabel(index: number, total: number, label: string): string {
   return `[${index}/${total}] ${label}`;
 }
 
+async function preparePackageManagerBoundary(
+  packageManager: string,
+  projectDirectory: string
+): Promise<void> {
+  if (packageManager !== "yarn") {
+    return;
+  }
+
+  await writeFile(path.join(projectDirectory, "yarn.lock"), "", "utf8");
+  await writeFile(path.join(projectDirectory, ".yarnrc.yml"), "nodeLinker: node-modules\n", "utf8");
+}
+
 export async function generateProject(
   cwd: string,
   input: ForgeConfigInput,
   options: GenerateOptions
 ): Promise<void> {
   const plan = buildGenerationPlanWithOptions(cwd, input, { outputRoot: options.outputRoot });
+  const scaffoldWorkspace = await mkdtemp(path.join(os.tmpdir(), "forge-scaffold-"));
+  const scaffoldTargetDirectory = path.join(scaffoldWorkspace, "target");
+  const scaffoldContext = {
+    ...plan.context,
+    targetDirectory: scaffoldTargetDirectory
+  };
+  const scaffoldCommand = plan.scaffoldAdapter.buildCommand(scaffoldContext);
 
   if (await pathExists(plan.context.targetDirectory)) {
     throw new Error(`Target directory already exists: ${plan.context.targetDirectory}`);
   }
 
   const totalSteps =
-    3 +
+    5 +
     plan.featurePacks.filter((pack) => pack.apply).length +
     plan.verification.length +
     (options.outputRoot ? 1 : 0);
 
   console.log(`Target directory: ${plan.context.targetDirectory}`);
   console.log(getStepLabel(1, totalSteps, `Scaffold via ${plan.scaffoldAdapter.name}`));
-  console.log(`  ${formatCommand(plan.scaffoldCommand)}`);
+  console.log(`  ${formatCommand(scaffoldCommand)}`);
 
   if (options.dryRun) {
+    await rm(scaffoldWorkspace, { recursive: true, force: true });
     return;
   }
 
   await ensureParentDirectory(plan.context.targetDirectory);
-  await mkdir(plan.context.targetDirectory, { recursive: true });
+  await mkdir(scaffoldTargetDirectory, { recursive: true });
 
-  await runCommand(plan.scaffoldCommand, cwd);
+  try {
+    await runCommand(scaffoldCommand, scaffoldWorkspace);
+    const tempResolvedPaths = await resolveGeneratedProjectPaths(scaffoldContext);
+
+    await resetProjectInstallArtifacts(tempResolvedPaths.projectDirectory);
+    await cp(scaffoldTargetDirectory, plan.context.targetDirectory, { recursive: true });
+  } finally {
+    await rm(scaffoldWorkspace, { recursive: true, force: true });
+  }
 
   const resolvedPaths = await resolveGeneratedProjectPaths(plan.context);
 
   console.log(`Resolved project directory: ${resolvedPaths.projectDirectory}`);
-  console.log(getStepLabel(2, totalSteps, `Apply ${plan.context.config.frameworkLabel} overlay`));
+  console.log(getStepLabel(2, totalSteps, `Normalize ${plan.context.config.packageManager} install state`));
+  const installStep = getInstallProjectCommand(plan.context.config.packageManager);
+  console.log(`  ${formatCommand(installStep)}`);
+  await resetProjectInstallArtifacts(resolvedPaths.projectDirectory);
+  await preparePackageManagerBoundary(plan.context.config.packageManager, resolvedPaths.projectDirectory);
+  await runCommand(installStep, resolvedPaths.projectDirectory);
+
+  console.log(getStepLabel(3, totalSteps, `Apply ${plan.context.config.frameworkLabel} overlay`));
 
   await applyFrameworkOverlay(plan.context, resolvedPaths.projectDirectory);
 
-  let stepNumber = 3;
+  let stepNumber = 4;
 
   for (const featurePack of plan.featurePacks) {
     if (!featurePack.apply) {
@@ -64,16 +104,22 @@ export async function generateProject(
     stepNumber += 1;
   }
 
-  console.log(getStepLabel(stepNumber, totalSteps, "Normalize generated formatting"));
-  console.log(`  ${plan.context.config.packageManager} format`);
-  await runCommand(
-    {
-      name: "format",
-      command: plan.context.config.packageManager,
-      args: ["format"]
-    },
-    resolvedPaths.projectDirectory
+  console.log(
+    getStepLabel(stepNumber, totalSteps, `Reconcile ${plan.context.config.packageManager} install state`)
   );
+  console.log(`  ${formatCommand(installStep)}`);
+  await resetProjectInstallArtifacts(resolvedPaths.projectDirectory);
+  await preparePackageManagerBoundary(plan.context.config.packageManager, resolvedPaths.projectDirectory);
+  await runCommand(installStep, resolvedPaths.projectDirectory);
+  stepNumber += 1;
+
+  console.log(getStepLabel(stepNumber, totalSteps, "Normalize generated formatting"));
+  const formatStep = {
+    name: "format",
+    ...getRunScriptCommand(plan.context.config.packageManager, "format")
+  };
+  console.log(`  ${formatStep.command} ${formatStep.args.join(" ")}`);
+  await runCommand(formatStep, resolvedPaths.projectDirectory);
   stepNumber += 1;
 
   for (const [index, step] of plan.verification.entries()) {
