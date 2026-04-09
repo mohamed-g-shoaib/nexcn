@@ -126,10 +126,11 @@ Current status:
 - sound feature installation is real, not placeholder-only
 - code-quality normalization is implemented in the generator
 - `Biome`, `ESLint + Prettier`, and `Oxlint + Oxfmt` all generate successfully for the active Next path
-- the active Next path now uses route-based locale handling with `/en` and `/ar`
+- the active Next RTL path uses route-based locale handling with `/en` and `/ar`
 - retained fixtures can now be generated intentionally under `fixtures/`
-- the active Vite path now uses React Router locale handling with `/en` and `/ar`
-- the active TanStack Start path now uses route-based locale handling with `/en` and `/ar`
+- the active Vite RTL path now uses React Router locale handling with `/en` and `/ar`
+- the active TanStack Start RTL path now uses route-based locale handling with `/en` and `/ar`
+- non-RTL paths across Next, Vite, and TanStack Start now emit a simpler single-language shell (`lang="en"`, `dir="ltr"`) without extra locale runtime wiring
 - generated app typecheck and build pass
 - target-directory UX should now be treated as part of the generator contract:
   - named generation should not leave nested wrapper folders

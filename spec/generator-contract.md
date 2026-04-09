@@ -223,9 +223,13 @@ Forge must wire direction and language at runtime in the app shell.
 
 ### Required runtime responsibilities
 
-- set `lang` dynamically at the document/root level
-- set `dir` dynamically at the document/root level
-- preserve active locale/direction across refreshes
+- for multilingual RTL starters:
+  - set `lang` dynamically at the document/root level
+  - set `dir` dynamically at the document/root level
+  - preserve active locale/direction across refreshes
+- for single-language non-RTL starters:
+  - emit stable `lang="en"` and `dir="ltr"` in the document shell
+  - avoid runtime locale syncing helpers that exist only for multilingual behavior
 - compose providers correctly around `children`
 - ensure portal-based components receive correct direction behavior
 - ensure fonts can switch appropriately for RTL locales where needed
@@ -297,12 +301,15 @@ Every generated project must have a clear root provider composition strategy.
   - initial `html` attributes
   - body wrapper
 - keep interactive/runtime providers in a dedicated client boundary such as `components/app-providers.tsx`
-- synchronize runtime `lang` and `dir` from that provider boundary instead of pushing client-only provider logic into `layout.tsx`
+- for RTL/multilingual starters, synchronize runtime `lang` and `dir` through locale-aware wiring
+- for non-RTL starters, keep `layout.tsx` static with `lang="en"` and `dir="ltr"` and avoid extra runtime sync components
 
 ### Direction rules
 
-- `dir` must be driven from runtime locale or selected language state
-- `lang` must be kept in sync with active language
+- in multilingual RTL mode, `dir` must be driven from active locale/language state
+- in non-RTL mode, `dir` must be fixed to `ltr`
+- in multilingual RTL mode, `lang` must be kept in sync with active language
+- in non-RTL mode, `lang` must be fixed to `en`
 - provider-level direction must not rely only on DOM inheritance where official docs indicate explicit direction handling is safer
 - portal components must be treated as a special case
 
@@ -436,6 +443,11 @@ Current CLI expectation:
 - `forge generate --fixture ...`
 
 Retained fixtures are generated outputs and should not be treated as hand-maintained example apps.
+
+Fixture directory shape contract:
+
+- each retained fixture should live at `fixtures/<fixture-name>/...`
+- do not keep an extra nested wrapper directory (`fixtures/<fixture-name>/<fixture-name>/...`)
 
 Retained fixtures should be left in a lean state after verification:
 

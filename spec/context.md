@@ -28,6 +28,9 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
 - Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
 - Forge now retains verified regression fixtures for Next, Vite, and TanStack Start.
+- Retained fixture directory shape is now flat:
+  - `fixtures/<fixture-name>/...`
+  - the legacy nested wrapper shape (`fixtures/<fixture-name>/<fixture-name>/...`) is deprecated
 - Forge now supports three code-quality options in the active Next happy path:
   - `Biome`
   - `ESLint + Prettier`
@@ -44,8 +47,11 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - compatibility follow-through now includes TypeScript 6 CSS declarations, Vite 8 config cleanup, and TanStack Start tsconfig normalization
 - A separate marketing app now exists again at [marketing-site/](/D:/Developer/nexcn/marketing-site), but its direction is intentionally narrow:
   - keep the scaffolded Forge starter style intact
-  - add only a header, a features section, and an install helper
+  - add only a header, restrained feature mentions, and an install helper
   - avoid a redesign pass that drifts away from the scaffold baseline
+  - the page container should stay centered with a readable max width
+  - install helper should be one integrated surface (package-manager tabs + command in one container)
+  - avoid glow effects and decorative icon background chips
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
@@ -196,6 +202,7 @@ Current Next.js implementation direction:
   - generate a single-language LTR app shell
   - do not generate locale routes or language switching UI
   - keep `lang="en"` and `dir="ltr"` stable without locale-routing overhead
+  - keep provider wiring minimal for LTR (no locale-sync runtime helpers that only serve multilingual flows)
 
 Current Vite implementation direction:
 
@@ -209,6 +216,7 @@ Current Vite implementation direction:
   - generate a single-language LTR app shell
   - do not install or depend on React Router only for locale handling
   - keep `document.documentElement.lang="en"` and `dir="ltr"` stable through the root provider layer
+  - keep provider wiring minimal for LTR (no locale-sync runtime helpers that only serve multilingual flows)
 
 Current TanStack Start implementation direction:
 
@@ -222,6 +230,7 @@ Current TanStack Start implementation direction:
   - generate a single-language LTR app shell
   - do not generate locale-param routes or language switching UI
   - keep `html lang="en"` and `html dir="ltr"` stable from the root document shell
+  - keep provider wiring minimal for LTR (no locale-sync runtime helpers that only serve multilingual flows)
 
 This must be handled in framework-specific root shells:
 
