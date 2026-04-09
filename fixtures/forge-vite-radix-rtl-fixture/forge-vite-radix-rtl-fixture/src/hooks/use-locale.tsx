@@ -1,9 +1,19 @@
 "use client"
 
-import * as React from "react"
+/* eslint-disable react-refresh/only-export-components */
 
-export type Locale = "en" | "ar"
-export type Direction = "ltr" | "rtl"
+import * as React from "react"
+import { useLocation, useNavigate } from "react-router"
+
+import {
+  type Direction,
+  type Locale,
+  defaultLocale,
+  getAlternateLocale,
+  getDirectionForLocale,
+  getLocaleHref,
+  isLocale,
+} from "@/lib/i18n"
 
 type LocaleMessages = {
   eyebrow: string
@@ -21,8 +31,6 @@ type LocaleContextValue = {
   nextLocale: Locale
   switchLocale: () => void
 }
-
-const LOCALE_STORAGE_KEY = "forge-locale"
 
 const MESSAGES: Record<Locale, LocaleMessages> = {
   en: {
@@ -47,55 +55,26 @@ const MESSAGES: Record<Locale, LocaleMessages> = {
 
 const LocaleContext = React.createContext<LocaleContextValue | null>(null)
 
-function getDirectionForLocale(locale: Locale): Direction {
-  return locale === "ar" ? "rtl" : "ltr"
-}
-
-function getNextLocale(locale: Locale): Locale {
-  return locale === "ar" ? "en" : "ar"
-}
-
-function getInitialLocale(): Locale {
-  if (typeof window === "undefined") {
-    return "en"
-  }
-
-  const storedLocale = window.localStorage.getItem(LOCALE_STORAGE_KEY)
-  return storedLocale === "ar" ? "ar" : "en"
-}
-
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = React.useState<Locale>(getInitialLocale)
-
-  React.useEffect(() => {
-    function handleStorage(event: StorageEvent) {
-      if (event.key !== LOCALE_STORAGE_KEY) {
-        return
-      }
-
-      setLocale(event.newValue === "ar" ? "ar" : "en")
-    }
-
-    window.addEventListener("storage", handleStorage)
-
-    return () => {
-      window.removeEventListener("storage", handleStorage)
-    }
-  }, [])
-
-  const nextLocale = getNextLocale(locale)
+  const location = useLocation()
+  const navigate = useNavigate()
+  const localeSegment = location.pathname.split("/").filter(Boolean)[0]
+  const locale = isLocale(localeSegment) ? localeSegment : defaultLocale
+  const nextLocale = getAlternateLocale(locale)
   const direction = getDirectionForLocale(locale)
 
-  const value: LocaleContextValue = {
-    locale,
-    direction,
-    messages: MESSAGES[locale],
-    nextLocale,
-    switchLocale: () => {
-      window.localStorage.setItem(LOCALE_STORAGE_KEY, nextLocale)
-      setLocale(nextLocale)
-    },
-  }
+  const value = React.useMemo<LocaleContextValue>(
+    () => ({
+      locale,
+      direction,
+      messages: MESSAGES[locale],
+      nextLocale,
+      switchLocale: () => {
+        navigate(getLocaleHref(location.pathname, nextLocale), { replace: true })
+      },
+    }),
+    [direction, locale, location.pathname, navigate, nextLocale],
+  )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
 }

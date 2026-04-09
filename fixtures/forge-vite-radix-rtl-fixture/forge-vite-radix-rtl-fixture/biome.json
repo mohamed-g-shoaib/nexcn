@@ -15,7 +15,8 @@
       "**/*.mjs",
       "**/*.cjs",
       "**/*.json",
-      "**/*.jsonc"
+      "**/*.jsonc",
+      "!src/routeTree.gen.ts"
     ]
   },
   "formatter": {
