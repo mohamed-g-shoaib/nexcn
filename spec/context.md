@@ -326,6 +326,9 @@ The landing page should not expose package manager as a primary choice in v1.
 The landing page should not let secondary tooling choices overshadow the core starter decisions.
 
 The marketing site should not become a multi-page docs-heavy site before the generator contract is stable.
+The detailed v1 landing-page direction is locked in [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md).
+The implementation sequence for that landing page is locked in [marketing-implementation-plan.md](/D:/Developer/nexcn/spec/marketing-implementation-plan.md).
+The marketing site should start from Forge's own `next + base + non-rtl` scaffold path and remain LTR-only in v1.
 
 ## Research Handling
 

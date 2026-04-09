@@ -29,6 +29,7 @@ The current planning surface now covers:
 - generator contract
 - repository structure
 - code-quality tooling choice
+- marketing-site direction
 
 The initial implementation shape is now locked and active in code. The next planning concern is to keep the layering clean while expanding support beyond the first verified path.
 
@@ -138,6 +139,8 @@ Current status:
 1. Keep the retained RTL and non-RTL fixtures healthy across Next, Vite, and TanStack Start.
 2. Keep secondary code-quality verification healthy as the matrix expands.
 3. Build the marketing site after the generator contract and CLI are stable.
+   Use [marketing-site.md](/D:/Developer/nexcn/spec/marketing-site.md) as the locked v1 page brief rather than starting from a fresh landing-page exploration.
+   Use [marketing-implementation-plan.md](/D:/Developer/nexcn/spec/marketing-implementation-plan.md) as the build sequence and icon handoff plan.
 
 ## Risk Areas To Track
 

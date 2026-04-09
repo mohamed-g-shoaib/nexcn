@@ -1,6 +1,6 @@
 # Skills Guide
 
-Last updated: 2026-04-08
+Last updated: 2026-04-09
 
 ## Purpose
 
@@ -154,6 +154,57 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `web-design-guidelines`
 - Priority for Forge: High
 
+### `design-taste-frontend`
+
+- Purpose: Frontend taste guide for avoiding generic layouts, weak hierarchy, and low-signal visual decisions.
+- Use when:
+  - shaping the visual direction of a page before implementation
+  - deciding whether a composition feels editorial, intentional, and high-signal
+  - rejecting safe but forgettable UI patterns
+- Best paired with:
+  - `high-end-visual-design`
+  - `minimalist-ui`
+  - `emil-design-eng`
+- Priority for Forge: High for the marketing site
+
+### `high-end-visual-design`
+
+- Purpose: High-polish visual direction skill for premium layout, typography, spacing, and visual rhythm.
+- Use when:
+  - designing a hero or full landing page
+  - choosing visual hierarchy and surface treatment
+  - making a page feel premium rather than templated
+- Best paired with:
+  - `design-taste-frontend`
+  - `minimalist-ui`
+  - `make-interfaces-feel-better`
+- Priority for Forge: Very high for the marketing site
+
+### `minimalist-ui`
+
+- Purpose: Minimal interface guidance for restraint, clarity, reduction, and deliberate simplification.
+- Use when:
+  - trimming excess sections, copy, or decoration
+  - keeping a landing page clear and focused
+  - deciding what to remove so the remaining design feels stronger
+- Best paired with:
+  - `design-taste-frontend`
+  - `high-end-visual-design`
+  - `web-design-guidelines`
+- Priority for Forge: Very high for the marketing site
+
+### `full-output-enforcement`
+
+- Purpose: Output-discipline skill for keeping deliverables complete, aligned, and free of half-finished or inconsistent surfaces.
+- Use when:
+  - shipping a polished page or feature that spans design, implementation, and content
+  - doing final quality passes
+  - checking whether the output fully satisfies the spec rather than only partially matching it
+- Best paired with:
+  - one primary implementation skill
+  - one review or design skill
+- Priority for Forge: High during final passes
+
 ### `userinterface-wiki`
 
 - Purpose: Large UI/UX rulebook covering motion, easing, exit animations, pseudo-elements, audio feedback, sound synthesis, predictive prefetching, typography, and visual design.
@@ -283,35 +334,43 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `make-interfaces-feel-better`
   - `userinterface-wiki`
 
-### 4. Sound and motion work
+### 4. Marketing page visual direction
+
+- Primary: `high-end-visual-design`
+- Add:
+  - `design-taste-frontend`
+  - `minimalist-ui`
+  - `emil-design-eng`
+
+### 5. Sound and motion work
 
 - Primary: `userinterface-wiki`
 - Add:
   - `emil-design-eng`
   - `make-interfaces-feel-better`
 
-### 5. UI review pass
+### 6. UI review pass
 
 - Primary: `web-design-guidelines`
 - Add:
   - one framework skill
   - one design skill if the review is visual rather than only structural
 
-### 6. Marketing site SEO pass
+### 7. Marketing site SEO pass
 
 - Primary: `seo-audit`
 - Add:
   - `next-best-practices`
   - `web-design-guidelines`
 
-### 7. Monorepo and workspace decisions
+### 8. Monorepo and workspace decisions
 
 - Primary: `monorepo-management`
 - Add:
   - `shadcn`
   - one framework skill when the workspace decision affects a specific starter or app
 
-### 8. Code-quality tooling generation
+### 9. Code-quality tooling generation
 
 - Primary:
   - `biome` for the Biome path
@@ -338,6 +397,9 @@ For this project, default skill choices should usually be:
   - `next-best-practices`
   - `vercel-react-best-practices`
   - `shadcn`
+  - `design-taste-frontend`
+  - `high-end-visual-design`
+  - `minimalist-ui`
 - Vite starter work:
   - `react-vite-best-practices`
   - `vercel-react-best-practices`
@@ -366,11 +428,15 @@ When implementing Forge, the default craft stack should be:
 - `emil-design-eng` for interaction taste and motion quality
 - `make-interfaces-feel-better` for polish details such as press scale, typography, surfaces, and exit/enter feel
 - `userinterface-wiki` for motion, sound, timing, accessibility, and advanced UI behavior
+- `design-taste-frontend` for avoiding generic page composition and weak visual decisions
+- `high-end-visual-design` for premium landing-page hierarchy, spacing, and typography
+- `minimalist-ui` for clarity, reduction, and restraint
 - `next-best-practices` for Next.js starter correctness
 - `react-useeffect` for avoiding unnecessary Effects and keeping state flow clean
 - `vercel-react-best-practices` for React and Next performance patterns
 - `tanstack-start-best-practices` when working on the TanStack Start adapter
 - `vercel-composition-patterns` for component API and provider composition design
+- `full-output-enforcement` for final quality and completeness passes
 
 These are the baseline implementation guides for Forge quality.
 
