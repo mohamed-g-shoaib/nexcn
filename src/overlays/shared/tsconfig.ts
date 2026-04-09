@@ -1,13 +1,16 @@
 import { readFile, writeFile } from "node:fs/promises";
+import ts from "typescript";
 
 function parseTsconfigLikeJson(source: string): {
   compilerOptions?: Record<string, unknown>;
 } {
-  const withoutBlockComments = source.replace(/\/\*[\s\S]*?\*\//g, "");
-  const withoutLineComments = withoutBlockComments.replace(/^\s*\/\/.*$/gm, "");
-  const withoutTrailingCommas = withoutLineComments.replace(/,\s*([}\]])/g, "$1");
+  const parsed = ts.parseConfigFileTextToJson("tsconfig.json", source);
 
-  return JSON.parse(withoutTrailingCommas) as {
+  if (parsed.error) {
+    throw new Error(ts.flattenDiagnosticMessageText(parsed.error.messageText, "\n"));
+  }
+
+  return parsed.config as {
     compilerOptions?: Record<string, unknown>;
   };
 }

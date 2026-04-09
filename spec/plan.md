@@ -130,6 +130,9 @@ Current status:
 - the active Vite path now uses React Router locale handling with `/en` and `/ar`
 - the active TanStack Start path now uses route-based locale handling with `/en` and `/ar`
 - generated app typecheck and build pass
+- target-directory UX should now be treated as part of the generator contract:
+  - named generation should not leave nested wrapper folders
+  - `--name .` should work for current-directory generation when the folder is empty
 - Start verification intentionally runs `build` before `typecheck` because TanStack generates the route tree during the build flow
 - secondary code-quality verification now passes for the active Base happy paths across Next, Vite, and TanStack Start
 - generated apps should now normalize direct dependencies and devDependencies to current npm `latest` dist-tags before the final install instead of inheriting scaffold drift blindly

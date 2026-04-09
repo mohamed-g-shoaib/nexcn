@@ -9,6 +9,8 @@ import {
   formatCommand,
   getInstallProjectCommand,
   getRunScriptCommand,
+  isCurrentDirectoryTarget,
+  isDirectoryEmpty,
   pathExists,
   pruneFixtureArtifacts,
   resetProjectInstallArtifacts,
@@ -46,8 +48,17 @@ export async function generateProject(
   };
   const scaffoldCommand = plan.scaffoldAdapter.buildCommand(scaffoldContext);
 
-  if (await pathExists(plan.context.targetDirectory)) {
+  const targetExists = await pathExists(plan.context.targetDirectory);
+  const targetingCurrentDirectory = isCurrentDirectoryTarget(plan.context.config.projectName);
+
+  if (targetExists && !targetingCurrentDirectory) {
     throw new Error(`Target directory already exists: ${plan.context.targetDirectory}`);
+  }
+
+  if (targetExists && targetingCurrentDirectory && !(await isDirectoryEmpty(plan.context.targetDirectory))) {
+    throw new Error(
+      `Current directory is not empty: ${plan.context.targetDirectory}. Use an empty folder or choose a project name.`
+    );
   }
 
   const totalSteps =
@@ -73,12 +84,15 @@ export async function generateProject(
     const tempResolvedPaths = await resolveGeneratedProjectPaths(scaffoldContext);
 
     await resetProjectInstallArtifacts(tempResolvedPaths.projectDirectory);
-    await cp(scaffoldTargetDirectory, plan.context.targetDirectory, { recursive: true });
+    await cp(tempResolvedPaths.projectDirectory, plan.context.targetDirectory, { recursive: true });
   } finally {
     await rm(scaffoldWorkspace, { recursive: true, force: true });
   }
 
-  const resolvedPaths = await resolveGeneratedProjectPaths(plan.context);
+  const resolvedPaths = {
+    requestedTargetDirectory: plan.context.targetDirectory,
+    projectDirectory: plan.context.targetDirectory
+  };
 
   console.log(`Resolved project directory: ${resolvedPaths.projectDirectory}`);
   console.log(getStepLabel(2, totalSteps, `Normalize ${plan.context.config.packageManager} install state`));

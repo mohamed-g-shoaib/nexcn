@@ -1,6 +1,7 @@
 import type { GenerationContext, ScaffoldCommand } from "../types.js";
 import type { ScaffoldAdapter } from "./types.js";
 import { getTemporaryPackageCommand } from "../utils/package-manager.js";
+import { getScaffoldProjectName } from "../utils/paths.js";
 
 export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
   readonly name = "shadcn";
@@ -10,6 +11,11 @@ export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
   }
 
   buildCommand(context: GenerationContext): ScaffoldCommand {
+    const scaffoldProjectName = getScaffoldProjectName(
+      context.config.projectName,
+      context.cwd,
+      context.targetDirectory
+    );
     const args = [
       "init",
       "--yes",
@@ -18,7 +24,7 @@ export class ShadcnScaffoldAdapter implements ScaffoldAdapter {
       "--template",
       context.config.framework,
       "--name",
-      context.config.projectName,
+      scaffoldProjectName,
       "--cwd",
       context.targetDirectory
     ];

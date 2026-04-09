@@ -1,4 +1,4 @@
-import { access, mkdir, rm } from "node:fs/promises";
+import { access, mkdir, readdir, rm } from "node:fs/promises";
 import path from "node:path";
 import { constants } from "node:fs";
 
@@ -14,6 +14,11 @@ export async function pathExists(targetPath: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function isDirectoryEmpty(targetDirectory: string): Promise<boolean> {
+  const entries = await readdir(targetDirectory);
+  return entries.length === 0;
 }
 
 export async function pruneFixtureArtifacts(projectDirectory: string): Promise<void> {

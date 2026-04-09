@@ -1,4 +1,10 @@
-export { ensureParentDirectory, pathExists, pruneFixtureArtifacts, resetProjectInstallArtifacts } from "./fs.js";
+export {
+  ensureParentDirectory,
+  isDirectoryEmpty,
+  pathExists,
+  pruneFixtureArtifacts,
+  resetProjectInstallArtifacts
+} from "./fs.js";
 export { formatCommand, formatNamedPlanItem } from "./format.js";
 export { resolveGeneratedProjectPaths } from "./generated-project.js";
 export {
@@ -11,5 +17,5 @@ export {
 } from "./package-manager.js";
 export { readPackageJson, writePackageJson } from "./package-json.js";
 export { fetchLatestPackageVersion } from "./registry.js";
-export { resolveTargetDirectory } from "./paths.js";
+export { getScaffoldProjectName, isCurrentDirectoryTarget, resolveTargetDirectory } from "./paths.js";
 export { runCommand } from "./process.js";

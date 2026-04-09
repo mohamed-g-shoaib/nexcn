@@ -87,6 +87,13 @@ Preferred scaffold command shape:
 
 The generator may swap `pnpm` for the selected package manager, but the preset and template semantics should remain equivalent.
 If scaffold-time temp execution needs a compatibility fallback under the hood for a specific environment, Forge must still preserve these public command semantics and normalize the final generated project back to the user-selected package manager before verification completes.
+Forge must also normalize scaffolded directory layout so the requested target directory is the actual project root, even if upstream tooling temporarily creates an inner folder during generation.
+
+Target-directory rule:
+
+- `forge generate --name my-app` should leave the finished app at `<cwd>/my-app`
+- `forge generate --name .` should generate into the current empty working directory
+- users should not have to manually move files out of a nested wrapper folder after generation
 
 Yarn-specific rule:
 

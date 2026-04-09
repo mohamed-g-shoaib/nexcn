@@ -5,5 +5,21 @@ export function resolveTargetDirectory(
   projectName: string,
   outputRoot?: string
 ): string {
-  return path.join(outputRoot ?? cwd, projectName);
+  return path.resolve(outputRoot ?? cwd, projectName);
+}
+
+export function isCurrentDirectoryTarget(projectName: string): boolean {
+  return projectName === ".";
+}
+
+export function getScaffoldProjectName(
+  projectName: string,
+  cwd: string,
+  targetDirectory: string
+): string {
+  if (!isCurrentDirectoryTarget(projectName)) {
+    return projectName;
+  }
+
+  return path.basename(cwd || targetDirectory);
 }

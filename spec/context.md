@@ -33,6 +33,9 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `ESLint + Prettier`
   - `Oxlint + Oxfmt`
 - Forge now normalizes generated projects back to the user-selected package manager after scaffold-time temp commands so internal shadcn execution does not leak the wrong lockfile or install layout into the final app.
+- Forge must own the final target-directory UX:
+  - if upstream scaffold tooling nests the app one level deeper, Forge should flatten that away before handing the project to the user
+  - `forge generate --name .` should target the current empty working directory rather than forcing a second folder
 - Generated starter READMEs now reflect the selected package manager instead of assuming `pnpm`.
 - Forge package-manager verification is now code-proven for `pnpm`, `npm`, `bun`, and `yarn`.
 - Forge dependency freshness is now an active generator concern rather than manual cleanup:

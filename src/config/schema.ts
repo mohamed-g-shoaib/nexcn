@@ -10,7 +10,10 @@ export const forgeConfigInputSchema = z.object({
     .string()
     .trim()
     .min(1, "Project name is required")
-    .regex(/^[a-z0-9-]+$/, "Project name must use lowercase kebab-case"),
+    .refine(
+      (value) => value === "." || /^[a-z0-9-]+$/.test(value),
+      'Project name must use lowercase kebab-case or "." for the current directory'
+    ),
   framework: frameworkSchema,
   base: baseLibrarySchema,
   rtl: z.boolean(),
