@@ -1,16 +1,10 @@
 import { readFile, writeFile } from "node:fs/promises";
-import ts from "typescript";
+import { parse } from "jsonc-parser";
 
 function parseTsconfigLikeJson(source: string): {
   compilerOptions?: Record<string, unknown>;
 } {
-  const parsed = ts.parseConfigFileTextToJson("tsconfig.json", source);
-
-  if (parsed.error) {
-    throw new Error(ts.flattenDiagnosticMessageText(parsed.error.messageText, "\n"));
-  }
-
-  return parsed.config as {
+  return parse(source) as {
     compilerOptions?: Record<string, unknown>;
   };
 }

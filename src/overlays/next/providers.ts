@@ -31,10 +31,9 @@ export function getAppProvidersTemplate(
   if (!rtl) {
     return `"use client";
 
-import * as React from "react";
+import type * as React from "react";
 ${base === "base" ? 'import { DirectionProvider } from "@base-ui/react/direction-provider";\nimport { Tooltip } from "@base-ui/react/tooltip";' : 'import { Direction, Tooltip } from "radix-ui";'}
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { LocaleProvider } from "@/hooks/use-locale";
 
 function AppShellProviders({
@@ -57,11 +56,9 @@ export function AppProviders({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
-      <LocaleProvider>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
-    </ThemeProvider>
+    <LocaleProvider>
+      <AppShellProviders>{children}</AppShellProviders>
+    </LocaleProvider>
   );
 }
 `;
@@ -72,7 +69,6 @@ export function AppProviders({
 import * as React from "react";
 ${getDirectionProviderImport(base)}
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { LocaleProvider, useLocale } from "@/hooks/use-locale";
 
 function DocumentRootSync() {
@@ -111,11 +107,9 @@ export function AppProviders({
   children: React.ReactNode;
 }) {
   return (
-    <ThemeProvider>
-      <LocaleProvider locale={locale}>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
-    </ThemeProvider>
+    <LocaleProvider locale={locale}>
+      <AppShellProviders>{children}</AppShellProviders>
+    </LocaleProvider>
   );
 }
 `;
@@ -278,101 +272,21 @@ export function useLocale(): LocaleContextValue {
 export function getThemeProviderTemplate(): string {
   return `"use client";
 
-import * as React from "react";
-import { useEffectEvent } from "react";
+import type { ThemeProviderProps } from "next-themes";
 import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
 
-import { useUiSound } from "@/hooks/use-ui-sound";
+export { useTheme };
 
-function isTypingTarget(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false;
-  }
-
-  return (
-    target.isContentEditable ||
-    target.tagName === "INPUT" ||
-    target.tagName === "TEXTAREA" ||
-    target.tagName === "SELECT"
-  );
-}
-
-function ThemeHotkey() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const { playSound } = useUiSound();
-
-  const toggleTheme = useEffectEvent(() => {
-    const nextTheme = resolvedTheme === "dark" ? "light" : "dark";
-
-    setTheme(nextTheme);
-    playSound(nextTheme === "dark" ? "switch-off" : "switch-on");
-  });
-
-  React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.defaultPrevented || event.repeat) {
-        return;
-      }
-
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return;
-      }
-
-      if (event.key.toLowerCase() !== "d") {
-        return;
-      }
-
-      if (isTypingTarget(event.target)) {
-        return;
-      }
-
-      toggleTheme();
-    }
-
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
-
-  return null;
-}
-
-function ThemeCookieSync() {
-  const { theme } = useTheme();
-
-  React.useEffect(() => {
-    if (!theme) {
-      return;
-    }
-
-    // biome-ignore lint/suspicious/noDocumentCookie: Forge persists the explicit theme across SSR locale navigations.
-    document.cookie = [
-      \`forge-theme=\${theme}\`,
-      "Path=/",
-      "Max-Age=31536000",
-      "SameSite=Lax"
-    ].join("; ");
-  }, [theme]);
-
-  return null;
-}
-
-export function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
       defaultTheme="system"
       enableSystem
       disableTransitionOnChange
+      storageKey="forge-theme"
       {...props}
     >
-      <ThemeCookieSync />
-      <ThemeHotkey />
       {children}
     </NextThemesProvider>
   );

@@ -14,11 +14,14 @@ import {
   getViteConfigTemplate,
 } from "./shell.js";
 import {
+  getAppErrorBoundaryTemplate,
+  getFallbackScreenTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
   getSoundAssetTemplate,
   getStarterShellTemplate,
   getThemeToggleTemplate,
+  getWebManifestTemplate,
 } from "./surface.js";
 
 export function getViteOverlayFiles(
@@ -59,6 +62,14 @@ export function getViteOverlayFiles(
       getStarterShellTemplate(context.config.rtl),
     ],
     [
+      path.join(projectDirectory, "src", "components", "fallback-screen.tsx"),
+      getFallbackScreenTemplate(),
+    ],
+    [
+      path.join(projectDirectory, "src", "components", "app-error-boundary.tsx"),
+      getAppErrorBoundaryTemplate(),
+    ],
+    [
       path.join(projectDirectory, "src", "hooks", "use-locale.tsx"),
       getLocaleHookTemplate(context.config.rtl),
     ],
@@ -81,6 +92,10 @@ export function getViteOverlayFiles(
     [
       path.join(projectDirectory, "vite.config.ts"),
       getViteConfigTemplate(context.config.rtl),
+    ],
+    [
+      path.join(projectDirectory, "public", "site.webmanifest"),
+      getWebManifestTemplate(context.config.projectName),
     ],
     [
       path.join(projectDirectory, "README.md"),

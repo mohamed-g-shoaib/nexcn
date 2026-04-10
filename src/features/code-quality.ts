@@ -34,7 +34,7 @@ function getBiomeConfigTemplate(): string {
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc", "!src/routeTree.gen.ts", "!**/.yarn/**", "!**/.pnp.*"]
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs", "**/*.json", "**/*.jsonc", "!src/routeTree.gen.ts", "!**/.yarn", "!**/.pnp.*"]
   },
   "formatter": {
     "enabled": true,

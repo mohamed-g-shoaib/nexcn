@@ -29,7 +29,7 @@ export function getAppProvidersTemplate(
   rtl: boolean,
 ): string {
   if (!rtl) {
-    return `import * as React from "react";
+    return `import type * as React from "react";
 ${getDirectionProviderImport(base)}
 
 import { ThemeProvider } from "@/components/theme-provider";

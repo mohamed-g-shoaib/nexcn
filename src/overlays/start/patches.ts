@@ -6,9 +6,16 @@ export async function patchStylesCss(projectDirectory: string): Promise<void> {
   const cssPath = path.join(projectDirectory, "src", "styles.css");
   const currentCss = await readFile(cssPath, "utf8");
 
-  const themedCss = currentCss
+  let themedCss = currentCss
     .replace("--background: oklch(1 0 0);", "--background: oklch(0.994 0.001 106.424);")
     .replace("--background: oklch(0.145 0 0);", "--background: oklch(0.2 0 0);");
+
+  if (!themedCss.includes("button:not(:disabled)")) {
+    themedCss = themedCss.replace(
+      "  body {\n    text-rendering: optimizeLegibility;\n  }\n",
+      `  body {\n    text-rendering: optimizeLegibility;\n  }\n\n  button:not(:disabled),\n  [role="button"]:not(:disabled),\n  a[href],\n  summary,\n  label[for] {\n    cursor: pointer;\n  }\n`,
+    );
+  }
 
   if (currentCss.includes("::selection")) {
     await writeFile(cssPath, themedCss, "utf8");
@@ -24,6 +31,14 @@ export async function patchStylesCss(projectDirectory: string): Promise<void> {
 
   body {
     text-rendering: optimizeLegibility;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  a[href],
+  summary,
+  label[for] {
+    cursor: pointer;
   }
 
   ::selection {

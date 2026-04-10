@@ -6,10 +6,7 @@ import { getNextOverlayFiles } from "./next/files.js";
 import { patchButtonComponent, patchGlobalsCss } from "./next/patches.js";
 
 async function removeLegacyRootFiles(projectDirectory: string): Promise<void> {
-  await Promise.all([
-    rm(path.join(projectDirectory, "app", "layout.tsx"), { force: true }),
-    rm(path.join(projectDirectory, "app", "page.tsx"), { force: true })
-  ]);
+  await rm(path.join(projectDirectory, "app", "page.tsx"), { force: true });
 }
 
 async function removeLegacyLocaleFiles(projectDirectory: string): Promise<void> {

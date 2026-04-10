@@ -57,16 +57,87 @@ export function getLocaleHref(pathname: string, locale: Locale): string {
 
 export function getAppTemplate(rtl: boolean): string {
   if (!rtl) {
-    return `import { StarterShell } from "@/components/starter-shell";
+    return `import { Route, Routes, useLocation, useNavigate } from "react-router";
+
+import { Button } from "@/components/ui/button";
+import { FallbackScreen } from "@/components/fallback-screen";
+import { useUiSound } from "@/hooks/use-ui-sound";
+import { StarterShell } from "@/components/starter-shell";
+
+function NotFoundScreen() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { playSound } = useUiSound();
+  const routeLocale = location.pathname.split("/").filter(Boolean)[0];
+  const copy =
+    routeLocale === "ar"
+      ? {
+          title: "الصفحة غير موجودة.",
+          description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
+          backLabel: "الرجوع",
+          homeLabel: "العودة للرئيسية"
+        }
+      : {
+          title: "Page not found.",
+          description: "This route does not exist in the generated starter yet.",
+          backLabel: "Go back",
+          homeLabel: "Go home"
+        };
+  const segments = location.pathname.split("/").filter(Boolean);
+  const homeHref = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? \`/\${segments[0]}\` : "/";
+
+  return (
+    <FallbackScreen
+      title={copy.title}
+      description={copy.description}
+      action={
+        <>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              window.history.back();
+            }}
+          >
+            {copy.backLabel}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              navigate(homeHref);
+            }}
+          >
+            {copy.homeLabel}
+          </Button>
+        </>
+      }
+    />
+  );
+}
 
 export default function App() {
-  return <StarterShell />;
+  return (
+    <Routes>
+      <Route path="/" element={<StarterShell />} />
+      <Route path="*" element={<NotFoundScreen />} />
+    </Routes>
+  );
 }
 `;
   }
 
-  return `import { Navigate, Route, Routes, useParams } from "react-router";
+  return `import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router";
 
+import { Button } from "@/components/ui/button";
+import { FallbackScreen } from "@/components/fallback-screen";
+import { useUiSound } from "@/hooks/use-ui-sound";
 import { StarterShell } from "@/components/starter-shell";
 import { defaultLocale, isLocale } from "@/lib/i18n";
 
@@ -81,20 +152,60 @@ function LocaleStarterPage() {
 }
 
 function NotFoundScreen() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { playSound } = useUiSound();
+  const routeLocale = location.pathname.split("/").filter(Boolean)[0];
+  const copy =
+    routeLocale === "ar"
+      ? {
+          title: "الصفحة غير موجودة.",
+          description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
+          backLabel: "الرجوع",
+          homeLabel: "العودة للرئيسية"
+        }
+      : {
+          title: "Page not found.",
+          description: "This route does not exist in the generated starter yet.",
+          backLabel: "Go back",
+          homeLabel: "Go home"
+        };
+  const segments = location.pathname.split("/").filter(Boolean);
+  const homeHref = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? \`/\${segments[0]}\` : "/";
+
   return (
-    <main className="flex min-h-svh items-center justify-center px-6 py-10">
-      <section className="w-full max-w-md">
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Forge
-          </p>
-          <h1 className="text-xl font-medium tracking-tight">Page not found.</h1>
-          <p className="text-sm leading-6 text-muted-foreground">
-            This route does not exist in the generated starter yet.
-          </p>
-        </div>
-      </section>
-    </main>
+    <FallbackScreen
+      title={copy.title}
+      description={copy.description}
+      action={
+        <>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              window.history.back();
+            }}
+          >
+            {copy.backLabel}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              navigate(homeHref);
+            }}
+          >
+            {copy.homeLabel}
+          </Button>
+        </>
+      }
+    />
   );
 }
 

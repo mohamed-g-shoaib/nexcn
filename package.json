@@ -1,8 +1,8 @@
 {
-  "name": "forge",
+  "name": "create-forge",
   "version": "0.0.0",
   "private": true,
-  "description": "Forge generator implementation",
+  "description": "Forge CLI generator",
   "type": "module",
   "packageManager": "pnpm@10.29.3",
   "engines": {
@@ -10,16 +10,20 @@
     "pnpm": ">=10.0.0"
   },
   "bin": {
-    "forge": "./dist/index.js"
+    "forge": "./dist/index.js",
+    "create-forge": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup src/cli/index.ts --format esm --platform node --target node20 --out-dir dist --clean",
     "dev": "tsx src/cli/index.ts",
+    "test": "node --import tsx --test src/cli/args.test.ts src/cli/summary.test.ts",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,js,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,js,json,md}\""
   },
   "dependencies": {
+    "@clack/prompts": "^1.2.0",
+    "jsonc-parser": "^3.3.1",
     "zod": "^4.1.12"
   },
   "devDependencies": {

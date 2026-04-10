@@ -8,13 +8,20 @@ import {
   getUiSoundHookTemplate,
 } from "./providers.js";
 import {
+  getErrorTemplate,
+  getGlobalErrorTemplate,
   getI18nTemplate,
-  getLayoutTemplate,
+  getLocaleLayoutTemplate,
+  getNotFoundTemplate,
   getNextConfigTemplate,
   getPageTemplate,
   getProxyTemplate,
+  getRootLayoutTemplate,
 } from "./routing.js";
 import {
+  getFallbackActionsTemplate,
+  getErrorViewTemplate,
+  getFallbackScreenTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
   getSoundAssetTemplate,
@@ -46,6 +53,18 @@ export function getNextOverlayFiles(
     [
       path.join(projectDirectory, "components", "starter-shell.tsx"),
       getStarterShellTemplate(context.config.rtl),
+    ],
+    [
+      path.join(projectDirectory, "components", "fallback-screen.tsx"),
+      getFallbackScreenTemplate(),
+    ],
+    [
+      path.join(projectDirectory, "components", "error-view.tsx"),
+      getErrorViewTemplate(),
+    ],
+    [
+      path.join(projectDirectory, "components", "fallback-actions.tsx"),
+      getFallbackActionsTemplate(),
     ],
     [
       path.join(projectDirectory, "hooks", "use-locale.tsx"),
@@ -82,12 +101,19 @@ export function getNextOverlayFiles(
         context.config.base,
       ),
     ],
+    [path.join(projectDirectory, "app", "not-found.tsx"), getNotFoundTemplate(context.config.rtl)],
+    [path.join(projectDirectory, "app", "error.tsx"), getErrorTemplate(context.config.rtl)],
+    [path.join(projectDirectory, "app", "global-error.tsx"), getGlobalErrorTemplate()],
   ]);
 
   if (context.config.rtl) {
     files.set(
+      path.join(projectDirectory, "app", "layout.tsx"),
+      getRootLayoutTemplate(true, context.config.projectName),
+    );
+    files.set(
       path.join(projectDirectory, "app", "[locale]", "layout.tsx"),
-      getLayoutTemplate(true),
+      getLocaleLayoutTemplate(),
     );
     files.set(
       path.join(projectDirectory, "app", "[locale]", "page.tsx"),
@@ -103,7 +129,7 @@ export function getNextOverlayFiles(
 
   files.set(
     path.join(projectDirectory, "app", "layout.tsx"),
-    getLayoutTemplate(false),
+    getRootLayoutTemplate(false, context.config.projectName),
   );
   files.set(path.join(projectDirectory, "app", "page.tsx"), getPageTemplate());
   return files;

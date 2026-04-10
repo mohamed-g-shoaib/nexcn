@@ -31,7 +31,7 @@ export function getAppProvidersTemplate(
   if (!rtl) {
     return `"use client";
 
-import * as React from "react";
+import type * as React from "react";
 ${getDirectionProviderImport(base)}
 
 import { ThemeProvider } from "@/components/theme-provider";

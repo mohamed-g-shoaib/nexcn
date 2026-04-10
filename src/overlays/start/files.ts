@@ -16,11 +16,14 @@ import {
   getViteConfigTemplate,
 } from "./routing.js";
 import {
+  getFallbackScreenTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
+  getRouteErrorTemplate,
   getSoundAssetTemplate,
   getStarterShellTemplate,
   getThemeToggleTemplate,
+  getWebManifestTemplate,
 } from "./surface.js";
 
 export function getStartOverlayFiles(
@@ -57,6 +60,14 @@ export function getStartOverlayFiles(
       getStarterShellTemplate(context.config.rtl),
     ],
     [
+      path.join(projectDirectory, "src", "components", "fallback-screen.tsx"),
+      getFallbackScreenTemplate(),
+    ],
+    [
+      path.join(projectDirectory, "src", "components", "route-error.tsx"),
+      getRouteErrorTemplate(),
+    ],
+    [
       path.join(projectDirectory, "src", "hooks", "use-locale.tsx"),
       getLocaleHookTemplate(context.config.rtl),
     ],
@@ -79,6 +90,10 @@ export function getStartOverlayFiles(
     [
       path.join(projectDirectory, "src", "sounds", "switch-off.ts"),
       getSoundAssetTemplate("switch-off"),
+    ],
+    [
+      path.join(projectDirectory, "public", "site.webmanifest"),
+      getWebManifestTemplate(context.config.projectName),
     ],
     [path.join(projectDirectory, "vite.config.ts"), getViteConfigTemplate()],
     [

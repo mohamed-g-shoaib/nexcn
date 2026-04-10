@@ -137,6 +137,161 @@ export function StarterShell() {
 `;
 }
 
+export function getFallbackScreenTemplate(): string {
+  return `import type * as React from "react";
+
+type FallbackScreenProps = {
+  title: string;
+  description: string;
+  action?: React.ReactNode;
+};
+
+export function FallbackScreen({
+  title,
+  description,
+  action
+}: FallbackScreenProps) {
+  return (
+    <main className="flex min-h-svh items-center justify-center px-6 py-10">
+      <section className="w-full max-w-md">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Forge
+            </p>
+            <h1 className="max-w-sm text-balance text-xl font-medium tracking-tight text-foreground">
+              {title}
+            </h1>
+            <p className="max-w-sm text-pretty text-sm leading-6 text-muted-foreground">
+              {description}
+            </p>
+          </div>
+
+          {action ? <div className="flex flex-wrap items-center gap-2">{action}</div> : null}
+        </div>
+      </section>
+    </main>
+  );
+}
+`;
+}
+
+export function getAppErrorBoundaryTemplate(): string {
+  return `import * as React from "react";
+import { useLocation, useNavigate } from "react-router";
+
+import { Button } from "@/components/ui/button";
+import { FallbackScreen } from "@/components/fallback-screen";
+import { useUiSound } from "@/hooks/use-ui-sound";
+
+type AppErrorBoundaryProps = {
+  children: React.ReactNode;
+};
+
+type AppErrorBoundaryState = {
+  hasError: boolean;
+};
+
+export class AppErrorBoundary extends React.Component<
+  AppErrorBoundaryProps,
+  AppErrorBoundaryState
+> {
+  state: AppErrorBoundaryState = {
+    hasError: false
+  };
+
+  static getDerivedStateFromError(): AppErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  handleRetry = () => {
+    this.setState({ hasError: false });
+    window.location.assign(window.location.href);
+  };
+
+  render() {
+    if (this.state.hasError) {
+      return <AppErrorFallback onRetry={this.handleRetry} />;
+    }
+
+    return this.props.children;
+  }
+}
+
+function AppErrorFallback({ onRetry }: { onRetry: () => void }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { playSound } = useUiSound();
+  const routeLocale = location.pathname.split("/").filter(Boolean)[0];
+  const copy =
+    routeLocale === "ar"
+      ? {
+          title: "حدث خطأ ما.",
+          description: "حدث خطأ غير متوقع أثناء تحميل الواجهة المولدة.",
+          backLabel: "الرجوع",
+          homeLabel: "العودة للرئيسية",
+          retryLabel: "أعد المحاولة"
+        }
+      : {
+          title: "Something went wrong.",
+          description: "An unexpected error interrupted the generated starter.",
+          backLabel: "Go back",
+          homeLabel: "Go home",
+          retryLabel: "Try again"
+        };
+  const segments = location.pathname.split("/").filter(Boolean);
+  const homeHref = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? \`/\${segments[0]}\` : "/";
+
+  return (
+    <FallbackScreen
+      title={copy.title}
+      description={copy.description}
+      action={
+        <>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              window.history.back();
+            }}
+          >
+            {copy.backLabel}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              navigate(homeHref);
+            }}
+          >
+            {copy.homeLabel}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              onRetry();
+            }}
+          >
+            {copy.retryLabel}
+          </Button>
+        </>
+      }
+    />
+  );
+}
+`;
+}
+
 export function getSoundAssetTemplate(soundName: "click-soft" | "switch-on" | "switch-off"): string {
   const exportName =
     soundName === "click-soft"
@@ -147,6 +302,27 @@ export function getSoundAssetTemplate(soundName: "click-soft" | "switch-on" | "s
 
   return `export { ${exportName} } from "@/lib/${soundName}";
 `;
+}
+
+export function getWebManifestTemplate(projectName: string): string {
+  return JSON.stringify(
+    {
+      name: projectName,
+      short_name: projectName,
+      icons: [
+        {
+          src: "/favicon.ico",
+          sizes: "any",
+          type: "image/x-icon",
+        },
+      ],
+      theme_color: "#ffffff",
+      background_color: "#ffffff",
+      display: "standalone",
+    },
+    null,
+    2,
+  );
 }
 
 export function getReadmeTemplate(

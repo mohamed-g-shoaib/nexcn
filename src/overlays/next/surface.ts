@@ -26,8 +26,8 @@ export function getThemeToggleTemplate(): string {
 
 import * as React from "react";
 import { MoonStarIcon, SunMediumIcon } from "lucide-react";
-import { useTheme } from "next-themes";
 
+import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { useLocale } from "@/hooks/use-locale";
 import { useUiSound } from "@/hooks/use-ui-sound";
@@ -89,6 +89,144 @@ export function ThemeToggle() {
       </span>
       {nextThemeLabel}
     </Button>
+  );
+}
+`;
+}
+
+export function getFallbackScreenTemplate(): string {
+  return `import type * as React from "react";
+
+type FallbackScreenProps = {
+  title: string;
+  description: string;
+  action?: React.ReactNode;
+};
+
+export function FallbackScreen({
+  title,
+  description,
+  action
+}: FallbackScreenProps) {
+  return (
+    <main className="flex min-h-svh items-center justify-center px-6 py-10">
+      <section className="w-full max-w-md">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Forge
+            </p>
+            <h1 className="max-w-sm text-balance text-xl font-medium tracking-tight text-foreground">
+              {title}
+            </h1>
+            <p className="max-w-sm text-pretty text-sm leading-6 text-muted-foreground">
+              {description}
+            </p>
+          </div>
+
+          {action ? <div className="flex flex-wrap items-center gap-2">{action}</div> : null}
+        </div>
+      </section>
+    </main>
+  );
+}
+`;
+}
+
+export function getErrorViewTemplate(): string {
+  return `"use client";
+
+import { FallbackScreen } from "@/components/fallback-screen";
+
+type ErrorViewProps = {
+  title?: string;
+  description?: string;
+  action?: React.ReactNode;
+};
+
+export function ErrorView({
+  title = "Something went wrong.",
+  description = "An unexpected error interrupted the generated starter.",
+  action
+}: ErrorViewProps) {
+  return (
+    <FallbackScreen
+      title={title}
+      description={description}
+      action={action}
+    />
+  );
+}
+`;
+}
+
+export function getFallbackActionsTemplate(): string {
+  return `"use client";
+
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { useUiSound } from "@/hooks/use-ui-sound";
+
+type FallbackActionsProps = {
+  backLabel: string;
+  homeHref: string;
+  homeLabel: string;
+  retryLabel?: string;
+  onRetry?: () => void;
+};
+
+export function FallbackActions({
+  backLabel,
+  homeHref,
+  homeLabel,
+  retryLabel,
+  onRetry
+}: FallbackActionsProps) {
+  const router = useRouter();
+  const { playSound } = useUiSound();
+
+  return (
+    <>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-9 rounded-full px-3"
+        onClick={() => {
+          playSound("click-soft");
+          router.back();
+        }}
+      >
+        {backLabel}
+      </Button>
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-9 rounded-full px-3"
+        onClick={() => {
+          playSound("click-soft");
+          router.push(homeHref);
+        }}
+      >
+        {homeLabel}
+      </Button>
+      {onRetry && retryLabel ? (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-3"
+          onClick={() => {
+            playSound("click-soft");
+            onRetry();
+          }}
+        >
+          {retryLabel}
+        </Button>
+      ) : null}
+    </>
   );
 }
 `;

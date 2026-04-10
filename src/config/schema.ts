@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { validateProjectName } from "./project-name.js";
 
 export const frameworkSchema = z.enum(["next", "vite", "start"]);
 export const baseLibrarySchema = z.enum(["base", "radix"]);
@@ -9,11 +10,16 @@ export const forgeConfigInputSchema = z.object({
   projectName: z
     .string()
     .trim()
-    .min(1, "Project name is required")
-    .refine(
-      (value) => value === "." || /^[a-z0-9-]+$/.test(value),
-      'Project name must use lowercase kebab-case or "." for the current directory'
-    ),
+    .superRefine((value, context) => {
+      const result = validateProjectName(value, { allowCurrentDirectory: true });
+
+      if (!result.valid) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: result.error ?? 'Project name must use lowercase kebab-case or "." for the current directory',
+        });
+      }
+    }),
   framework: frameworkSchema,
   base: baseLibrarySchema,
   rtl: z.boolean(),

@@ -1,10 +1,12 @@
 import type { ForgeConfigInput } from "../types.js";
 
-export const firstHappyPathInput: ForgeConfigInput = {
-  projectName: "forge-next-base-rtl",
+export const cliDefaultInput: ForgeConfigInput = {
+  projectName: "my-app",
   framework: "next",
   base: "base",
-  rtl: true,
+  rtl: false,
   packageManager: "pnpm",
   codeQuality: "biome"
 };
+
+export const firstHappyPathInput: ForgeConfigInput = cliDefaultInput;

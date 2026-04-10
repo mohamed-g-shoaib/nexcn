@@ -17,12 +17,10 @@ export async function applyViteOverlay(
   context: GenerationContext,
   projectDirectory: string,
 ): Promise<void> {
-  if (context.config.rtl) {
-    await runCommand(
-      getInstallDependenciesCommand(context.config.packageManager, ["react-router"]),
-      projectDirectory,
-    );
-  }
+  await runCommand(
+    getInstallDependenciesCommand(context.config.packageManager, ["react-router"]),
+    projectDirectory,
+  );
 
   await writeOverlayFiles(getViteOverlayFiles(context, projectDirectory));
 
