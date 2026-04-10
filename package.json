@@ -1,5 +1,5 @@
 {
-  "name": "create-forge",
+  "name": "create-use-forge",
   "version": "0.1.0",
   "private": false,
   "description": "Create a Forge app.",
@@ -15,7 +15,7 @@
   },
   "keywords": [
     "forge",
-    "create-forge",
+    "create-use-forge",
     "starter",
     "scaffold",
     "cli",
@@ -38,8 +38,8 @@
     "assets/branding/favicon.ico"
   ],
   "bin": {
-    "forge": "./dist/index.js",
-    "create-forge": "./dist/index.js"
+    "forge": "dist/index.js",
+    "create-use-forge": "dist/index.js"
   },
   "scripts": {
     "build": "tsup src/cli/index.ts --format esm --platform node --target node20 --out-dir dist --clean",

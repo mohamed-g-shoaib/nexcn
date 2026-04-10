@@ -20,24 +20,24 @@ It covers:
 Forge should be usable in two closely related ways:
 
 - as a local/direct CLI command: `forge`
-- as a package-manager initializer: `create-forge`
+- as a package-manager initializer: `create-use-forge`
 
 This means the product should support the familiar initializer flows:
 
-- `npm create forge@latest`
-- `pnpm create forge`
-- `bun create forge`
-- `yarn create forge`
+- `npm create use-forge@latest`
+- `pnpm create use-forge`
+- `bun create use-forge`
+- `yarn create use-forge`
 
 The published initializer package name should be:
 
-- `create-forge`
+- `create-use-forge`
 
 The direct executable name should remain:
 
 - `forge`
 
-## Why `create-forge`
+## Why `create-use-forge`
 
 Package managers already train users to expect scaffolding tools through `create-*` initializers.
 
@@ -45,14 +45,14 @@ The Forge CLI should align with that expectation instead of inventing a custom i
 
 Expected resolution model:
 
-- `npm create forge` -> runs `create-forge`
-- `pnpm create forge` -> runs `create-forge`
-- `bun create forge` -> runs `create-forge`
-- `yarn create forge` -> runs `create-forge`
+- `npm create use-forge` -> runs `create-use-forge`
+- `pnpm create use-forge` -> runs `create-use-forge`
+- `bun create use-forge` -> runs `create-use-forge`
+- `yarn create use-forge` -> runs `create-use-forge`
 
 Forge should not expect users to type:
 
-- `npm create create-forge`
+- `npm create create-use-forge`
 
 ## CLI Modes
 
@@ -65,10 +65,10 @@ This is the preferred default for humans.
 Invocation examples:
 
 - `forge generate`
-- `npm create forge@latest`
-- `pnpm create forge`
-- `bun create forge`
-- `yarn create forge`
+- `npm create use-forge@latest`
+- `pnpm create use-forge`
+- `bun create use-forge`
+- `yarn create use-forge`
 
 If required inputs are missing, Forge should open an interactive prompt flow in the terminal.
 
@@ -285,25 +285,25 @@ Cancellation should feel intentional, not like a crash.
 `forge --help` should describe both usage styles:
 
 - direct `forge generate`
-- initializer-style `npm create forge`
+- initializer-style `npm create use-forge`
 
 Help text should make the distinction clear:
 
 - `forge` is the executable
-- `create-forge` is the published initializer package
+- `create-use-forge` is the published initializer package
 
-## Verified Initializer Commands
+## Expected Initializer Commands
 
-Forge should document only verified initializer entrypoints.
+Forge should document only verified initializer entrypoints in public copy.
 
-Verified current entrypoints:
+Expected entrypoints for `create-use-forge`:
 
-- `npm create forge@latest`
-- `pnpm create forge`
-- `bun create forge`
-- `yarn create forge`
+- `npm create use-forge@latest`
+- `pnpm create use-forge`
+- `bun create use-forge`
+- `yarn create use-forge`
 
-Verification basis:
+Resolution basis:
 
 - npm docs map `npm init <initializer>` and alias `npm create` to `create-<initializer>`
 - pnpm docs define `pnpm create` for `create-*` starter kits
@@ -311,6 +311,8 @@ Verification basis:
 - Yarn classic docs and local CLI help both define `yarn create <starter-kit-package>` for `create-*` starter kits
 
 Current caution:
+
+- these `use-forge` entrypoints still need registry verification after `create-use-forge` is published
 
 - local verification for Yarn in this workspace required running outside the Forge repo because the repo `packageManager` field can interfere with Yarn when executed inside the project root
 - the currently installed local Yarn was `1.22.22`, so the verified `yarn create` behavior is grounded in Yarn Classic documentation and CLI output

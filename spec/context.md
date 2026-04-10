@@ -12,13 +12,13 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - The active rebuild surface is now the repository root.
 - A real single-package Forge generator now exists in the active root under `src/`.
 - Forge is now additionally being shaped as a published initializer experience:
-  - published package direction: `create-forge`
+  - published package direction: `create-use-forge`
   - direct executable direction: `forge`
-  - initializer entrypoints have been verified for:
-    - `npm create forge@latest`
-    - `pnpm create forge`
-    - `bun create forge`
-    - `yarn create forge`
+  - expected initializer entrypoints after npm publish:
+    - `npm create use-forge@latest`
+    - `pnpm create use-forge`
+    - `bun create use-forge`
+    - `yarn create use-forge`
 - The first implemented and verified generation paths are:
   - `next + base + rtl`
   - `next + radix + rtl`
@@ -144,18 +144,18 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - follows the same pattern as generated Forge starters
 - Release and publishing preparation is now documented in [release-and-publishing.md](/D:/Developer/nexcn/spec/release-and-publishing.md):
   - Vercel deployment should use `marketing-site` as the project root directory
-  - npm publishing happens from the repository root as `create-forge`
+  - npm publishing happens from the repository root as `create-use-forge`
   - public initializer commands should only be promoted after registry verification
   - local tarball smoke tests should use `npm exec --package <tarball>` rather than `npm create <tarball>`
 - Root npm package metadata has been prepared for the first public package pass:
-  - package name remains `create-forge`
+  - package name is now `create-use-forge` because npm blocked `create-forge` as too similar to the existing `createforge` package
   - version is now `0.1.0`
   - package is no longer private
   - license is MIT with a root `LICENSE` file
   - homepage points to `https://use-forge.vercel.app/`
   - repository and issues metadata point to `https://github.com/mohamed-g-shoaib/forge`
   - npm `files` allowlist keeps the package limited to `dist`, `README.md`, `LICENSE`, and the branded favicon asset
-  - published binaries remain `forge` and `create-forge`
+  - published binaries are `forge` and `create-use-forge`
 - Packaged CLI asset lookup was corrected so the branded favicon is resolved from the installed package root instead of the user's current working directory.
 - Release-prep verification completed locally:
   - `pnpm install --frozen-lockfile`
@@ -163,9 +163,8 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `pnpm test`
   - `pnpm build`
   - `npm pack --dry-run`
-  - tarball smoke tests for both `forge --help` and `create-forge --help`
-- Remaining release actions require account or dashboard access:
-  - run `npm login`
+  - tarball smoke tests for both `forge --help` and `create-use-forge --help`
+- Remaining release actions require account or registry access:
   - publish with `npm publish`
   - verify public registry entrypoints after publish
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:

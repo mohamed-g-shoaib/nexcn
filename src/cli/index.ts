@@ -30,14 +30,14 @@ Usage:
   forge generate --code-quality oxlint-oxfmt
   forge generate --package-manager bun
   forge plan --name my-app --framework next --base base --ltr
-  npm create forge@latest
-  pnpm create forge
-  bun create forge
-  yarn create forge
+  npm create use-forge@latest
+  pnpm create use-forge
+  bun create use-forge
+  yarn create use-forge
 
 Notes:
   forge is the direct executable.
-  create-forge is the published initializer package behind "npm create forge".
+  create-use-forge is the published initializer package behind "npm create use-forge".
   forge plan previews the scaffold, overlays, feature packs, and verification steps without writing files.`);
 }
 
@@ -57,7 +57,7 @@ function printBanner(): void {
 
 async function collectMissingInteractiveInput(
   partialInput: Partial<ForgeConfigInput>,
-  detectedPackageManager?: ForgeConfigInput["packageManager"]
+  detectedPackageManager?: ForgeConfigInput["packageManager"],
 ): Promise<{ input: ForgeConfigInput; prompted: boolean }> {
   const defaults = getCliDefaults();
   const resolvedInput: ForgeConfigInput = {
@@ -65,8 +65,11 @@ async function collectMissingInteractiveInput(
     framework: partialInput.framework ?? defaults.framework,
     base: partialInput.base ?? defaults.base,
     rtl: partialInput.rtl ?? defaults.rtl,
-    packageManager: partialInput.packageManager ?? detectedPackageManager ?? defaults.packageManager,
-    codeQuality: partialInput.codeQuality ?? defaults.codeQuality
+    packageManager:
+      partialInput.packageManager ??
+      detectedPackageManager ??
+      defaults.packageManager,
+    codeQuality: partialInput.codeQuality ?? defaults.codeQuality,
   };
 
   const missingFields =
@@ -74,7 +77,8 @@ async function collectMissingInteractiveInput(
     partialInput.framework === undefined ||
     partialInput.base === undefined ||
     partialInput.rtl === undefined ||
-    (partialInput.packageManager === undefined && detectedPackageManager === undefined) ||
+    (partialInput.packageManager === undefined &&
+      detectedPackageManager === undefined) ||
     partialInput.codeQuality === undefined;
 
   if (!missingFields) {
@@ -82,7 +86,9 @@ async function collectMissingInteractiveInput(
   }
 
   if (!process.stdin.isTTY || !process.stdout.isTTY) {
-    throw new Error("Missing required inputs. Run Forge in an interactive terminal or provide the remaining flags.");
+    throw new Error(
+      "Missing required inputs. Run Forge in an interactive terminal or provide the remaining flags.",
+    );
   }
 
   printBanner();
@@ -98,12 +104,15 @@ async function collectMissingInteractiveInput(
             return "Project name is required.";
           }
 
-          const result = validateProjectName(value, { allowCurrentDirectory: true });
+          const result = validateProjectName(value, {
+            allowCurrentDirectory: true,
+          });
           return result.valid
             ? undefined
-            : result.error ?? 'Project name must use lowercase kebab-case or "." for the current directory.';
-        }
-      })
+            : (result.error ??
+                'Project name must use lowercase kebab-case or "." for the current directory.');
+        },
+      }),
     );
   }
 
@@ -115,9 +124,9 @@ async function collectMissingInteractiveInput(
         options: [
           { value: "next", label: "Next.js" },
           { value: "vite", label: "Vite" },
-          { value: "start", label: "TanStack Start" }
-        ]
-      })
+          { value: "start", label: "TanStack Start" },
+        ],
+      }),
     );
   }
 
@@ -128,9 +137,9 @@ async function collectMissingInteractiveInput(
         initialValue: defaults.base,
         options: [
           { value: "base", label: "Base UI" },
-          { value: "radix", label: "Radix UI" }
-        ]
-      })
+          { value: "radix", label: "Radix UI" },
+        ],
+      }),
     );
   }
 
@@ -141,14 +150,17 @@ async function collectMissingInteractiveInput(
         initialValue: defaults.rtl ? "yes" : "no",
         options: [
           { value: "no", label: "No" },
-          { value: "yes", label: "Yes" }
-        ]
-      })
+          { value: "yes", label: "Yes" },
+        ],
+      }),
     );
     resolvedInput.rtl = direction === "yes";
   }
 
-  if (partialInput.packageManager === undefined && detectedPackageManager === undefined) {
+  if (
+    partialInput.packageManager === undefined &&
+    detectedPackageManager === undefined
+  ) {
     resolvedInput.packageManager = ensurePromptResult(
       await p.select({
         message: "Which package manager should Forge use?",
@@ -157,9 +169,9 @@ async function collectMissingInteractiveInput(
           { value: "pnpm", label: "pnpm" },
           { value: "npm", label: "npm" },
           { value: "yarn", label: "yarn" },
-          { value: "bun", label: "bun" }
-        ]
-      })
+          { value: "bun", label: "bun" },
+        ],
+      }),
     );
   }
 
@@ -171,9 +183,9 @@ async function collectMissingInteractiveInput(
         options: [
           { value: "biome", label: "Biome" },
           { value: "eslint-prettier", label: "ESLint + Prettier" },
-          { value: "oxlint-oxfmt", label: "Oxlint + Oxfmt" }
-        ]
-      })
+          { value: "oxlint-oxfmt", label: "Oxlint + Oxfmt" },
+        ],
+      }),
     );
   }
 
@@ -192,8 +204,8 @@ async function confirmGeneration(input: ForgeConfigInput): Promise<boolean> {
   return ensurePromptResult(
     await p.confirm({
       message: "Continue?",
-      initialValue: true
-    })
+      initialValue: true,
+    }),
   );
 }
 
@@ -210,10 +222,10 @@ async function main(argv: string[]): Promise<void> {
     const input = {
       ...getCliDefaults(),
       ...firstHappyPathInput,
-      ...parsed.input
+      ...parsed.input,
     };
     const plan = buildGenerationPlanWithOptions(cwd, input, {
-      outputRoot: parsed.outputRoot
+      outputRoot: parsed.outputRoot,
     });
 
     console.log(`Forge plan for ${plan.config.projectName}`);
@@ -222,8 +234,12 @@ async function main(argv: string[]): Promise<void> {
     console.log(`Base: ${baseLabels[plan.config.base]}`);
     console.log(`Direction: ${plan.config.direction.toUpperCase()}`);
     console.log(`Package manager: ${plan.config.packageManager}`);
-    console.log(`Locales: ${plan.config.starterLocales.ltr}/${plan.config.starterLocales.rtl}`);
-    console.log(`Preset: ${plan.config.presetFamily} (${plan.config.presetCode})`);
+    console.log(
+      `Locales: ${plan.config.starterLocales.ltr}/${plan.config.starterLocales.rtl}`,
+    );
+    console.log(
+      `Preset: ${plan.config.presetFamily} (${plan.config.presetCode})`,
+    );
     console.log(`Code quality: ${plan.config.codeQualityLabel}`);
     console.log("");
     console.log(`Scaffold: ${formatCommand(plan.scaffoldCommand)}`);
@@ -245,7 +261,10 @@ async function main(argv: string[]): Promise<void> {
     return;
   }
 
-  const promptResult = await collectMissingInteractiveInput(parsed.input, parsed.detectedPackageManager);
+  const promptResult = await collectMissingInteractiveInput(
+    parsed.input,
+    parsed.detectedPackageManager,
+  );
   normalizeConfig(promptResult.input);
 
   if (promptResult.prompted) {
@@ -259,7 +278,7 @@ async function main(argv: string[]): Promise<void> {
 
   await generateProject(cwd, promptResult.input, {
     dryRun: parsed.dryRun,
-    outputRoot: parsed.outputRoot
+    outputRoot: parsed.outputRoot,
   });
 }
 

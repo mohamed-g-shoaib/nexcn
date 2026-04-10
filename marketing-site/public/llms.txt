@@ -7,7 +7,7 @@ Forge generates minimal starters with theme support, click interaction sounds, a
 ## Quick Start
 
 ```bash
-npx forge@latest generate --name my-app
+npx create-use-forge@latest generate --name my-app
 ```
 
 ## Features
@@ -35,10 +35,10 @@ forge generate \
 Works with pnpm, npm, yarn, and bun:
 
 ```bash
-pnpm dlx forge@latest generate --name my-app
-npx forge@latest generate --name my-app
-yarn dlx forge@latest generate --name my-app
-bunx --bun forge@latest generate --name my-app
+pnpm dlx create-use-forge@latest generate --name my-app
+npx create-use-forge@latest generate --name my-app
+yarn dlx create-use-forge@latest generate --name my-app
+bunx --bun create-use-forge@latest generate --name my-app
 ```
 
 ## What You Get

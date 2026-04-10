@@ -52,8 +52,6 @@ export const MARKETING_STACK = [
   icons: readonly StackVisual[]
 }[]
 
-
-
 export const OPTION_GROUPS = [
   {
     key: "framework",
@@ -114,7 +112,7 @@ export function buildCommand(
 ): string {
   const parts = [
     getPrefix(packageManager),
-    "forge@latest",
+    "create-use-forge@latest",
     "generate",
     "--name",
     projectName,
@@ -132,8 +130,8 @@ export function buildCommand(
 
 export function buildCreateCommand(packageManager: PackageManager): string {
   if (packageManager === "npm") {
-    return "npm create forge@latest"
+    return "npm create use-forge@latest"
   }
 
-  return `${packageManager} create forge`
+  return `${packageManager} create use-forge`
 }

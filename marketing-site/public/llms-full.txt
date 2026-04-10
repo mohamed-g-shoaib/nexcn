@@ -14,16 +14,16 @@ Forge is distributed as an npm package and runs via package manager executors. N
 
 ```bash
 # pnpm
-pnpm dlx forge@latest generate --name my-app
+pnpm dlx create-use-forge@latest generate --name my-app
 
 # npm
-npx forge@latest generate --name my-app
+npx create-use-forge@latest generate --name my-app
 
 # yarn
-yarn dlx forge@latest generate --name my-app
+yarn dlx create-use-forge@latest generate --name my-app
 
 # bun
-bunx --bun forge@latest generate --name my-app
+bunx --bun create-use-forge@latest generate --name my-app
 ```
 
 ## CLI Reference
@@ -63,7 +63,7 @@ forge generate [options]
 ### Complete Example
 
 ```bash
-npx forge@latest generate \
+npx create-use-forge@latest generate \
   --name my-app \
   --framework next \
   --base radix \
@@ -303,7 +303,7 @@ The goal is to provide structure and wiring, not a full application.
 ### Starting a New Project
 
 ```bash
-npx forge@latest generate \
+npx create-use-forge@latest generate \
   --name my-project \
   --framework next \
   --base radix \
@@ -314,7 +314,7 @@ npx forge@latest generate \
 ### Building a Multilingual App
 
 ```bash
-npx forge@latest generate \
+npx create-use-forge@latest generate \
   --name my-app \
   --framework next \
   --base base \
@@ -326,23 +326,23 @@ npx forge@latest generate \
 
 ```bash
 # Next.js version
-npx forge@latest generate --name my-app-next --framework next --base radix --ltr --code-quality biome
+npx create-use-forge@latest generate --name my-app-next --framework next --base radix --ltr --code-quality biome
 
 # Vite version
-npx forge@latest generate --name my-app-vite --framework vite --base radix --ltr --code-quality biome
+npx create-use-forge@latest generate --name my-app-vite --framework vite --base radix --ltr --code-quality biome
 
 # TanStack Start version
-npx forge@latest generate --name my-app-start --framework start --base radix --ltr --code-quality biome
+npx create-use-forge@latest generate --name my-app-start --framework start --base radix --ltr --code-quality biome
 ```
 
 ### Comparing UI Primitives
 
 ```bash
 # Base UI version
-npx forge@latest generate --name my-app-base --framework next --base base --ltr --code-quality biome
+npx create-use-forge@latest generate --name my-app-base --framework next --base base --ltr --code-quality biome
 
 # Radix UI version
-npx forge@latest generate --name my-app-radix --framework next --base radix --ltr --code-quality biome
+npx create-use-forge@latest generate --name my-app-radix --framework next --base radix --ltr --code-quality biome
 ```
 
 ## After Generation

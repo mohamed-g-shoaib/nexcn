@@ -10,10 +10,10 @@ Website: [use-forge.vercel.app](https://use-forge.vercel.app/)
 
 Forge is in its first public release pass.
 
-The root package is prepared for npm as `create-forge`, with two binaries:
+The root package is prepared for npm as `create-use-forge`, with two binaries:
 
 - `forge`
-- `create-forge`
+- `create-use-forge`
 
 The marketing site is deployed from `marketing-site/` on Vercel. npm publishing is the remaining public release step.
 
@@ -22,13 +22,13 @@ The marketing site is deployed from `marketing-site/` on Vercel. npm publishing 
 After the package is published, use one of the initializer commands:
 
 ```bash
-npm create forge@latest
-pnpm create forge
-bun create forge
-yarn create forge
+npm create use-forge@latest
+pnpm create use-forge
+bun create use-forge
+yarn create use-forge
 ```
 
-The package-manager create commands resolve to the npm package named `create-forge`. Users type `npm create forge`, not `npm create create-forge`.
+The package-manager create commands resolve to the npm package named `create-use-forge`. Users type `npm create use-forge`, not `npm create create-use-forge`.
 
 You can also run the CLI directly after installing it:
 

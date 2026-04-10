@@ -9,7 +9,7 @@ This file defines the release path for Forge after the generator and marketing s
 Forge has two separate public surfaces:
 
 - the marketing site, deployed from `marketing-site/` to Vercel
-- the CLI initializer package, published from the repository root to npm as `create-forge`
+- the CLI initializer package, published from the repository root to npm as `create-use-forge`
 
 Do not treat Vercel deployment as npm release readiness. The website can be deployed before the CLI package is published, but the public install commands should only be promoted once npm verification passes.
 
@@ -47,33 +47,32 @@ Package source directory:
 
 Published package name:
 
-- `create-forge`
+- `create-use-forge`
 
 Executable names:
 
 - `forge`
-- `create-forge`
+- `create-use-forge`
 
 Expected public initializer commands:
 
 ```bash
-npm create forge@latest
-pnpm create forge
-bun create forge
-yarn create forge
+npm create use-forge@latest
+pnpm create use-forge
+bun create use-forge
+yarn create use-forge
 ```
 
-The package-manager initializer model resolves `npm create forge` to the package named `create-forge`. Users should not be asked to type `npm create create-forge`.
+The package-manager initializer model resolves `npm create use-forge` to the package named `create-use-forge`. Users should not be asked to type `npm create create-use-forge`.
 
 ## Current npm readiness
 
 Observed on 2026-04-10:
 
-- `npm view create-forge name version --json` returned `E404`
-- npm reported the package as unpublished on 2024-06-11
-- local `npm whoami` returned `E401`, so the local machine is not logged in to npm
-
-The name appears unoccupied in the registry lookup, but the first real publish attempt is the final test because npm keeps some unpublished package history.
+- `npm publish` for `create-forge@0.1.0` failed with `E403`
+- npm blocked `create-forge` because it was too similar to the existing `createforge` package
+- Forge switched the npm package name to `create-use-forge`
+- initial publish attempt reached npm auth and failed on package-name policy, not build output
 
 Do not publish version `0.0.0`.
 
@@ -90,7 +89,7 @@ Required changes:
 - add homepage metadata pointing to the marketing site
 - add bugs metadata
 - add useful npm keywords
-- keep the `bin` map for both `forge` and `create-forge`
+- keep the `bin` map for both `forge` and `create-use-forge`
 - add a `files` allowlist so npm does not publish internal project material
 
 Current required `bin` shape:
@@ -99,7 +98,7 @@ Current required `bin` shape:
 {
   "bin": {
     "forge": "./dist/index.js",
-    "create-forge": "./dist/index.js"
+    "create-use-forge": "./dist/index.js"
   }
 }
 ```
@@ -164,13 +163,13 @@ npm pack
 Test the tarball from a temporary directory outside the Forge repo:
 
 ```bash
-npm exec --package D:\Developer\nexcn\create-forge-0.1.0.tgz -- forge --help
+npm exec --package D:\Developer\nexcn\create-use-forge-0.1.0.tgz -- forge --help
 ```
 
 Also verify direct executable behavior:
 
 ```bash
-npm exec --package D:\Developer\nexcn\create-forge-0.1.0.tgz -- create-forge --help
+npm exec --package D:\Developer\nexcn\create-use-forge-0.1.0.tgz -- create-use-forge --help
 ```
 
 If these local tarball checks fail, do not publish.
@@ -207,16 +206,16 @@ npm publish --access public
 After npm publish, test the public registry entry from a clean location outside the repo:
 
 ```bash
-npm create forge@latest
-pnpm create forge
-bun create forge
-yarn create forge
+npm create use-forge@latest
+pnpm create use-forge
+bun create use-forge
+yarn create use-forge
 ```
 
 Also verify:
 
 ```bash
-npm view create-forge name version bin
+npm view create-use-forge name version bin
 ```
 
 The published package must expose both executable names.
@@ -249,7 +248,7 @@ Recommended order:
 5. Run `npm pack --dry-run`.
 6. Test the local package tarball outside the repo.
 7. Deploy `marketing-site/` on Vercel.
-8. Publish `create-forge` to npm.
+8. Publish `create-use-forge` to npm.
 9. Verify all public initializer commands.
 10. Update the marketing site if the final command or package name changes.
 11. Tag the release in git after npm and Vercel are both verified.
