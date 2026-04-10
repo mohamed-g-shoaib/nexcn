@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "base-ui": {
+      "source": "itechmeat/llm-code",
+      "sourceType": "github",
+      "computedHash": "b89c8b46c239ca9e07cdb4d9ccd47105259a18a2e2e4d9d6b54eb095b721ff2d"
+    },
     "biome": {
       "source": "bobmatnyc/claude-mpm-skills",
       "sourceType": "github",

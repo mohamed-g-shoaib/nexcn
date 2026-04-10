@@ -42,6 +42,20 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `vercel-composition-patterns`
 - Priority for Forge: Very high
 
+### `base-ui`
+
+- Purpose: Base UI unstyled React component guidance for accessible primitives, composition patterns, menus, overlays, and form controls using `@base-ui/react`.
+- Use when:
+  - implementing unstyled but accessible React components
+  - composing custom controls from Base UI primitives
+  - building menus, overlays, dialogs, popovers, and form interactions with full style control
+  - migrating away from style-opinionated component layers while keeping accessibility behavior
+- Best paired with:
+  - `shadcn`
+  - `vercel-composition-patterns`
+  - `vercel-react-best-practices`
+- Priority for Forge: High when unstyled component composition is required
+
 ### `next-best-practices`
 
 - Purpose: Next.js-specific architecture and correctness guide covering file conventions, RSC boundaries, async APIs, metadata, route handlers, scripts, hydration, images, fonts, and bundling.
@@ -330,6 +344,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
 
 - Primary: `shadcn`
 - Add:
+  - `base-ui` when unstyled component composition is the goal
   - `next-best-practices` for Next starter work
   - `react-vite-best-practices` for Vite starter work
   - `tanstack-start-best-practices` for Start starter work
@@ -338,6 +353,7 @@ This file is intentionally a summary, not a replacement for the underlying skill
 
 - Primary: `vercel-react-best-practices`
 - Add:
+  - `base-ui`
   - `vercel-composition-patterns`
   - `react-useeffect`
 
@@ -399,6 +415,7 @@ For this project, default skill choices should usually be:
 
 - Generator architecture or component scaffolding:
   - `shadcn`
+  - `base-ui` when building unstyled primitives with custom styling
 - Monorepo or workspace-structure decisions:
   - `monorepo-management`
 - Next.js starter implementation:
@@ -432,6 +449,7 @@ For this project, default skill choices should usually be:
 When implementing Forge, the default craft stack should be:
 
 - `shadcn` for component and scaffold correctness
+- `base-ui` for unstyled accessible primitives and composition flexibility
 - `emil-design-eng` for interaction taste and motion quality
 - `make-interfaces-feel-better` for polish details such as press scale, typography, surfaces, and exit/enter feel
 - `userinterface-wiki` for motion, sound, timing, accessibility, and advanced UI behavior
