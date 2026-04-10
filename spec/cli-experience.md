@@ -179,6 +179,38 @@ Avoid:
 - congratulatory filler after every answer
 - noisy terminal chatter
 
+## Generation Output
+
+Forge should own the generation transcript instead of streaming every nested tool by default.
+
+Default output should include:
+
+- target directory
+- one concise line per major step
+- a short success message
+- next commands to run
+
+When stdout is an interactive terminal, long-running steps should use a small `@clack/prompts` spinner and resolve into a completed step line.
+When stdout is not interactive, Forge should print plain deterministic step lines instead.
+Forge must respect `NO_COLOR`.
+
+Default output should not include successful subprocess logs from:
+
+- package managers
+- shadcn scaffold/apply commands
+- formatters
+- linters
+- TypeScript
+- framework builds
+
+If a subprocess fails, Forge should show:
+
+- the failed command
+- the exit code
+- the captured command output, trimmed to the useful tail if it is long
+
+This keeps the happy path calm while preserving enough detail for debugging failures.
+
 ## Validation Rules
 
 Interactive validation and schema validation must use the same underlying rules.

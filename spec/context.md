@@ -152,6 +152,12 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - Forge generated `index.html` and `site.webmanifest` favicon references, but the bundled copy step resolved `assets/branding/favicon.ico` one directory too high
   - hotfix `0.1.1` resolves the asset from both source and published `dist/` layouts
   - generated `D:\Developer\testforge\public\favicon.ico` was patched manually from `assets/branding/favicon.ico`
+- CLI generation output was made quieter for the hotfix:
+  - nested subprocess output is captured instead of streamed on successful commands
+  - Forge now prints concise step labels and final next steps by default
+  - interactive terminals use a restrained Clack spinner for long-running steps
+  - non-interactive output stays plain and deterministic
+  - failed subprocesses still include the command, exit code, and captured output tail for debugging
   - follows the same pattern as generated Forge starters
 - Release and publishing preparation is now documented in [release-and-publishing.md](/D:/Developer/nexcn/spec/release-and-publishing.md):
   - Vercel deployment should use `marketing-site` as the project root directory
