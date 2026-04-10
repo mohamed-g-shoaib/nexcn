@@ -4,6 +4,7 @@ import {
   CodeQualityFeaturePack,
   DependencyFreshnessFeaturePack,
   DocsFeaturePack,
+  PackageMetadataFeaturePack,
   PolishCssFeaturePack,
   RtlRuntimeFeaturePack,
   SoundsFeaturePack,
@@ -24,6 +25,7 @@ const overlays: FrameworkOverlay[] = [
 ];
 
 const featurePacks: FeaturePack[] = [
+  new PackageMetadataFeaturePack(),
   new CodeQualityFeaturePack(),
   new RtlRuntimeFeaturePack(),
   new SoundsFeaturePack(),

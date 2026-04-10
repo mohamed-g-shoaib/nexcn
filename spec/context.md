@@ -58,6 +58,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - robots default `index/follow`
   - baseline Open Graph and Twitter tags
   - no forced canonical URL configuration
+  - RTL-enabled apps now include `og:locale` and `og:locale:alternate` tags for improved multilingual social sharing
 - Forge branded favicon source is now canonicalized at `assets/branding/favicon.ico` for generation output.
 - Vite and TanStack Start generation must emit explicit head links to `/favicon.ico`; Next.js continues to use App Router favicon file conventions.
 - Generated apps must ship framework-native fallback handling rather than ad hoc screens only:
@@ -117,6 +118,18 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
   - Forge-generated Yarn apps should declare their own project boundary and prefer `nodeLinker: node-modules` for starter compatibility
 - `nexcn` is now legacy repository naming only and should not appear in new public-facing product copy or specs.
+- Forge now normalizes `package.json` name field to match user-provided project name:
+  - implemented via `PackageMetadataFeaturePack` that runs early in the feature pack pipeline
+  - ensures consistency between package.json and all metadata (title, og:title, twitter:title, descriptions)
+  - fixes issue where scaffold tooling would set name to directory name instead of user's intended project name
+- Generated app metadata improvements for multilingual SEO:
+  - RTL-enabled apps now include `og:locale` and `og:locale:alternate` tags
+  - Next.js: uses `openGraph.locale` and `openGraph.alternateLocale` in Metadata API
+  - Vite: adds `<meta property="og:locale">` and `<meta property="og:locale:alternate">` to index.html
+  - TanStack Start: adds og:locale properties to head() meta array
+  - non-RTL apps remain unchanged (no locale tags for single-language starters)
+  - follows 2026 multilingual SEO best practices with `en_US` / `ar_AR` format
+  - documented in [metadata-improvements.md](/D:/Developer/nexcn/spec/metadata-improvements.md)
 
 ## Product Identity
 

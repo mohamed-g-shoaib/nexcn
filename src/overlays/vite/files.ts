@@ -31,7 +31,7 @@ export function getViteOverlayFiles(
   const files = new Map<string, string>([
     [
       path.join(projectDirectory, "index.html"),
-      getIndexHtmlTemplate(context.config.projectName),
+      getIndexHtmlTemplate(context.config.projectName, context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "css.d.ts"),
