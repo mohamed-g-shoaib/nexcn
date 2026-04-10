@@ -1,0 +1,508 @@
+# Forge - Complete Documentation
+
+> Generate minimal React starters with real app structure
+
+## Overview
+
+Forge is a generator that scaffolds minimal React starters with real theme support, sound-ready wiring, and a structure that stays easy to own after the first commit. It supports multiple frameworks, UI primitive libraries, RTL configurations, and code quality tooling options.
+
+## Installation
+
+Forge is distributed as an npm package and runs via package manager executors. No global installation required.
+
+### Package Manager Commands
+
+```bash
+# pnpm
+pnpm dlx forge@latest generate --name my-app
+
+# npm
+npx forge@latest generate --name my-app
+
+# yarn
+yarn dlx forge@latest generate --name my-app
+
+# bun
+bunx --bun forge@latest generate --name my-app
+```
+
+## CLI Reference
+
+### Main Command
+
+```bash
+forge generate [options]
+```
+
+### Required Options
+
+- `--name <project-name>` - Name of the project to generate
+
+### Framework Options
+
+- `--framework next` - Generate Next.js starter (App Router)
+- `--framework vite` - Generate Vite + React starter
+- `--framework start` - Generate TanStack Start starter
+
+### UI Primitive Options
+
+- `--base base` - Use Base UI (unstyled accessible primitives)
+- `--base radix` - Use Radix UI (unstyled accessible primitives)
+
+### Direction Options
+
+- `--rtl` - Enable RTL support with English + Arabic
+- `--ltr` - Single language (English only)
+
+### Code Quality Options
+
+- `--code-quality oxlint-oxfmt` - Use Oxlint + Oxfmt (fast Rust-based tools)
+- `--code-quality biome` - Use Biome (all-in-one formatter/linter)
+- `--code-quality eslint-prettier` - Use ESLint + Prettier (traditional setup)
+
+### Complete Example
+
+```bash
+npx forge@latest generate \
+  --name my-app \
+  --framework next \
+  --base radix \
+  --rtl \
+  --code-quality biome
+```
+
+## Supported Combinations
+
+Forge supports all combinations of the following:
+
+**Frameworks (3):**
+- Next.js 16.2+
+- Vite 8+
+- TanStack Start (latest)
+
+**UI Primitives (2):**
+- Base UI
+- Radix UI
+
+**Direction Modes (2):**
+- RTL (English + Arabic with route-based locale handling)
+- LTR (English only)
+
+**Code Quality Tools (3):**
+- Oxlint + Oxfmt
+- Biome
+- ESLint + Prettier
+
+Total: 36 possible configurations (3 × 2 × 2 × 3)
+
+## What Gets Generated
+
+### All Starters Include
+
+1. **Theme System**
+   - Dark/light mode with next-themes
+   - Persistent theme across refreshes
+   - No flash of unstyled content
+   - Theme toggle with keyboard shortcut (press 'd')
+
+2. **Sound Feedback**
+   - UI sound integration via soundcn
+   - Theme switch sounds (switch-on/switch-off)
+   - Click sounds ready to use
+   - Easy to remove if not needed
+
+3. **shadcn/ui Integration**
+   - Pre-configured with Luma preset
+   - Neutral color scheme
+   - Geist font family
+   - Components ready to add via `shadcn add`
+
+4. **Provider Composition**
+   - Theme provider
+   - Tooltip provider (when needed)
+   - Direction provider (RTL mode only)
+   - Proper SSR handling
+
+5. **Minimal Starter Page**
+   - Small heading
+   - Brief description with file references
+   - Theme toggle
+   - Language toggle (RTL mode only)
+   - No demo-heavy sections
+
+6. **Code Quality Tooling**
+   - Configured formatter and linter
+   - Package.json scripts ready
+   - Framework-aware rules (when applicable)
+
+7. **Metadata**
+   - Basic title and description
+   - Robots default index/follow
+   - Open Graph and Twitter tags
+   - Favicon
+
+### Framework-Specific Features
+
+**Next.js:**
+- App Router with proper layout structure
+- Route-based locale handling (`/en`, `/ar` for RTL mode)
+- Metadata API integration
+- Error boundaries (error.tsx, global-error.tsx, not-found.tsx)
+- Proper async params/searchParams handling
+
+**Vite:**
+- React Router declarative mode (RTL only)
+- Route-based locale handling (RTL mode)
+- Document shell with proper lang/dir attributes
+- Fast HMR and build times
+- Optimized bundle configuration
+
+**TanStack Start:**
+- File-based routing
+- Route-based locale handling (RTL mode)
+- Server functions ready
+- SSR with proper hydration
+- Document shell with lang/dir from route
+
+### RTL Mode Details
+
+When `--rtl` is enabled:
+
+1. **Route Structure**
+   - `/` redirects to default locale
+   - `/en` for English content
+   - `/ar` for Arabic content (RTL direction)
+
+2. **Runtime Direction**
+   - Dynamic `lang` attribute on html element
+   - Dynamic `dir` attribute (ltr/rtl)
+   - Persisted locale across refreshes
+   - Language switcher in UI
+
+3. **Font Handling**
+   - Geist for LTR content
+   - Proper font switching for RTL (when needed)
+
+4. **Portal Behavior**
+   - Tooltips and popovers respect direction
+   - Proper positioning in RTL mode
+
+### LTR Mode Details
+
+When `--ltr` is enabled:
+
+1. **Single Language**
+   - No locale routes
+   - No language switcher
+   - Static `lang="en"` and `dir="ltr"`
+   - Simpler provider wiring
+
+## Architecture
+
+Forge uses a layered generator approach rather than maintaining multiple complete template folders.
+
+### Layer 1: Scaffold Adapter
+
+Leverages official framework tooling:
+- Next.js: Uses `create-next-app` patterns
+- Vite: Uses `create-vite` patterns
+- TanStack Start: Uses TanStack Start init patterns
+
+Relies on shadcn CLI for component scaffolding:
+- `shadcn init` with preset configuration
+- Handles framework/base/RTL scaffold complexity
+- Generates proper components.json
+
+### Layer 2: Framework Overlay
+
+Applies framework-specific patches:
+- Root layout and document shell
+- Provider composition
+- Metadata configuration
+- Error boundaries
+- Route structure (RTL mode)
+
+### Layer 3: Feature Packs
+
+Adds cross-cutting features:
+- Theme system with sound
+- RTL runtime handling
+- Code quality tooling
+- Starter page and README
+- Favicon and branding
+
+## Dependency Management
+
+Forge normalizes generated app dependencies to current npm `latest` dist-tags before final install. This prevents scaffold drift from becoming product drift.
+
+**Verified Compatible With:**
+- TypeScript 6
+- Next.js 16.2+
+- Vite 8+
+- React 19+
+- TanStack Start (latest)
+
+## Design Principles
+
+1. **Minimal by Default**
+   - Users should be able to clean the starter in under 1 minute
+   - No demo-heavy sections or marketing layouts
+   - Only essential structure and wiring
+
+2. **Real App Structure**
+   - Proper provider composition
+   - Theme system that actually works
+   - Sound integration ready to use
+   - Not just a "hello world" template
+
+3. **Easy to Own**
+   - Clear file organization
+   - Explicit rather than magical
+   - Easy to understand and modify
+   - No hidden complexity
+
+4. **Leverage Official Tooling**
+   - Use framework CLIs where possible
+   - Use shadcn for component scaffolding
+   - Don't reinvent what already works
+
+## Comparison with Other Starters
+
+### vs create-next-app / create-vite
+
+Forge adds:
+- Pre-configured theme system
+- Sound-ready wiring
+- shadcn/ui integration
+- RTL support option
+- Code quality tooling choice
+- Minimal starter page
+
+### vs shadcn Templates
+
+Forge adds:
+- Multiple framework support
+- RTL runtime handling
+- Code quality tooling options
+- Sound integration
+- Dependency freshness normalization
+
+### vs Other Boilerplates
+
+Forge is intentionally minimal:
+- No authentication
+- No database setup
+- No API routes (beyond framework defaults)
+- No deployment configuration
+- No testing setup (unless framework includes it)
+
+The goal is to provide structure and wiring, not a full application.
+
+## Common Use Cases
+
+### Starting a New Project
+
+```bash
+npx forge@latest generate \
+  --name my-project \
+  --framework next \
+  --base radix \
+  --ltr \
+  --code-quality biome
+```
+
+### Building a Multilingual App
+
+```bash
+npx forge@latest generate \
+  --name my-app \
+  --framework next \
+  --base base \
+  --rtl \
+  --code-quality eslint-prettier
+```
+
+### Trying Different Frameworks
+
+```bash
+# Next.js version
+npx forge@latest generate --name my-app-next --framework next --base radix --ltr --code-quality biome
+
+# Vite version
+npx forge@latest generate --name my-app-vite --framework vite --base radix --ltr --code-quality biome
+
+# TanStack Start version
+npx forge@latest generate --name my-app-start --framework start --base radix --ltr --code-quality biome
+```
+
+### Comparing UI Primitives
+
+```bash
+# Base UI version
+npx forge@latest generate --name my-app-base --framework next --base base --ltr --code-quality biome
+
+# Radix UI version
+npx forge@latest generate --name my-app-radix --framework next --base radix --ltr --code-quality biome
+```
+
+## After Generation
+
+### Next Steps
+
+1. Navigate to project directory
+2. Install dependencies (if not auto-installed)
+3. Run dev server
+4. Clean the starter page
+5. Add your first feature
+
+### Development Commands
+
+```bash
+# Development server
+npm run dev
+
+# Type checking
+npm run typecheck
+
+# Linting
+npm run lint
+
+# Formatting
+npm run format
+
+# Build
+npm run build
+```
+
+### Adding Components
+
+Use shadcn CLI to add components:
+
+```bash
+npx shadcn@latest add button
+npx shadcn@latest add dialog
+npx shadcn@latest add form
+```
+
+### Customizing Theme
+
+Edit `app/globals.css` (or equivalent) to customize:
+- Color palette
+- Border radius
+- Font family
+- Spacing scale
+
+## Troubleshooting
+
+### Package Manager Issues
+
+If you encounter package manager conflicts:
+- Forge normalizes to your selected package manager after generation
+- Delete lockfiles and node_modules if switching package managers
+- Use the same package manager throughout the project
+
+### Yarn Specific
+
+Forge-generated Yarn apps:
+- Declare their own project boundary
+- Prefer `nodeLinker: node-modules` for compatibility
+- Include `packageManager` field in package.json
+
+### Build Errors
+
+If you encounter build errors after generation:
+- Run `npm run typecheck` to see TypeScript errors
+- Run `npm run lint` to see linting errors
+- Check that all dependencies installed correctly
+- Verify Node.js version compatibility
+
+### RTL Issues
+
+If RTL mode isn't working correctly:
+- Check that locale routes are set up (`/en`, `/ar`)
+- Verify `lang` and `dir` attributes on html element
+- Check that direction provider is in root layout
+- Ensure fonts support RTL characters (if using Arabic)
+
+## Technical Details
+
+### shadcn Preset
+
+Forge uses the Luma preset with code `b1VlIwYS`:
+- Base color: neutral
+- Theme: neutral
+- Chart color: neutral
+- Heading/font: Geist
+- Icon library: Lucide
+- Radius: default
+- Menu: default/solid
+
+### File Structure
+
+Generated projects follow this structure:
+
+```
+my-app/
+├── app/                    # Next.js App Router (or equivalent)
+│   ├── layout.tsx         # Root layout with providers
+│   ├── page.tsx           # Starter page
+│   ├── globals.css        # Global styles and theme
+│   └── ...
+├── components/
+│   ├── ui/                # shadcn components
+│   ├── theme-provider.tsx # Theme system
+│   └── ...
+├── lib/
+│   └── utils.ts           # Utility functions
+├── public/                # Static assets
+├── package.json
+├── tsconfig.json
+├── components.json        # shadcn config
+└── README.md
+```
+
+### Metadata Defaults
+
+All generated apps include:
+- Title derived from project name
+- Description mentioning the framework
+- Robots default index/follow
+- Basic Open Graph tags
+- Basic Twitter Card tags
+- Favicon
+
+### Sound Integration
+
+Sound files are included via soundcn:
+- `click-soft` for button clicks
+- `switch-on` for light mode
+- `switch-off` for dark mode
+
+Sounds are:
+- Centralized in sound engine
+- High performance
+- Easy to remove
+- Optional to use
+
+## Philosophy
+
+Forge exists because most starters are either:
+1. Too minimal (just "hello world")
+2. Too complex (full application with auth, DB, etc.)
+
+Forge aims for the middle ground:
+- Real app structure and wiring
+- Minimal starter content
+- Easy to understand and own
+- Professional quality
+
+The goal is to ship starters you actually want to open after the first commit.
+
+## Links
+
+- Website: https://forgedx.vercel.app
+- Concise docs: https://forgedx.vercel.app/llms.txt
+
+## Version
+
+This documentation reflects Forge as of April 2026.

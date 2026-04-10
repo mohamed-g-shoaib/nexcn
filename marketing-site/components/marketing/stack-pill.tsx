@@ -44,7 +44,7 @@ export function StackMarks({
   className?: string
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-1.5", className)}>
+    <span className={cn("inline-flex items-center gap-1.5 text-foreground/85", className)}>
       {icons.map((icon) => (
         <StackGlyph key={icon} icon={icon} />
       ))}
@@ -62,9 +62,14 @@ export function StackPill({
   className?: string
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-2 text-sm text-muted-foreground", className)}>
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 text-sm tracking-[-0.01em] text-muted-foreground",
+        className,
+      )}
+    >
       <StackMarks icons={icons} />
-      <span>{label}</span>
+      <span className="text-foreground/82">{label}</span>
     </span>
   )
 }

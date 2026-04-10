@@ -107,13 +107,17 @@ function getPrefix(packageManager: PackageManager): string {
   return "bunx --bun"
 }
 
-export function buildCommand(packageManager: PackageManager, options: MarketingOptions): string {
+export function buildCommand(
+  packageManager: PackageManager,
+  options: MarketingOptions,
+  projectName: string,
+): string {
   const parts = [
     getPrefix(packageManager),
     "forge@latest",
     "generate",
     "--name",
-    "my-app",
+    projectName,
     "--framework",
     options.framework,
     "--base",
@@ -124,4 +128,12 @@ export function buildCommand(packageManager: PackageManager, options: MarketingO
   ]
 
   return parts.join(" ")
+}
+
+export function buildCreateCommand(packageManager: PackageManager): string {
+  if (packageManager === "npm") {
+    return "npm create forge@latest"
+  }
+
+  return `${packageManager} create forge`
 }

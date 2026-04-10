@@ -139,6 +139,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  button,
+  [role="button"],
+  a[href],
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
   ::selection {
     background: color-mix(in oklch, var(--foreground) 18%, transparent);
     color: var(--foreground);
@@ -215,5 +223,153 @@
 
   .marketing-command-prompt {
     @apply mr-3 select-none text-muted-foreground;
+  }
+
+  /* Terminal container */
+  .marketing-terminal-container {
+    @apply rounded-none overflow-hidden border border-border bg-card;
+  }
+
+  .marketing-terminal-shell {
+    @apply bg-muted/30;
+  }
+
+  /* Terminal header with macOS-style controls */
+  .marketing-terminal-header {
+    @apply flex items-center justify-between border-b border-border bg-muted/40 px-4 py-3;
+  }
+
+  .marketing-terminal-controls {
+    @apply flex items-center gap-2;
+  }
+
+  .marketing-terminal-control {
+    @apply block size-3 rounded-full;
+  }
+
+  .marketing-terminal-control[data-color="red"] {
+    @apply bg-[#ff5f56];
+  }
+
+  .marketing-terminal-control[data-color="yellow"] {
+    @apply bg-[#ffbd2e];
+  }
+
+  .marketing-terminal-control[data-color="green"] {
+    @apply bg-[#27c93f];
+  }
+
+  .marketing-terminal-title {
+    @apply text-xs font-medium tracking-tight text-muted-foreground;
+  }
+
+  .marketing-terminal-controls-spacer {
+    @apply w-[52px];
+  }
+
+  /* Terminal content area */
+  .marketing-terminal-content {
+    @apply flex flex-col gap-0 px-5 py-5 font-mono text-[13px] leading-relaxed sm:px-6 sm:py-6;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .marketing-terminal-line {
+    @apply flex min-h-7 items-start gap-3;
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+
+  .marketing-terminal-line[data-animate="true"] {
+    animation: marketing-terminal-line-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marketing-terminal-line {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+
+    .marketing-terminal-line[data-animate="true"] {
+      animation: none;
+    }
+  }
+
+  @keyframes marketing-terminal-line-enter {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+  /* Terminal prefix styling */
+  .marketing-terminal-prefix {
+    @apply shrink-0 select-none font-medium;
+  }
+
+  .marketing-terminal-prefix[data-kind="command"] {
+    @apply text-primary;
+  }
+
+  .marketing-terminal-prefix[data-kind="prompt"] {
+    @apply text-cyan-600 dark:text-cyan-400;
+  }
+
+  .marketing-terminal-prefix[data-kind="status"] {
+    @apply text-green-600 dark:text-green-400;
+  }
+
+  /* Terminal text styling */
+  .marketing-terminal-text {
+    @apply min-w-0 flex-1;
+  }
+
+  .marketing-terminal-text[data-kind="command"] {
+    @apply text-foreground;
+  }
+
+  .marketing-terminal-text[data-kind="prompt"] {
+    @apply text-muted-foreground;
+  }
+
+  .marketing-terminal-text[data-kind="status"] {
+    @apply text-muted-foreground;
+  }
+
+  /* Inline answer styling */
+  .marketing-terminal-answer {
+    @apply ml-2 font-medium text-foreground;
+  }
+
+  /* Page-level stagger animation (same as terminal) */
+  .marketing-page-item {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+
+  .marketing-page-item[data-ready="true"] {
+    animation: marketing-terminal-line-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  }
+
+  .marketing-page-item[data-animate="false"] {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marketing-page-item {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+
+    .marketing-page-item[data-ready="true"] {
+      animation: none;
+    }
   }
 }

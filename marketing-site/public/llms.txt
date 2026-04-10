@@ -1,0 +1,65 @@
+# Forge
+
+> Generate minimal React starters with real app structure
+
+Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.
+
+## Quick Start
+
+```bash
+npx forge@latest generate --name my-app
+```
+
+## Features
+
+- **Frameworks**: Next.js, Vite, TanStack Start
+- **UI Primitives**: Base UI, Radix UI
+- **RTL Support**: English + Arabic with route-based locale handling
+- **Code Quality**: Oxlint + Oxfmt, Biome, or ESLint + Prettier
+- **Theme**: Dark/light mode with sound-ready wiring
+- **Minimal**: Intentionally small, easy to clean in under 1 minute
+
+## CLI Options
+
+```bash
+forge generate \
+  --name <project-name> \
+  --framework <next|vite|start> \
+  --base <base|radix> \
+  --rtl | --ltr \
+  --code-quality <oxlint-oxfmt|biome|eslint-prettier>
+```
+
+## Package Managers
+
+Works with pnpm, npm, yarn, and bun:
+
+```bash
+pnpm dlx forge@latest generate --name my-app
+npx forge@latest generate --name my-app
+yarn dlx forge@latest generate --name my-app
+bunx --bun forge@latest generate --name my-app
+```
+
+## What You Get
+
+- Real app shell with providers and theme wiring
+- shadcn/ui components with your chosen primitive base
+- Sound feedback for interactions
+- Route-based locale handling (RTL mode)
+- Code quality tooling configured and ready
+- Minimal starter page (no demo-heavy sections)
+
+## Philosophy
+
+Forge uses a layered generator approach:
+1. Scaffold adapter (leverages official framework tooling)
+2. Framework overlay (Next/Vite/Start-specific patches)
+3. Feature packs (theme, sound, RTL runtime handling)
+
+The goal is to ship starters you actually want to open after the first commit.
+
+## Links
+
+- Website: https://forgedx.vercel.app
+- Full documentation: https://forgedx.vercel.app/llms-full.txt
