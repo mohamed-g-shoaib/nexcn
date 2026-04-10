@@ -1,8 +1,8 @@
 # Forge
 
-> Generate minimal React starters with real app structure
+> Start building without the cleanup tax
 
-Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.
+Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.
 
 ## Quick Start
 
@@ -16,8 +16,8 @@ npx forge@latest generate --name my-app
 - **UI Primitives**: Base UI, Radix UI
 - **RTL Support**: English + Arabic with route-based locale handling
 - **Code Quality**: Oxlint + Oxfmt, Biome, or ESLint + Prettier
-- **Theme**: Dark/light mode with sound-ready wiring
-- **Minimal**: Intentionally small, easy to clean in under 1 minute
+- **Theme**: Dark/light mode with click interaction sounds
+- **Minimal**: Intentionally small, clean up in under a minute
 
 ## CLI Options
 
@@ -43,9 +43,9 @@ bunx --bun forge@latest generate --name my-app
 
 ## What You Get
 
-- Real app shell with providers and theme wiring
+- App shell with providers and theme wiring
 - shadcn/ui components with your chosen primitive base
-- Sound feedback for interactions
+- Click interaction sounds for UI feedback
 - Route-based locale handling (RTL mode)
 - Code quality tooling configured and ready
 - Minimal starter page (no demo-heavy sections)
@@ -57,7 +57,7 @@ Forge uses a layered generator approach:
 2. Framework overlay (Next/Vite/Start-specific patches)
 3. Feature packs (theme, sound, RTL runtime handling)
 
-The goal is to ship starters you actually want to open after the first commit.
+The goal is to generate starters that stay easy to own after the first commit.
 
 ## Links
 

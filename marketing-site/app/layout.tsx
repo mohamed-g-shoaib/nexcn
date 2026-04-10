@@ -20,9 +20,9 @@ const fontMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://forgedx.vercel.app"),
-  title: "Forge - Generate minimal React starters with real app structure",
+  title: "Forge - Start building without the cleanup tax",
   description:
-    "Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.",
+    "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.",
   keywords: [
     "React starter",
     "Next.js starter",
@@ -55,15 +55,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://forgedx.vercel.app",
     siteName: "Forge",
-    title: "Forge - Generate minimal React starters with real app structure",
+    title: "Forge - Start building without the cleanup tax",
     description:
-      "Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome.",
+      "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Forge - Generate minimal React starters with real app structure",
+    title: "Forge - Start building without the cleanup tax",
     description:
-      "Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome.",
+      "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters.",
   },
 }
 

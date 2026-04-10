@@ -1,10 +1,10 @@
 # Forge - Complete Documentation
 
-> Generate minimal React starters with real app structure
+> Start building without the cleanup tax
 
 ## Overview
 
-Forge is a generator that scaffolds minimal React starters with real theme support, sound-ready wiring, and a structure that stays easy to own after the first commit. It supports multiple frameworks, UI primitive libraries, RTL configurations, and code quality tooling options.
+Forge is a generator that scaffolds minimal React starters with theme support, click interaction sounds, and pre-configured linters and formatters. The structure stays easy to own after the first commit. It supports multiple frameworks, UI primitive libraries, RTL configurations, and code quality tooling options.
 
 ## Installation
 
@@ -245,13 +245,13 @@ Forge normalizes generated app dependencies to current npm `latest` dist-tags be
 ## Design Principles
 
 1. **Minimal by Default**
-   - Users should be able to clean the starter in under 1 minute
+   - Users can clean the starter in under a minute
    - No demo-heavy sections or marketing layouts
    - Only essential structure and wiring
 
-2. **Real App Structure**
+2. **App Structure**
    - Proper provider composition
-   - Theme system that actually works
+   - Theme system that works
    - Sound integration ready to use
    - Not just a "hello world" template
 
@@ -272,7 +272,7 @@ Forge normalizes generated app dependencies to current npm `latest` dist-tags be
 
 Forge adds:
 - Pre-configured theme system
-- Sound-ready wiring
+- Click interaction sounds
 - shadcn/ui integration
 - RTL support option
 - Code quality tooling choice
@@ -491,12 +491,12 @@ Forge exists because most starters are either:
 2. Too complex (full application with auth, DB, etc.)
 
 Forge aims for the middle ground:
-- Real app structure and wiring
+- App structure and wiring
 - Minimal starter content
 - Easy to understand and own
 - Professional quality
 
-The goal is to ship starters you actually want to open after the first commit.
+The goal is to generate starters that stay easy to own after the first commit.
 
 ## Links
 

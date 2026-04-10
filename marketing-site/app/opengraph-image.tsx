@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
 
-export const alt = "Forge - Generate minimal React starters with real app structure"
+export const alt = "Forge - Start building without the cleanup tax"
 export const size = {
   width: 1200,
   height: 630,
@@ -83,7 +83,7 @@ export default async function Image() {
             marginBottom: "32px",
           }}
         >
-          Ship the starter you actually want to open
+          Start building without the cleanup tax
         </div>
 
         {/* Supporting text */}
@@ -97,7 +97,7 @@ export default async function Image() {
             lineHeight: 1.4,
           }}
         >
-          Generate minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome
+          Generate minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters
         </div>
       </div>
     ),

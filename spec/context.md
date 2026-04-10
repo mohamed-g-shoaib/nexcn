@@ -96,6 +96,21 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - robots.txt, sitemap.xml, and manifest.json
   - llms.txt and llms-full.txt for AI assistant discoverability
   - all content follows humanizer guidelines (no em dashes, no AI vocabulary)
+- Marketing site content refinement (2026-04-10):
+  - main heading changed to "Start building without the cleanup tax" (clearer value proposition)
+  - subheading clarifies technical terms: "click interaction sounds" instead of "sound-ready wiring"
+  - subheading mentions "pre-configured linters and formatters" explicitly
+  - features list avoids repetition with stack pills and focuses on unique benefits
+  - install helper heading changed to "How do you want to forge your app?" (clearer intent)
+  - removed "Folder and package name" label from input field (cleaner UI)
+  - updated feature icons for semantic accuracy:
+    - PackageIcon for minimal/cleanup concept
+    - SlidersHorizontalIcon for configuration choices
+    - LanguagesIcon for multilingual/RTL support
+  - all metadata updated to match new content (layout.tsx, opengraph-image.tsx, llms.txt)
+  - removed exaggerating words like "real" throughout
+  - replaced unclear technical jargon with plain language
+  - all changes follow humanizer skill guidelines
 - Marketing site domain is `https://forgedx.vercel.app`
 - Marketing site has a site header with logo, brand name, and theme toggle icon
 - Marketing site install helper terminal mock now shows exact CLI prompts from actual implementation:

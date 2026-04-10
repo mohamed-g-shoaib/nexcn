@@ -56,6 +56,14 @@ The marketing site has undergone comprehensive audits and refinements across mul
   - PackageIcon (kept) - represents minimal/small package for cleanup feature
   - SlidersHorizontalIcon (was LayersIcon) - better represents configuration choices
   - LanguagesIcon (was WrenchIcon) - accurately represents multilingual/RTL support
+- Updated all metadata to match new content (humanizer compliance):
+  - layout.tsx: Updated title and descriptions to remove "real" and use clear terms
+  - opengraph-image.tsx: Updated headline and supporting text to match new heading
+  - llms.txt: Updated tagline, features, and philosophy to use clear language
+  - llms-full.txt: Updated tagline, overview, design principles, comparisons, and philosophy
+  - Replaced "sound-ready wiring" with "click interaction sounds" throughout
+  - Replaced "real app structure/shell" with simpler "app shell" or removed entirely
+  - Updated philosophy statement to be more direct and less promotional
 - All changes follow humanizer guidelines (no exaggeration, clear technical terms for non-technical users)
 
 ### Technical Quality: 10/10
