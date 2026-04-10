@@ -34,6 +34,7 @@ export type ProjectNameValidationResult = {
 
 export function validateProjectName(value: string): ProjectNameValidationResult {
   const normalized = value.trim();
+  const hasLeadingOrTrailingWhitespace = value !== normalized;
 
   if (normalized.length === 0) {
     return {
@@ -59,11 +60,19 @@ export function validateProjectName(value: string): ProjectNameValidationResult 
     };
   }
 
-  if (normalized.endsWith(".") || normalized.endsWith(" ")) {
+  if (hasLeadingOrTrailingWhitespace) {
     return {
       valid: false,
       normalized,
-      error: "Cannot end with a period or space.",
+      error: "Cannot start or end with whitespace.",
+    };
+  }
+
+  if (normalized.endsWith(".")) {
+    return {
+      valid: false,
+      normalized,
+      error: "Cannot end with a period.",
     };
   }
 

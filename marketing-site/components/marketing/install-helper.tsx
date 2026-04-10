@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckIcon, CopyIcon } from "lucide-react"
+import { AlertCircleIcon, CheckCircle2Icon, CheckIcon, CopyIcon } from "lucide-react"
 import * as React from "react"
 
 import { StackMarks } from "@/components/marketing/stack-pill"
@@ -17,6 +17,7 @@ import {
   buildCommand,
   buildCreateCommand,
 } from "@/lib/marketing"
+import { validateProjectName } from "@/lib/project-name"
 
 type CreateFlowLine = {
   kind: "command" | "prompt" | "status"
@@ -198,6 +199,7 @@ function CommandSurface({
   copyLabel,
   packageManager,
   onPackageManagerChange,
+  copyDisabled = false,
 }: {
   command: string
   copied: boolean
@@ -205,6 +207,7 @@ function CommandSurface({
   copyLabel: string
   packageManager: PackageManager
   onPackageManagerChange: (value: PackageManager) => void
+  copyDisabled?: boolean
 }) {
   const activePackageManager =
     PACKAGE_MANAGERS.find((option) => option.value === packageManager) ?? PACKAGE_MANAGERS[0]
@@ -231,7 +234,13 @@ function CommandSurface({
           </div>
         </div>
 
-        <button type="button" className="marketing-command-copy" onClick={onCopy}>
+        <button
+          type="button"
+          className="marketing-command-copy"
+          onClick={onCopy}
+          disabled={copyDisabled}
+          aria-disabled={copyDisabled}
+        >
           {copied ? (
             <CheckIcon aria-hidden="true" className="size-4" />
           ) : (
@@ -251,19 +260,30 @@ function CommandSurface({
 }
 
 export function InstallHelper() {
-  const [mode, setMode] = React.useState<"create" | "craft">("create")
+  const [mode, setMode] = React.useState<"create" | "forge">("create")
   const [packageManager, setPackageManager] = React.useState<PackageManager>("pnpm")
   const [options, setOptions] = React.useState<MarketingOptions>(DEFAULT_OPTIONS)
-  const [copiedMode, setCopiedMode] = React.useState<"create" | "craft" | null>(null)
+  const [projectName, setProjectName] = React.useState("my-app")
+  const [copiedMode, setCopiedMode] = React.useState<"create" | "forge" | null>(null)
   const { playSound } = useUiSound()
 
+  const projectNameValidation = React.useMemo(
+    () => validateProjectName(projectName),
+    [projectName],
+  )
+
+  const commandProjectName = projectNameValidation.normalized || "my-app"
   const command = React.useMemo(
-    () => buildCommand(packageManager, options, "my-app"),
-    [options, packageManager],
+    () => buildCommand(packageManager, options, commandProjectName),
+    [commandProjectName, options, packageManager],
   )
   const createCommand = React.useMemo(() => buildCreateCommand(packageManager), [packageManager])
 
-  async function handleCopy(target: "create" | "craft") {
+  async function handleCopy(target: "create" | "forge") {
+    if (target === "forge" && !projectNameValidation.valid) {
+      return
+    }
+
     await navigator.clipboard.writeText(target === "create" ? createCommand : command)
     setCopiedMode(target)
     playSound("click-soft")
@@ -290,7 +310,7 @@ export function InstallHelper() {
       <Tabs
         value={mode}
         onValueChange={(value) => {
-          setMode(value as "create" | "craft")
+          setMode(value as "create" | "forge")
           setCopiedMode(null)
           playSound("click-soft")
         }}
@@ -300,8 +320,8 @@ export function InstallHelper() {
           <TabsTrigger value="create" className="px-0 text-sm data-active:border-transparent">
             CLI create
           </TabsTrigger>
-          <TabsTrigger value="craft" className="px-0 text-sm data-active:border-transparent">
-            Craft command
+          <TabsTrigger value="forge" className="px-0 text-sm data-active:border-transparent">
+            Forge command
           </TabsTrigger>
         </TabsList>
 
@@ -322,11 +342,66 @@ export function InstallHelper() {
           <CreateFlowPreview active={mode === "create"} createCommand={createCommand} />
         </TabsContent>
 
-        <TabsContent value="craft" className="flex flex-col gap-4">
+        <TabsContent value="forge" className="flex flex-col gap-4">
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
             Build the full command up front when you want explicit framework, UI primitives, RTL
             support, and formatter or linter choices.
           </p>
+
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between gap-3">
+              <label
+                htmlFor="marketing-project-name"
+                className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
+              >
+                App name
+              </label>
+              <span className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground/80">
+                Folder and package name
+              </span>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <input
+                id="marketing-project-name"
+                name="projectName"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                value={projectName}
+                onChange={(event) => {
+                  setProjectName(event.target.value)
+                  setCopiedMode(null)
+                }}
+                aria-invalid={!projectNameValidation.valid}
+                className={[
+                  "h-12 w-full rounded-xl border bg-card px-4 font-mono text-[0.95rem] tracking-[-0.01em] text-foreground outline-none",
+                  "shadow-[0_1px_2px_rgba(0,0,0,0.05)] transition-[border-color,box-shadow,background-color]",
+                  "placeholder:text-muted-foreground/70 focus-visible:ring-0",
+                  projectNameValidation.valid
+                    ? "border-border/90 focus-visible:border-ring focus-visible:shadow-[0_0_0_1px_color-mix(in_oklch,var(--ring)_50%,transparent),0_1px_2px_rgba(0,0,0,0.05)]"
+                    : "border-destructive/55 focus-visible:border-destructive focus-visible:shadow-[0_0_0_1px_color-mix(in_oklch,var(--destructive)_40%,transparent),0_1px_2px_rgba(0,0,0,0.05)]",
+                ].join(" ")}
+                placeholder="my-app"
+              />
+              <div
+                className={[
+                  "inline-flex min-h-5 items-start gap-2 text-xs leading-5",
+                  projectNameValidation.valid ? "text-primary/90" : "text-destructive",
+                ].join(" ")}
+              >
+                {projectNameValidation.valid ? (
+                  <CheckCircle2Icon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+                ) : (
+                  <AlertCircleIcon aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+                )}
+                <span>
+                  {projectNameValidation.valid
+                    ? "Safe for Windows, macOS, Linux, and npm package naming."
+                    : projectNameValidation.error}
+                </span>
+              </div>
+            </div>
+          </div>
 
           <div className="flex flex-col gap-6 sm:gap-5">
             {OPTION_GROUPS.map((group) => (
@@ -355,11 +430,12 @@ export function InstallHelper() {
 
           <CommandSurface
             command={command}
-            copied={copiedMode === "craft"}
-            onCopy={() => handleCopy("craft")}
-            copyLabel="Copy crafted command"
+            copied={copiedMode === "forge"}
+            onCopy={() => handleCopy("forge")}
+            copyLabel="Copy Forge command"
             packageManager={packageManager}
             onPackageManagerChange={handlePackageManagerChange}
+            copyDisabled={!projectNameValidation.valid}
           />
         </TabsContent>
       </Tabs>

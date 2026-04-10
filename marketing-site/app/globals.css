@@ -211,8 +211,12 @@
       active:scale-[0.96];
   }
 
+  .marketing-command-copy:disabled {
+    @apply cursor-not-allowed opacity-45;
+  }
+
   @media (hover: hover) and (pointer: fine) {
-    .marketing-command-copy:hover {
+    .marketing-command-copy:hover:not(:disabled) {
       @apply bg-accent text-foreground;
     }
   }
