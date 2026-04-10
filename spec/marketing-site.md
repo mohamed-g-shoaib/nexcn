@@ -66,12 +66,25 @@ The marketing site has undergone comprehensive audits and refinements across mul
   - Updated philosophy statement to be more direct and less promotional
 - All changes follow humanizer guidelines (no exaggeration, clear technical terms for non-technical users)
 
+### Session 5: Error & Not-Found Pages (2026-04-10)
+- Created framework-native error and not-found pages following Next.js App Router conventions
+- Implemented global-error.tsx to catch errors in root layout (includes html/body tags per Next.js requirements)
+- Implemented shared FallbackScreen component for consistent styling
+- Created ErrorView component with retry functionality
+- All buttons include sound interactions via useUiSound hook with 100ms delay before navigation
+- Error page actions: Try again, Go home
+- Not-found page action: Go home only (removed Go back due to edge case where user lands directly on 404 with no browser history)
+- Centered, minimal design matching established aesthetic with rounded-none (not rounded-full)
+- Follows same pattern as generated Forge starters
+- Zero TypeScript errors, zero linting errors
+
 ### Technical Quality: 10/10
 - Zero anti-patterns
 - Proper React/Next.js implementation
 - Clean component composition
 - Single source of truth for data
 - Complete SEO implementation
+- Framework-native error handling
 
 ### Visual Execution: 9.5/10
 - Tailwind scale values (no arbitrary)
@@ -141,6 +154,9 @@ The page structure:
 - when listing stack technologies, use the local icons in `marketing-site/components/marketing/icons`
 - features are now integrated into header as icon list (not separate section)
 - all design decisions follow installed skills (emil-design-eng, userinterface-wiki, humanizer, etc.)
+- error and not-found pages follow Next.js App Router conventions
+- fallback screens use shared FallbackScreen component for consistency
+- all interactive elements include sound feedback via useUiSound hook
 
 ## Files Modified (Across All Sessions)
 
@@ -157,6 +173,13 @@ The page structure:
 - `marketing-site/SEO-AUDIT.md` (audit documentation)
 - `marketing-site/OG-IMAGE-PREVIEW.md` (OG image documentation)
 
+### Added (Session 5: Error & Not-Found Pages)
+- `marketing-site/app/error.tsx` (error boundary)
+- `marketing-site/app/global-error.tsx` (root layout error boundary with html/body tags)
+- `marketing-site/app/not-found.tsx` (404 page)
+- `marketing-site/components/error-view.tsx` (error view with retry)
+- `marketing-site/components/fallback-screen.tsx` (shared fallback layout)
+
 ### Modified
 - `marketing-site/app/globals.css` (theme, hover protection, contrast)
 - `marketing-site/app/layout.tsx` (added complete metadata, metadataBase, OG tags)
@@ -169,4 +192,5 @@ The page structure:
 - `marketing-site/hooks/use-ui-sound.ts` (useState → useMemo)
 - `marketing-site/lib/marketing.ts` (centralized data, updated labels)
 - `spec/skills.md` (added humanizer reference)
-- `spec/marketing-site.md` (documented SEO session)
+- `spec/marketing-site.md` (documented SEO session, error pages session)
+- `spec/context.md` (documented error pages implementation)

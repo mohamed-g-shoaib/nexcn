@@ -128,6 +128,16 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - uses same animation style as terminal (opacity + translateY + blur)
   - respects prefers-reduced-motion
 - Marketing site layout includes `suppressHydrationWarning` on body tag to prevent hydration errors from browser extensions
+- Marketing site now has framework-native error and not-found pages:
+  - error.tsx uses Next.js App Router error boundary convention
+  - global-error.tsx catches errors in root layout (includes html/body tags)
+  - not-found.tsx uses Next.js App Router not-found convention
+  - all pages use shared FallbackScreen component for consistent styling
+  - error page includes Try again and Go home actions
+  - not-found page includes only Go home action (Go back removed due to edge case where user lands directly on 404 with no history)
+  - all buttons respect sound interactions via useUiSound hook with 100ms delay before navigation
+  - fallback screens are centered, minimal, and match the established aesthetic
+  - follows the same pattern as generated Forge starters
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
