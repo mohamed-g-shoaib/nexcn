@@ -5,7 +5,7 @@
   "description": "Create a Forge app.",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://forgedx.vercel.app",
+  "homepage": "https://use-forge.vercel.app/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mohamed-g-shoaib/forge.git"

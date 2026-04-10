@@ -111,7 +111,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - removed exaggerating words like "real" throughout
   - replaced unclear technical jargon with plain language
   - all changes follow humanizer skill guidelines
-- Marketing site domain is `https://forgedx.vercel.app`
+- Marketing site domain is `https://use-forge.vercel.app/`
 - Marketing site has a site header with logo, brand name, and theme toggle icon
 - Marketing site install helper terminal mock now shows exact CLI prompts from actual implementation:
   - uses real prompt text from `src/cli/index.ts`
@@ -148,7 +148,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - version is now `0.1.0`
   - package is no longer private
   - license is MIT with a root `LICENSE` file
-  - homepage points to `https://forgedx.vercel.app`
+  - homepage points to `https://use-forge.vercel.app/`
   - repository and issues metadata point to `https://github.com/mohamed-g-shoaib/forge`
   - npm `files` allowlist keeps the package limited to `dist`, `README.md`, `LICENSE`, and the branded favicon asset
   - published binaries remain `forge` and `create-forge`

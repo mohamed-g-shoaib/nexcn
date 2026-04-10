@@ -500,8 +500,8 @@ The goal is to generate starters that stay easy to own after the first commit.
 
 ## Links
 
-- Website: https://forgedx.vercel.app
-- Concise docs: https://forgedx.vercel.app/llms.txt
+- Website: https://use-forge.vercel.app/
+- Concise docs: https://use-forge.vercel.app/llms.txt
 
 ## Version
 

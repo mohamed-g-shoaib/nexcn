@@ -23,7 +23,7 @@ Source directory:
 
 Production domain:
 
-- `https://forgedx.vercel.app`
+- `https://use-forge.vercel.app/`
 
 Vercel project settings:
 
@@ -196,7 +196,7 @@ For the current unscoped package:
 npm publish
 ```
 
-If Forge moves to a scoped package later, such as `@forgedx/create-forge`, public publishing needs:
+If Forge moves to a scoped package later, public publishing needs:
 
 ```bash
 npm publish --access public
@@ -225,7 +225,7 @@ The published package must expose both executable names.
 
 After Vercel deployment, verify:
 
-- home page loads at `https://forgedx.vercel.app`
+- home page loads at `https://use-forge.vercel.app/`
 - install helper command output matches the published npm package
 - `/robots.txt` loads
 - `/sitemap.xml` loads

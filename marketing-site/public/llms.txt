@@ -61,5 +61,5 @@ The goal is to generate starters that stay easy to own after the first commit.
 
 ## Links
 
-- Website: https://forgedx.vercel.app
-- Full documentation: https://forgedx.vercel.app/llms-full.txt
+- Website: https://use-forge.vercel.app/
+- Full documentation: https://use-forge.vercel.app/llms-full.txt
