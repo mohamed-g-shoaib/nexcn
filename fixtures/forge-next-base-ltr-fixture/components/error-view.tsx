@@ -11,7 +11,7 @@ export function ErrorView({ onRetry }: ErrorViewProps) {
   return (
     <FallbackScreen
       title="Something went wrong."
-      description="An unexpected error interrupted the generated starter."
+      description="An unexpected error occurred. Please try again."
       action={
         onRetry ? (
           <Button

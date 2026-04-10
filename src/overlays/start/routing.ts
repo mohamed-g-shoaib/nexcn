@@ -125,14 +125,12 @@ function NotFoundScreen() {
     location.pathname.split("/").filter(Boolean)[0] === "ar"
       ? {
           title: "الصفحة غير موجودة.",
-          description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
-          backLabel: "الرجوع",
+          description: "هذا المسار غير موجود بعد.",
           homeLabel: "العودة للرئيسية"
         }
       : {
           title: "Page not found.",
-          description: "This route does not exist in the generated starter yet.",
-          backLabel: "Go back",
+          description: "This route does not exist yet.",
           homeLabel: "Go home"
         };
   const segments = location.pathname.split("/").filter(Boolean);
@@ -143,32 +141,18 @@ function NotFoundScreen() {
       title={copy.title}
       description={copy.description}
       action={
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              window.history.back();
-            }}
-          >
-            {copy.backLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              navigate({ to: homeHref });
-            }}
-          >
-            {copy.homeLabel}
-          </Button>
-        </>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-3"
+          onClick={() => {
+            playSound("click-soft");
+            window.setTimeout(() => navigate({ to: homeHref }), 100);
+          }}
+        >
+          {copy.homeLabel}
+        </Button>
       }
     />
   );
@@ -299,14 +283,12 @@ function NotFoundScreen() {
     location.pathname.split("/").filter(Boolean)[0] === "ar"
       ? {
           title: "الصفحة غير موجودة.",
-          description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
-          backLabel: "الرجوع",
+          description: "هذا المسار غير موجود بعد.",
           homeLabel: "العودة للرئيسية"
         }
       : {
           title: "Page not found.",
-          description: "This route does not exist in the generated starter yet.",
-          backLabel: "Go back",
+          description: "This route does not exist yet.",
           homeLabel: "Go home"
         };
   const segments = location.pathname.split("/").filter(Boolean);
@@ -317,32 +299,18 @@ function NotFoundScreen() {
       title={copy.title}
       description={copy.description}
       action={
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              window.history.back();
-            }}
-          >
-            {copy.backLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              navigate({ to: homeHref });
-            }}
-          >
-            {copy.homeLabel}
-          </Button>
-        </>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-3"
+          onClick={() => {
+            playSound("click-soft");
+            window.setTimeout(() => navigate({ to: homeHref }), 100);
+          }}
+        >
+          {copy.homeLabel}
+        </Button>
       }
     />
   );
@@ -418,14 +386,12 @@ function LocaleNotFoundScreen() {
     routeLocale === "ar"
       ? {
           title: "الصفحة غير موجودة.",
-          description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
-          backLabel: "الرجوع",
+          description: "هذا المسار غير موجود بعد.",
           homeLabel: "العودة للرئيسية"
         }
       : {
           title: "Page not found.",
-          description: "This route does not exist in the generated starter yet.",
-          backLabel: "Go back",
+          description: "This route does not exist yet.",
           homeLabel: "Go home"
         };
   const homeHref = routeLocale === "ar" || routeLocale === "en" ? \`/\${routeLocale}\` : "/";
@@ -435,32 +401,18 @@ function LocaleNotFoundScreen() {
       title={copy.title}
       description={copy.description}
       action={
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              window.history.back();
-            }}
-          >
-            {copy.backLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              navigate({ to: homeHref });
-            }}
-          >
-            {copy.homeLabel}
-          </Button>
-        </>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-3"
+          onClick={() => {
+            playSound("click-soft");
+            window.setTimeout(() => navigate({ to: homeHref }), 100);
+          }}
+        >
+          {copy.homeLabel}
+        </Button>
       }
     />
   );

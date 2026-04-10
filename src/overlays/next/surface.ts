@@ -146,7 +146,7 @@ type ErrorViewProps = {
 
 export function ErrorView({
   title = "Something went wrong.",
-  description = "An unexpected error interrupted the generated starter.",
+  description = "An unexpected error occurred. Please try again.",
   action
 }: ErrorViewProps) {
   return (
@@ -169,7 +169,6 @@ import { Button } from "@/components/ui/button";
 import { useUiSound } from "@/hooks/use-ui-sound";
 
 type FallbackActionsProps = {
-  backLabel: string;
   homeHref: string;
   homeLabel: string;
   retryLabel?: string;
@@ -177,7 +176,6 @@ type FallbackActionsProps = {
 };
 
 export function FallbackActions({
-  backLabel,
   homeHref,
   homeLabel,
   retryLabel,
@@ -188,30 +186,6 @@ export function FallbackActions({
 
   return (
     <>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="h-9 rounded-full px-3"
-        onClick={() => {
-          playSound("click-soft");
-          router.back();
-        }}
-      >
-        {backLabel}
-      </Button>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="h-9 rounded-full px-3"
-        onClick={() => {
-          playSound("click-soft");
-          router.push(homeHref);
-        }}
-      >
-        {homeLabel}
-      </Button>
       {onRetry && retryLabel ? (
         <Button
           type="button"
@@ -226,6 +200,18 @@ export function FallbackActions({
           {retryLabel}
         </Button>
       ) : null}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        className="h-9 rounded-full px-3"
+        onClick={() => {
+          playSound("click-soft");
+          window.setTimeout(() => router.push(homeHref), 100);
+        }}
+      >
+        {homeLabel}
+      </Button>
     </>
   );
 }

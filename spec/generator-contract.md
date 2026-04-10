@@ -381,6 +381,7 @@ Generated apps should ship with minimal default metadata without requiring user 
 - project title derived from generated `projectName`
 - short description derived from generated `projectName`
 - default favicon exposure using the framework-appropriate head or file convention
+- a real favicon file must be copied into the generated project (`app/favicon.ico` for Next.js, `public/favicon.ico` for Vite and TanStack Start)
 - robots defaults for index/follow
 - Open Graph basics:
   - `og:title`
@@ -433,6 +434,25 @@ Generated projects should be sound-ready using `soundcn`.
 
 - theme switching should use the shared `switch-on` / `switch-off` mapping
 - a shared click sound helper should be available for intentional UI interactions
+
+## Fallback Surface Contract
+
+Generated error and not-found surfaces should be reliable when a user opens a URL directly.
+
+### Required behavior
+
+- not-found copy should be `This route does not exist yet.` in English
+- not-found copy should be `هذا المسار غير موجود بعد.` in Arabic
+- not-found actions should expose `Go home` only
+- error actions should expose `Try again` and `Go home`
+- generated fallbacks must not rely on browser history for recovery actions
+- home navigation should wait briefly after the click sound starts so the interaction does not feel cut off
+
+### Framework notes
+
+- Next.js error boundaries must follow App Router conventions: `error.tsx` and `global-error.tsx` are Client Components, and `global-error.tsx` includes `html` and `body`
+- TanStack Start not-found handling must be registered on the route boundary that can throw or receive the not-found state
+- Vite fallbacks should use router navigation rather than direct location mutation
 
 ## Generator Architecture
 

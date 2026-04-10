@@ -16,15 +16,13 @@ export function RouteError({ onRetry }: RouteErrorProps) {
     location.pathname.split("/").filter(Boolean)[0] === "ar"
       ? {
           title: "حدث خطأ ما.",
-          description: "حدث خطأ غير متوقع أثناء تحميل الواجهة المولدة.",
-          backLabel: "الرجوع",
+          description: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
           homeLabel: "العودة للرئيسية",
           retryLabel: "أعد المحاولة",
         }
       : {
           title: "Something went wrong.",
-          description: "An unexpected error interrupted the generated starter.",
-          backLabel: "Go back",
+          description: "An unexpected error occurred. Please try again.",
           homeLabel: "Go home",
           retryLabel: "Try again",
         }
@@ -46,34 +44,22 @@ export function RouteError({ onRetry }: RouteErrorProps) {
               className="h-9 rounded-full px-3"
               onClick={() => {
                 playSound("click-soft")
-                window.history.back()
-              }}
-            >
-              {copy.backLabel}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-9 rounded-full px-3"
-              onClick={() => {
-                playSound("click-soft")
-                navigate({ to: homeHref })
-              }}
-            >
-              {copy.homeLabel}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-9 rounded-full px-3"
-              onClick={() => {
-                playSound("click-soft")
                 onRetry()
               }}
             >
               {copy.retryLabel}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-9 rounded-full px-3"
+              onClick={() => {
+                playSound("click-soft")
+                window.setTimeout(() => navigate({ to: homeHref }), 100)
+              }}
+            >
+              {copy.homeLabel}
             </Button>
           </>
         ) : null

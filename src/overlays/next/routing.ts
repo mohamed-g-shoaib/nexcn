@@ -212,8 +212,8 @@ export default function NotFound() {
   return (
     <FallbackScreen
       title="Page not found."
-      description="This route does not exist in the generated starter yet."
-      action={<FallbackActions backLabel="Go back" homeHref="/" homeLabel="Go home" />}
+      description="This route does not exist yet."
+      action={<FallbackActions homeHref="/" homeLabel="Go home" />}
     />
   );
 }
@@ -229,14 +229,12 @@ import { defaultLocale, isLocale } from "@/lib/i18n";
 const MESSAGES = {
   en: {
     title: "Page not found.",
-    description: "This route does not exist in the generated starter yet.",
-    backLabel: "Go back",
+    description: "This route does not exist yet.",
     homeLabel: "Go home"
   },
   ar: {
     title: "الصفحة غير موجودة.",
-    description: "هذا المسار غير موجود بعد في الواجهة المولدة.",
-    backLabel: "الرجوع",
+    description: "هذا المسار غير موجود بعد.",
     homeLabel: "العودة للرئيسية"
   }
 } as const;
@@ -251,7 +249,7 @@ export default async function NotFound() {
     <FallbackScreen
       title={copy.title}
       description={copy.description}
-      action={<FallbackActions backLabel={copy.backLabel} homeHref={\`/\${locale}\`} homeLabel={copy.homeLabel} />}
+      action={<FallbackActions homeHref={\`/\${locale}\`} homeLabel={copy.homeLabel} />}
     />
   );
 }
@@ -274,8 +272,8 @@ export default function RouteErrorBoundary({
   return (
     <ErrorView
       title="Something went wrong."
-      description="An unexpected error interrupted the generated starter."
-      action={<FallbackActions backLabel="Go back" homeHref="/" homeLabel="Go home" retryLabel="Try again" onRetry={reset} />}
+      description="An unexpected error occurred. Please try again."
+      action={<FallbackActions homeHref="/" homeLabel="Go home" retryLabel="Try again" onRetry={reset} />}
     />
   );
 }
@@ -291,12 +289,10 @@ import { ErrorView } from "@/components/error-view";
 
 const MESSAGES = {
   en: {
-    backLabel: "Go back",
     homeLabel: "Go home",
     retryLabel: "Try again"
   },
   ar: {
-    backLabel: "الرجوع",
     homeLabel: "العودة للرئيسية",
     retryLabel: "أعد المحاولة"
   }
@@ -317,12 +313,11 @@ export default function RouteErrorBoundary({
       title={locale === "ar" ? "حدث خطأ ما." : "Something went wrong."}
       description={
         locale === "ar"
-          ? "حدث خطأ غير متوقع أثناء تحميل الواجهة المولدة."
-          : "An unexpected error interrupted the generated starter."
+          ? "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
+          : "An unexpected error occurred. Please try again."
       }
       action={
         <FallbackActions
-          backLabel={copy.backLabel}
           homeHref={\`/\${locale}\`}
           homeLabel={copy.homeLabel}
           retryLabel={copy.retryLabel}
@@ -372,13 +367,11 @@ export default function GlobalError({
   const copy =
     locale === "ar"
       ? {
-          backLabel: "الرجوع",
           homeLabel: "العودة للرئيسية",
           retryLabel: "أعد المحاولة",
           homeHref: "/ar"
         }
       : {
-          backLabel: "Go back",
           homeLabel: "Go home",
           retryLabel: "Try again",
           homeHref: "/"
@@ -394,12 +387,11 @@ export default function GlobalError({
           title={locale === "ar" ? "حدث خطأ ما." : "Something went wrong."}
           description={
             locale === "ar"
-              ? "حدث خطأ غير متوقع أثناء تحميل الواجهة المولدة."
-              : "An unexpected error interrupted the generated starter."
+              ? "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
+              : "An unexpected error occurred. Please try again."
           }
           action={
             <FallbackActions
-              backLabel={copy.backLabel}
               homeHref={copy.homeHref}
               homeLabel={copy.homeLabel}
               retryLabel={copy.retryLabel}

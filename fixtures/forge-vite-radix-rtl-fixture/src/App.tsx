@@ -23,7 +23,7 @@ function NotFoundScreen() {
           </p>
           <h1 className="text-xl font-medium tracking-tight">Page not found.</h1>
           <p className="text-sm leading-6 text-muted-foreground">
-            This route does not exist in the generated starter yet.
+            This route does not exist yet.
           </p>
         </div>
       </section>

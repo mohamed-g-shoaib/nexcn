@@ -227,15 +227,13 @@ function AppErrorFallback({ onRetry }: { onRetry: () => void }) {
     routeLocale === "ar"
       ? {
           title: "حدث خطأ ما.",
-          description: "حدث خطأ غير متوقع أثناء تحميل الواجهة المولدة.",
-          backLabel: "الرجوع",
+          description: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
           homeLabel: "العودة للرئيسية",
           retryLabel: "أعد المحاولة"
         }
       : {
           title: "Something went wrong.",
-          description: "An unexpected error interrupted the generated starter.",
-          backLabel: "Go back",
+          description: "An unexpected error occurred. Please try again.",
           homeLabel: "Go home",
           retryLabel: "Try again"
         };
@@ -255,34 +253,22 @@ function AppErrorFallback({ onRetry }: { onRetry: () => void }) {
             className="h-9 rounded-full px-3"
             onClick={() => {
               playSound("click-soft");
-              window.history.back();
-            }}
-          >
-            {copy.backLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
-              navigate(homeHref);
-            }}
-          >
-            {copy.homeLabel}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="h-9 rounded-full px-3"
-            onClick={() => {
-              playSound("click-soft");
               onRetry();
             }}
           >
             {copy.retryLabel}
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-9 rounded-full px-3"
+            onClick={() => {
+              playSound("click-soft");
+              window.setTimeout(() => navigate(homeHref), 100);
+            }}
+          >
+            {copy.homeLabel}
           </Button>
         </>
       }

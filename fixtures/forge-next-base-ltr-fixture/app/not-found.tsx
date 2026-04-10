@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <FallbackScreen
       title="Page not found."
-      description="This route does not exist in the generated starter yet."
+      description="This route does not exist yet."
     />
   )
 }

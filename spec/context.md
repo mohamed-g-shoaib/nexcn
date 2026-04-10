@@ -65,13 +65,14 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - Next.js should use documented App Router error and not-found file conventions
   - Vite and TanStack Start should generate framework-appropriate error/not-found route surfaces
   - fallback screens should reuse the same app styling language instead of introducing a separate visual treatment
-  - fallback actions should include `Go back` and `Go home`, with `Try again` on error states
+  - fallback actions should avoid history-dependent `Go back`; not-found states should offer `Go home`, and error states should offer `Try again` plus `Go home`
   - RTL fallback copy should be translated into Arabic rather than left in English
 - TanStack Start not-found handling is route-boundary sensitive:
   - if `notFound()` is thrown inside `/$locale`, that route must define `notFoundComponent`
   - relying only on a root-level `defaultNotFoundComponent` or `notFoundComponent` is insufficient for this path
 - Generated starter interaction polish now treats fallback actions like the rest of the app shell:
   - buttons on error/not-found surfaces should use the same click sound behavior
+  - home navigation waits briefly after the click sound starts so the interaction does not feel cut off
   - clickable elements should keep pointer affordance in generated CSS (`button`, `[role="button"]`, links, `summary`, and labels with `for`)
 - A separate marketing app now exists again at [marketing-site/](/D:/Developer/nexcn/marketing-site), but its direction is intentionally narrow:
   - keep the scaffolded Forge starter style intact
@@ -141,6 +142,16 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - not-found page includes only Go home action (Go back removed due to edge case where user lands directly on 404 with no history)
   - all buttons respect sound interactions via useUiSound hook with 100ms delay before navigation
   - fallback screens are centered, minimal, and match the established aesthetic
+- Generated app fallback templates were aligned with the marketing-site edge-case fix:
+  - generated not-found copy is now `This route does not exist yet.` / `هذا المسار غير موجود بعد.`
+  - generated not-found pages expose only `Go home`
+  - generated error pages expose `Try again` and `Go home`
+  - `history.back()` / `router.back()` were removed from generated fallbacks because direct 404/error entries may have no useful browser history
+- Published `0.1.0` had a favicon copy bug in bundled CLI mode:
+  - shadcn Vite scaffold does not create a favicon by default
+  - Forge generated `index.html` and `site.webmanifest` favicon references, but the bundled copy step resolved `assets/branding/favicon.ico` one directory too high
+  - hotfix `0.1.1` resolves the asset from both source and published `dist/` layouts
+  - generated `D:\Developer\testforge\public\favicon.ico` was patched manually from `assets/branding/favicon.ico`
   - follows the same pattern as generated Forge starters
 - Release and publishing preparation is now documented in [release-and-publishing.md](/D:/Developer/nexcn/spec/release-and-publishing.md):
   - Vercel deployment should use `marketing-site` as the project root directory
