@@ -303,7 +303,7 @@ export function InstallHelper() {
           Install helper
         </p>
         <h2 className="text-lg font-medium tracking-tight text-foreground">
-          Choose your install path.
+          How do you want to forge your app?
         </h2>
       </div>
 
@@ -349,17 +349,12 @@ export function InstallHelper() {
           </p>
 
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-3">
-              <label
-                htmlFor="marketing-project-name"
-                className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
-              >
-                App name
-              </label>
-              <span className="text-[11px] uppercase tracking-[0.16em] text-muted-foreground/80">
-                Folder and package name
-              </span>
-            </div>
+            <label
+              htmlFor="marketing-project-name"
+              className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground"
+            >
+              App name
+            </label>
             <div className="flex flex-col gap-2.5">
               <input
                 id="marketing-project-name"
