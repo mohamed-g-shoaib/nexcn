@@ -29,7 +29,12 @@ type CreateFlowLine = {
 function getCreateFlowLines(createCommand: string): readonly CreateFlowLine[] {
   return [
     { kind: "command", prefix: "$", text: createCommand },
-    { kind: "prompt", prefix: "?", text: "What should the project be called?", answer: "my-app" },
+    {
+      kind: "prompt",
+      prefix: "?",
+      text: "What should the project be called?",
+      answer: "my-app",
+    },
     {
       kind: "prompt",
       prefix: "?",
@@ -42,7 +47,12 @@ function getCreateFlowLines(createCommand: string): readonly CreateFlowLine[] {
       text: "Which UI Primitives library do you want to use?",
       answer: "Base UI",
     },
-    { kind: "prompt", prefix: "?", text: "Do you want RTL + Arabic support?", answer: "No" },
+    {
+      kind: "prompt",
+      prefix: "?",
+      text: "Do you want RTL + Arabic support?",
+      answer: "No",
+    },
     {
       kind: "prompt",
       prefix: "?",
@@ -61,7 +71,11 @@ function OptionRow({
 }: {
   label: string
   value: string
-  options: readonly { value: string; label: string; icons?: readonly StackVisual[] }[]
+  options: readonly {
+    value: string
+    label: string
+    icons?: readonly StackVisual[]
+  }[]
   onChange: (value: string) => void
 }) {
   return (
@@ -90,13 +104,7 @@ function OptionRow({
   )
 }
 
-function CreateFlowPreview({
-  active,
-  createCommand,
-}: {
-  active: boolean
-  createCommand: string
-}) {
+function CreateFlowPreview({ active, createCommand }: { active: boolean; createCommand: string }) {
   const lines = React.useMemo(() => getCreateFlowLines(createCommand), [createCommand])
   const [reduceMotion, setReduceMotion] = React.useState(false)
   const [shouldAnimate, setShouldAnimate] = React.useState(false)
@@ -167,7 +175,7 @@ function CreateFlowPreview({
               style={
                 shouldAnimate
                   ? {
-                      animationDelay: `${index * 80}ms`,
+                      animationDelay: `${index * 50}ms`,
                     }
                   : undefined
               }
@@ -267,10 +275,7 @@ export function InstallHelper() {
   const [copiedMode, setCopiedMode] = React.useState<"create" | "forge" | null>(null)
   const { playSound } = useUiSound()
 
-  const projectNameValidation = React.useMemo(
-    () => validateProjectName(projectName),
-    [projectName],
-  )
+  const projectNameValidation = React.useMemo(() => validateProjectName(projectName), [projectName])
 
   const commandProjectName = projectNameValidation.normalized || "my-app"
   const command = React.useMemo(

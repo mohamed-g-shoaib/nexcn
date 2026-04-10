@@ -49,72 +49,72 @@
 
 :root {
   --background: oklch(0.9582 0.0152 90.2357);
-  --foreground: oklch(0.3200 0.0250 64.3434);
+  --foreground: oklch(0.32 0.025 64.3434);
   --card: oklch(0.9914 0.0098 87.4695);
-  --card-foreground: oklch(0.3200 0.0250 64.3434);
+  --card-foreground: oklch(0.32 0.025 64.3434);
   --popover: oklch(0.9914 0.0098 87.4695);
-  --popover-foreground: oklch(0.3200 0.0250 64.3434);
-  --primary: oklch(0.6180 0.0778 65.5444);
-  --primary-foreground: oklch(1.0000 0 0);
+  --popover-foreground: oklch(0.32 0.025 64.3434);
+  --primary: oklch(0.618 0.0778 65.5444);
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.8846 0.0302 85.5655);
-  --secondary-foreground: oklch(0.3800 0.0320 64.9288);
-  --muted: oklch(0.9239 0.0190 83.0636);
+  --secondary-foreground: oklch(0.38 0.032 64.9288);
+  --muted: oklch(0.9239 0.019 83.0636);
   --muted-foreground: oklch(0.5391 0.0387 71.1655);
   --accent: oklch(0.8348 0.0426 88.8064);
-  --accent-foreground: oklch(0.3200 0.0250 64.3434);
+  --accent-foreground: oklch(0.32 0.025 64.3434);
   --destructive: oklch(0.5471 0.1438 32.9149);
-  --destructive-foreground: oklch(1.0000 0 0);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.8606 0.0321 84.5881);
   --input: oklch(0.8606 0.0321 84.5881);
-  --ring: oklch(0.6180 0.0778 65.5444);
-  --chart-1: oklch(0.6180 0.0778 65.5444);
+  --ring: oklch(0.618 0.0778 65.5444);
+  --chart-1: oklch(0.618 0.0778 65.5444);
   --chart-2: oklch(0.5604 0.0624 68.5805);
-  --chart-3: oklch(0.4851 0.0570 72.6827);
+  --chart-3: oklch(0.4851 0.057 72.6827);
   --chart-4: oklch(0.6777 0.0624 64.7755);
   --chart-5: oklch(0.7264 0.0581 66.6967);
   --radius: 0rem;
-  --sidebar: oklch(0.9239 0.0190 83.0636);
-  --sidebar-foreground: oklch(0.3200 0.0250 64.3434);
-  --sidebar-primary: oklch(0.6180 0.0778 65.5444);
-  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  --sidebar: oklch(0.9239 0.019 83.0636);
+  --sidebar-foreground: oklch(0.32 0.025 64.3434);
+  --sidebar-primary: oklch(0.618 0.0778 65.5444);
+  --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.8348 0.0426 88.8064);
-  --sidebar-accent-foreground: oklch(0.3200 0.0250 64.3434);
+  --sidebar-accent-foreground: oklch(0.32 0.025 64.3434);
   --sidebar-border: oklch(0.8606 0.0321 84.5881);
-  --sidebar-ring: oklch(0.6180 0.0778 65.5444);
+  --sidebar-ring: oklch(0.618 0.0778 65.5444);
 }
 
 .dark {
   --background: oklch(0.2747 0.0139 57.6523);
-  --foreground: oklch(0.9239 0.0190 83.0636);
+  --foreground: oklch(0.9239 0.019 83.0636);
   --card: oklch(0.3237 0.0155 59.0603);
-  --card-foreground: oklch(0.9239 0.0190 83.0636);
+  --card-foreground: oklch(0.9239 0.019 83.0636);
   --popover: oklch(0.3237 0.0155 59.0603);
-  --popover-foreground: oklch(0.9239 0.0190 83.0636);
+  --popover-foreground: oklch(0.9239 0.019 83.0636);
   --primary: oklch(0.7264 0.0581 66.6967);
   --primary-foreground: oklch(0.2747 0.0139 57.6523);
-  --secondary: oklch(0.3795 0.0181 57.1280);
-  --secondary-foreground: oklch(0.9239 0.0190 83.0636);
+  --secondary: oklch(0.3795 0.0181 57.128);
+  --secondary-foreground: oklch(0.9239 0.019 83.0636);
   --muted: oklch(0.2939 0.0125 62.1298);
   --muted-foreground: oklch(0.7982 0.0243 82.1078);
   --accent: oklch(0.4186 0.0281 56.3404);
-  --accent-foreground: oklch(0.9239 0.0190 83.0636);
+  --accent-foreground: oklch(0.9239 0.019 83.0636);
   --destructive: oklch(0.5471 0.1438 32.9149);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.3795 0.0181 57.1280);
-  --input: oklch(0.3795 0.0181 57.1280);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.3795 0.0181 57.128);
+  --input: oklch(0.3795 0.0181 57.128);
   --ring: oklch(0.7264 0.0581 66.6967);
   --chart-1: oklch(0.7264 0.0581 66.6967);
   --chart-2: oklch(0.6777 0.0624 64.7755);
-  --chart-3: oklch(0.6180 0.0778 65.5444);
+  --chart-3: oklch(0.618 0.0778 65.5444);
   --chart-4: oklch(0.5604 0.0624 68.5805);
-  --chart-5: oklch(0.4851 0.0570 72.6827);
+  --chart-5: oklch(0.4851 0.057 72.6827);
   --sidebar: oklch(0.2747 0.0139 57.6523);
-  --sidebar-foreground: oklch(0.9239 0.0190 83.0636);
+  --sidebar-foreground: oklch(0.9239 0.019 83.0636);
   --sidebar-primary: oklch(0.7264 0.0581 66.6967);
   --sidebar-primary-foreground: oklch(0.2747 0.0139 57.6523);
   --sidebar-accent: oklch(0.4186 0.0281 56.3404);
-  --sidebar-accent-foreground: oklch(0.9239 0.0190 83.0636);
-  --sidebar-border: oklch(0.3795 0.0181 57.1280);
+  --sidebar-accent-foreground: oklch(0.9239 0.019 83.0636);
+  --sidebar-border: oklch(0.3795 0.0181 57.128);
   --sidebar-ring: oklch(0.7264 0.0581 66.6967);
 }
 
@@ -281,19 +281,17 @@
   .marketing-terminal-line {
     @apply flex min-h-7 items-start gap-3;
     opacity: 0;
-    transform: translateY(8px);
-    filter: blur(4px);
+    transform: translate3d(0, 6px, 0);
   }
 
   .marketing-terminal-line[data-animate="true"] {
-    animation: marketing-terminal-line-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: marketing-terminal-line-enter 280ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .marketing-terminal-line {
       opacity: 1;
       transform: none;
-      filter: none;
     }
 
     .marketing-terminal-line[data-animate="true"] {
@@ -304,8 +302,7 @@
   @keyframes marketing-terminal-line-enter {
     to {
       opacity: 1;
-      transform: translateY(0);
-      filter: blur(0);
+      transform: translate3d(0, 0, 0);
     }
   }
 
@@ -351,19 +348,17 @@
   /* Page-level stagger animation (same as terminal) */
   .marketing-page-item {
     opacity: 0;
-    transform: translateY(8px);
-    filter: blur(4px);
+    transform: translate3d(0, 6px, 0);
   }
 
   .marketing-page-item[data-ready="true"] {
-    animation: marketing-terminal-line-enter 500ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: marketing-terminal-line-enter 280ms cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .marketing-page-item {
       opacity: 1;
       transform: none;
-      filter: none;
     }
 
     .marketing-page-item[data-ready="true"] {
