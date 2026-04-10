@@ -27,12 +27,14 @@ The current planning surface now covers:
 - research
 - local skill routing
 - generator contract
+- CLI experience
 - repository structure
 - code-quality tooling choice
 - dependency freshness policy
 - marketing-site scope
 
 The initial implementation shape is now locked and active in code. The next planning concern is to keep the layering clean while expanding support beyond the first verified path.
+Interactive initializer behavior is now additionally defined in [cli-experience.md](/D:/Developer/nexcn/spec/cli-experience.md).
 
 ## Core Implementation Principles
 

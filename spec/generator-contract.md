@@ -133,6 +133,7 @@ Every generated Forge app should include:
 - only necessary user-facing docs or guides
 - one selected code-quality tooling setup
 - support for the selected primitive base with explicit runtime provider composition where needed
+- the Forge branded favicon wired using the framework-appropriate convention
 
 Generated apps should not include:
 
@@ -370,6 +371,31 @@ Generated apps must avoid hydration mismatches caused by rendering theme-depende
 - render a stable fallback for theme controls until mount, or defer theme-dependent UI until after mount
 - keep `next-themes` hydration requirements in mind when rendering controls based on `theme` or `resolvedTheme`
 - for SSR frameworks, locale navigation must not briefly repaint the wrong theme before the active explicit theme is restored
+
+## Metadata Contract
+
+Generated apps should ship with minimal default metadata without requiring user configuration.
+
+### Required defaults
+
+- project title derived from generated `projectName`
+- short description derived from generated `projectName`
+- default favicon exposure using the framework-appropriate head or file convention
+- robots defaults for index/follow
+- Open Graph basics:
+  - `og:title`
+  - `og:description`
+  - `og:type=website`
+- Twitter basics:
+  - `twitter:card=summary_large_image`
+  - `twitter:title`
+  - `twitter:description`
+
+### Scope guard
+
+- do not force canonical URL setup by default
+- do not force site-url env variables by default
+- keep metadata zero-friction so starter users are not blocked by config tasks
 
 ### SSR theme persistence rule
 

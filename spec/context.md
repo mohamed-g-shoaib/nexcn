@@ -1,6 +1,6 @@
 # Forge Context
 
-Last updated: 2026-04-09
+Last updated: 2026-04-10
 
 ## Purpose
 
@@ -11,6 +11,14 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - The old project has been moved into [deprecated/](/D:/Developer/nexcn/deprecated).
 - The active rebuild surface is now the repository root.
 - A real single-package Forge generator now exists in the active root under `src/`.
+- Forge is now additionally being shaped as a published initializer experience:
+  - published package direction: `create-forge`
+  - direct executable direction: `forge`
+  - initializer entrypoints have been verified for:
+    - `npm create forge@latest`
+    - `pnpm create forge`
+    - `bun create forge`
+    - `yarn create forge`
 - The first implemented and verified generation paths are:
   - `next + base + rtl`
   - `next + radix + rtl`
@@ -45,6 +53,25 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - generated apps normalize direct dependencies and devDependencies to current npm `latest` dist-tags before final install
   - current latest verification has been exercised across Next, Vite, and TanStack Start
   - compatibility follow-through now includes TypeScript 6 CSS declarations, Vite 8 config cleanup, and TanStack Start tsconfig normalization
+- Forge now emits minimal default metadata across Next, Vite, and TanStack Start with zero extra setup:
+  - title and description derived from `projectName`
+  - robots default `index/follow`
+  - baseline Open Graph and Twitter tags
+  - no forced canonical URL configuration
+- Forge branded favicon source is now canonicalized at `assets/branding/favicon.ico` for generation output.
+- Vite and TanStack Start generation must emit explicit head links to `/favicon.ico`; Next.js continues to use App Router favicon file conventions.
+- Generated apps must ship framework-native fallback handling rather than ad hoc screens only:
+  - Next.js should use documented App Router error and not-found file conventions
+  - Vite and TanStack Start should generate framework-appropriate error/not-found route surfaces
+  - fallback screens should reuse the same app styling language instead of introducing a separate visual treatment
+  - fallback actions should include `Go back` and `Go home`, with `Try again` on error states
+  - RTL fallback copy should be translated into Arabic rather than left in English
+- TanStack Start not-found handling is route-boundary sensitive:
+  - if `notFound()` is thrown inside `/$locale`, that route must define `notFoundComponent`
+  - relying only on a root-level `defaultNotFoundComponent` or `notFoundComponent` is insufficient for this path
+- Generated starter interaction polish now treats fallback actions like the rest of the app shell:
+  - buttons on error/not-found surfaces should use the same click sound behavior
+  - clickable elements should keep pointer affordance in generated CSS (`button`, `[role="button"]`, links, `summary`, and labels with `for`)
 - A separate marketing app now exists again at [marketing-site/](/D:/Developer/nexcn/marketing-site), but its direction is intentionally narrow:
   - keep the scaffolded Forge starter style intact
   - add only a header, restrained feature mentions, and an install helper
@@ -52,6 +79,39 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - the page container should stay centered with a readable max width
   - install helper should be one integrated surface (package-manager tabs + command in one container)
   - avoid glow effects and decorative icon background chips
+  - stack mentions should use icons from `marketing-site/components/marketing/icons`
+  - the install helper should split into two paths:
+    - `CLI create`
+    - `Forge command`
+  - the app-name field currently belongs only to the `Forge command` path, not the `CLI create` path
+  - the install helper should expose app-name entry directly in the UI with live validation feedback for the explicit command path
+  - app-name validation should mirror generator-safe naming rules instead of accepting arbitrary folder/package names
+  - leading or trailing whitespace in app names should be rejected explicitly rather than silently trimmed away
+  - the app-name field should read as the primary control in the helper and the active option state must stay visually obvious
+  - final polish direction favors optical alignment, adequate hit areas, restrained depth, and subtle interruptible transitions rather than extra decoration
+- Marketing site now has complete SEO implementation:
+  - full metadata with Open Graph and Twitter Card tags
+  - dynamic OG image with minimal design matching site aesthetic
+  - robots.txt, sitemap.xml, and manifest.json
+  - llms.txt and llms-full.txt for AI assistant discoverability
+  - all content follows humanizer guidelines (no em dashes, no AI vocabulary)
+- Marketing site domain is `https://forgedx.vercel.app`
+- Marketing site has a site header with logo, brand name, and theme toggle icon
+- Marketing site install helper terminal mock now shows exact CLI prompts from actual implementation:
+  - uses real prompt text from `src/cli/index.ts`
+  - displays proper question/answer format matching Clack prompts behavior
+  - terminal has macOS-style traffic light controls with accurate colors
+  - terminal content uses proper monospace typography with tabular numbers
+  - terminal lines animate with staggered entrance (80ms delay, opacity + translateY + blur)
+  - terminal animation is viewport-aware using IntersectionObserver (triggers when scrolling into view)
+  - animation respects prefers-reduced-motion
+  - no flash of unstyled content (lines start hidden, animate smoothly)
+- Marketing site page-level animations:
+  - entire page uses staggered reveal animation on load
+  - SiteHeader, Header, and InstallHelper sections animate with 80ms stagger
+  - uses same animation style as terminal (opacity + translateY + blur)
+  - respects prefers-reduced-motion
+- Marketing site layout includes `suppressHydrationWarning` on body tag to prevent hydration errors from browser extensions
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1
@@ -116,6 +176,7 @@ Repository structure decision:
 - Forge itself starts as a single-package repo
 - Forge does not use Turborepo in the first pass
 - Forge stays monorepo-ready for a future `pnpm` workspace migration if it grows into multiple active apps/packages
+- The current CLI experience contract is locked in [cli-experience.md](/D:/Developer/nexcn/spec/cli-experience.md).
 
 ## shadcn Baseline
 
@@ -198,6 +259,12 @@ Current Next.js implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the preferred locale
+- follow official Next.js App Router documentation instead of custom workarounds when conventions exist
+- use documented file conventions for:
+  - `not-found`
+  - `error`
+  - `global-error`
+- prefer the documented theme integration path over custom replacements when working with App Router
 - when RTL mode is disabled:
   - generate a single-language LTR app shell
   - do not generate locale routes or language switching UI
@@ -253,6 +320,7 @@ Direction should not rely only on inheritance when official docs indicate explic
 Theme-dependent UI in generated apps must not render server/client-varying labels or icon states before mount when the active theme cannot be known during SSR.
 For SSR frameworks, locale switches must not cause a temporary theme flash. The document shell should preserve the active explicit theme across locale navigations instead of repainting the default theme first.
 For Vite and TanStack Start starters, the document shell should apply the stored explicit theme before React mounts so a dark/light flash does not appear on initial load or refresh.
+For Next.js starters, implementation choices should remain aligned with official Next.js and package documentation rather than custom patterns that only happen to work locally.
 
 For Next.js starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
 For TanStack Start starters, locale-driven `lang` and `dir` should be initialized from the route locale itself.
@@ -351,3 +419,8 @@ Do not re-browse by default just because a spec edit is being made.
 - keep code-quality behavior aligned across all three frameworks, especially where framework tooling generates files during build
 - keep the retained non-RTL fixtures healthy now that the full direction matrix is implemented
 - keep dependency freshness normalization aligned with current npm `latest` dist-tags for direct generated-app dependencies
+- regenerate fixtures at the end of the current pass so they reflect:
+  - favicon + minimal metadata defaults
+  - framework-native error/not-found generation
+  - latest Next/Vite/Start routing and provider fixes
+- marketing site SEO is complete and production-ready
