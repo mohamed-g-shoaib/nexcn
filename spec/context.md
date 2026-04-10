@@ -138,6 +138,33 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - all buttons respect sound interactions via useUiSound hook with 100ms delay before navigation
   - fallback screens are centered, minimal, and match the established aesthetic
   - follows the same pattern as generated Forge starters
+- Release and publishing preparation is now documented in [release-and-publishing.md](/D:/Developer/nexcn/spec/release-and-publishing.md):
+  - Vercel deployment should use `marketing-site` as the project root directory
+  - npm publishing happens from the repository root as `create-forge`
+  - public initializer commands should only be promoted after registry verification
+  - local tarball smoke tests should use `npm exec --package <tarball>` rather than `npm create <tarball>`
+- Root npm package metadata has been prepared for the first public package pass:
+  - package name remains `create-forge`
+  - version is now `0.1.0`
+  - package is no longer private
+  - license is MIT with a root `LICENSE` file
+  - homepage points to `https://forgedx.vercel.app`
+  - repository and issues metadata point to `https://github.com/mohamed-g-shoaib/forge`
+  - npm `files` allowlist keeps the package limited to `dist`, `README.md`, `LICENSE`, and the branded favicon asset
+  - published binaries remain `forge` and `create-forge`
+- Packaged CLI asset lookup was corrected so the branded favicon is resolved from the installed package root instead of the user's current working directory.
+- Release-prep verification completed locally:
+  - `pnpm install --frozen-lockfile`
+  - `pnpm typecheck`
+  - `pnpm test`
+  - `pnpm build`
+  - `npm pack --dry-run`
+  - tarball smoke tests for both `forge --help` and `create-forge --help`
+- Remaining release actions require account or dashboard access:
+  - configure the Vercel project with Root Directory `marketing-site`
+  - run `npm login`
+  - publish with `npm publish`
+  - verify public registry entrypoints after publish
 - Yarn behavior is now explicitly understood rather than treated as an anomaly:
   - Corepack resolves the nearest `package.json` with a `packageManager` field
   - modern Yarn should be treated as a Corepack-managed tool, not legacy global Yarn 1

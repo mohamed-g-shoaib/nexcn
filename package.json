@@ -1,14 +1,42 @@
 {
   "name": "create-forge",
-  "version": "0.0.0",
-  "private": true,
-  "description": "Forge CLI generator",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Create a Forge app.",
   "type": "module",
+  "license": "MIT",
+  "homepage": "https://forgedx.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohamed-g-shoaib/forge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mohamed-g-shoaib/forge/issues"
+  },
+  "keywords": [
+    "forge",
+    "create-forge",
+    "starter",
+    "scaffold",
+    "cli",
+    "nextjs",
+    "vite",
+    "tanstack-start",
+    "shadcn",
+    "base-ui",
+    "radix-ui",
+    "rtl"
+  ],
   "packageManager": "pnpm@10.29.3",
   "engines": {
-    "node": ">=20.19.0",
-    "pnpm": ">=10.0.0"
+    "node": ">=20.19.0"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "assets/branding/favicon.ico"
+  ],
   "bin": {
     "forge": "./dist/index.js",
     "create-forge": "./dist/index.js"

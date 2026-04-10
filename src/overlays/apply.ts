@@ -1,16 +1,23 @@
 import { access, copyFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import type { GenerationContext } from "../types.js";
 import { applyNextOverlay } from "./next-apply.js";
 import { applyStartOverlay } from "./start-apply.js";
 import { applyViteOverlay } from "./vite-apply.js";
+
+const packageRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+);
 
 async function copyBrandFavicon(
   context: GenerationContext,
   projectDirectory: string,
 ): Promise<void> {
   const sourceFaviconPath = path.join(
-    context.cwd,
+    packageRoot,
     "assets",
     "branding",
     "favicon.ico",
@@ -33,7 +40,7 @@ async function copyBrandFavicon(
 
 export async function applyFrameworkOverlay(
   context: GenerationContext,
-  projectDirectory: string
+  projectDirectory: string,
 ): Promise<void> {
   if (context.config.framework === "next") {
     await applyNextOverlay(context, projectDirectory);
@@ -53,5 +60,7 @@ export async function applyFrameworkOverlay(
     return;
   }
 
-  throw new Error(`No overlay application is implemented yet for "${context.config.framework}".`);
+  throw new Error(
+    `No overlay application is implemented yet for "${context.config.framework}".`,
+  );
 }
