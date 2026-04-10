@@ -12,20 +12,32 @@ const packageRoot = path.resolve(
   "..",
 );
 
+async function findBrandFaviconPath(): Promise<string | undefined> {
+  const moduleDirectory = path.dirname(fileURLToPath(import.meta.url));
+  const candidates = [
+    path.join(packageRoot, "assets", "branding", "favicon.ico"),
+    path.join(moduleDirectory, "..", "assets", "branding", "favicon.ico"),
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      await access(candidate);
+      return candidate;
+    } catch {
+      // Try the next package layout. Source runs from src/, published CLI runs from dist/.
+    }
+  }
+
+  return undefined;
+}
+
 async function copyBrandFavicon(
   context: GenerationContext,
   projectDirectory: string,
 ): Promise<void> {
-  const sourceFaviconPath = path.join(
-    packageRoot,
-    "assets",
-    "branding",
-    "favicon.ico",
-  );
+  const sourceFaviconPath = await findBrandFaviconPath();
 
-  try {
-    await access(sourceFaviconPath);
-  } catch {
+  if (!sourceFaviconPath) {
     return;
   }
 
