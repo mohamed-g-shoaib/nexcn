@@ -16,7 +16,9 @@
       "**/*.cjs",
       "**/*.json",
       "**/*.jsonc",
-      "!src/routeTree.gen.ts"
+      "!src/routeTree.gen.ts",
+      "!**/.yarn/**",
+      "!**/.pnp.*"
     ]
   },
   "formatter": {

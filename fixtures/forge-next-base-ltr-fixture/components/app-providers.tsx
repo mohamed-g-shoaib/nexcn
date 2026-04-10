@@ -4,7 +4,6 @@ import * as React from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { Tooltip } from "@base-ui/react/tooltip"
 
-import { ThemeProvider } from "@/components/theme-provider"
 import { LocaleProvider } from "@/hooks/use-locale"
 
 function AppShellProviders({ children }: { children: React.ReactNode }) {
@@ -19,10 +18,8 @@ function AppShellProviders({ children }: { children: React.ReactNode }) {
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
-    <ThemeProvider>
-      <LocaleProvider>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
-    </ThemeProvider>
+    <LocaleProvider>
+      <AppShellProviders>{children}</AppShellProviders>
+    </LocaleProvider>
   )
 }

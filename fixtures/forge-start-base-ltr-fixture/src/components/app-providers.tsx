@@ -1,4 +1,4 @@
-import * as React from "react"
+import type * as React from "react"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { Tooltip } from "@base-ui/react/tooltip"
 

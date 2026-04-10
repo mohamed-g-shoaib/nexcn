@@ -28,9 +28,9 @@ If you deploy the built app as static assets, configure your host to serve `inde
 ## Commands
 
 ```bash
-pnpm dev
-pnpm build
-pnpm typecheck
-pnpm lint
-pnpm format
+pnpm run dev
+pnpm run build
+pnpm run typecheck
+pnpm run lint
+pnpm run format
 ```

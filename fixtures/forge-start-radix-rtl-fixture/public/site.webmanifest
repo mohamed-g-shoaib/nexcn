@@ -1,0 +1,14 @@
+{
+  "name": "forge-start-radix-rtl-fixture",
+  "short_name": "forge-start-radix-rtl-fixture",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

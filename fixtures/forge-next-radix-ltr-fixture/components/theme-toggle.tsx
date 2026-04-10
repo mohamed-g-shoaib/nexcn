@@ -1,22 +1,16 @@
 "use client"
 
-import * as React from "react"
 import { MoonStarIcon, SunMediumIcon } from "lucide-react"
-import { useTheme } from "next-themes"
 
+import { useTheme } from "@/components/theme-provider"
 import { Button } from "@/components/ui/button"
 import { useLocale } from "@/hooks/use-locale"
 import { useUiSound } from "@/hooks/use-ui-sound"
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme()
+  const { mounted, resolvedTheme, setTheme } = useTheme()
   const { messages } = useLocale()
   const { playSound } = useUiSound()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const isDark = resolvedTheme === "dark"
   const nextThemeLabel = !mounted
