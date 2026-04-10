@@ -112,21 +112,25 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - replaced unclear technical jargon with plain language
   - all changes follow humanizer skill guidelines
 - Marketing site domain is `https://use-forge.vercel.app/`
+- Marketing site has been deployed on Vercel at `https://use-forge.vercel.app/`.
 - Marketing site has a site header with logo, brand name, and theme toggle icon
 - Marketing site install helper terminal mock now shows exact CLI prompts from actual implementation:
   - uses real prompt text from `src/cli/index.ts`
   - displays proper question/answer format matching Clack prompts behavior
   - terminal has macOS-style traffic light controls with accurate colors
   - terminal content uses proper monospace typography with tabular numbers
-  - terminal lines animate with staggered entrance (80ms delay, opacity + translateY + blur)
+  - terminal lines animate with staggered entrance (50ms delay, opacity + translate3d)
   - terminal animation is viewport-aware using IntersectionObserver (triggers when scrolling into view)
   - animation respects prefers-reduced-motion
   - no flash of unstyled content (lines start hidden, animate smoothly)
 - Marketing site page-level animations:
   - entire page uses staggered reveal animation on load
-  - SiteHeader, Header, and InstallHelper sections animate with 80ms stagger
-  - uses same animation style as terminal (opacity + translateY + blur)
+  - SiteHeader, Header, and InstallHelper sections animate with 50ms stagger
+  - uses the same lightweight animation style as terminal (opacity + translate3d)
   - respects prefers-reduced-motion
+  - page reveal is CSS-driven from the first server paint instead of waiting for hydration
+  - fixed a cold-open issue where the page briefly rendered static before the reveal animation started
+  - removed blur from the reveal animations because it made cold loads feel heavy and stuttery
 - Marketing site layout includes `suppressHydrationWarning` on body tag to prevent hydration errors from browser extensions
 - Marketing site now has framework-native error and not-found pages:
   - error.tsx uses Next.js App Router error boundary convention
@@ -161,7 +165,6 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `npm pack --dry-run`
   - tarball smoke tests for both `forge --help` and `create-forge --help`
 - Remaining release actions require account or dashboard access:
-  - configure the Vercel project with Root Directory `marketing-site`
   - run `npm login`
   - publish with `npm publish`
   - verify public registry entrypoints after publish
