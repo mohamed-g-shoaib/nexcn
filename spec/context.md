@@ -178,6 +178,10 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - repository and issues metadata point to `https://github.com/mohamed-g-shoaib/forge`
   - npm `files` allowlist keeps the package limited to `dist`, `README.md`, `LICENSE`, and the branded favicon asset
   - published binaries are `forge` and `create-use-forge`
+- Root `README.md` has been rewritten for readability and calmer onboarding:
+  - top banner now uses `marketing-site/public/marketing-image.jpg`
+  - sections were reorganized for easier scanning (`quick start`, `what you get`, `choose your setup`, `common commands`)
+  - wording was softened to reduce heavy jargon while keeping technical accuracy for both new and advanced users
 - Packaged CLI asset lookup was corrected so the branded favicon is resolved from the installed package root instead of the user's current working directory.
 - Release-prep verification completed locally:
   - `pnpm install --frozen-lockfile`
