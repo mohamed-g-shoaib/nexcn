@@ -2,15 +2,20 @@
 
 # Forge
 
-Forge is a CLI that creates clean React starters so you can begin building right away.
+Forge is a CLI that scaffolds clean React starters you can edit immediately.
 
-It uses shadcn for scaffolding, then applies Forge layers for app shell setup, theme support, optional RTL routing, sound hooks, fallback pages, metadata, code-quality setup, and starter docs.
+It uses shadcn for the scaffold, then applies Forge setup for app shell wiring, theme support, optional RTL routing, sound hooks, fallback pages, metadata, code-quality tooling, and starter docs.
 
 Website: [use-forge.vercel.app](https://use-forge.vercel.app/)
 
-## Quick Start
+> [!WARNING]
+> Do not use `npm i create-use-forge` to start a new app.
+> It only installs the package and does not run the initializer.
+> Use the **Create an app** commands below.
 
-Use one of these commands:
+## Create an app
+
+Use one of these commands to start a new project:
 
 ```bash
 npm create use-forge@latest
@@ -19,17 +24,35 @@ bun create use-forge
 yarn create use-forge
 ```
 
-You can also run the CLI directly after install:
+## Naming rules
 
-```bash
-forge generate
+Project names must use lowercase letters, numbers, and single hyphens.
+
+Valid examples:
+
+```txt
+my-app
+forge-demo
+app2
 ```
 
-## What You Get
+Invalid examples:
 
-Forge starters are intentionally small and easy to edit.
+```txt
+MyApp
+my_app
+my--app
+my app
+con
+```
 
-Each app includes:
+The special name `.` is valid when you generate into the current empty folder.
+
+## What Forge generates
+
+Forge starters stay intentionally minimal.
+
+Each generated app includes:
 
 - a minimal starter page
 - a theme switch
@@ -40,9 +63,9 @@ Each app includes:
 - lint and format setup based on your chosen option
 - a README that matches your package manager
 
-Each app does not include internal Forge specs, skills, or planning docs.
+Generated apps do not include Forge internal specs, skills, or planning docs.
 
-## Choose Your Setup
+## Choose your setup
 
 Frameworks:
 
@@ -79,9 +102,9 @@ Current default preset:
 next + base + ltr + pnpm + biome
 ```
 
-## Common Commands
+## Common Forge commands
 
-Interactive generation:
+After app creation, these are the commands most users need:
 
 ```bash
 forge generate
@@ -111,31 +134,22 @@ Generate a retained fixture in `fixtures/`:
 forge generate --fixture --name next-base-ltr --framework next --base base --ltr
 ```
 
-## Naming Rules
+## Advanced command paths
 
-Project names must use lowercase letters, numbers, and single hyphens.
+If you installed the package and want to run it manually, use one of these:
 
-Valid examples:
-
-```txt
-my-app
-forge-demo
-app2
+```bash
+npx create-use-forge generate
+npm exec create-use-forge -- generate
 ```
 
-Invalid examples:
+If `forge` is already available in your environment, this also works:
 
-```txt
-MyApp
-my_app
-my--app
-my app
-con
+```bash
+forge generate
 ```
 
-The special name `.` is valid when you generate into the current empty folder.
-
-## Current Status
+## Current status
 
 Forge is in its first public release pass.
 
@@ -146,7 +160,11 @@ The npm package name is `create-use-forge`, and it exposes:
 
 The marketing site is deployed from `marketing-site/` on Vercel. npm publish is the remaining public release step.
 
-## How Forge is Built
+## Maintainers
+
+This section is for contributors and release maintainers.
+
+### How Forge is built
 
 Forge is a single-package TypeScript CLI with three layers:
 
@@ -156,7 +174,7 @@ Forge is a single-package TypeScript CLI with three layers:
 
 In short, scaffold tools create the base app, overlays apply framework shell details, and feature packs add cross-cutting pieces like docs, sounds, metadata, dependency freshness, and code quality.
 
-## Repository Map
+### Repository map
 
 ```txt
 src/                  CLI, generator, overlays, feature packs, verification
@@ -167,7 +185,7 @@ spec/                 project contracts and working memory
 deprecated/           legacy code outside active surface
 ```
 
-## Development
+### Development
 
 Install dependencies:
 
@@ -207,7 +225,7 @@ Inspect package contents:
 npm pack --dry-run
 ```
 
-## Marketing Site
+### Marketing site
 
 Local checks:
 
@@ -227,7 +245,7 @@ Build Command: default
 Output Directory: default
 ```
 
-## Release
+### Release
 
 Release checklist: [spec/release-and-publishing.md](./spec/release-and-publishing.md)
 

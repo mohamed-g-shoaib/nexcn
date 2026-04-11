@@ -112,6 +112,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - removed exaggerating words like "real" throughout
   - replaced unclear technical jargon with plain language
   - all changes follow humanizer skill guidelines
+  - `marketing-site/README.md` is now explicitly marketing-site specific (purpose, edit map, baseline setup, and common commands) instead of generic starter wording
 - Marketing site domain is `https://use-forge.vercel.app/`
 - Marketing site has been deployed on Vercel at `https://use-forge.vercel.app/`.
 - Marketing site has a site header with logo, brand name, and theme toggle icon
@@ -188,6 +189,10 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - top banner now uses `marketing-site/public/marketing-image.jpg`
   - sections were reorganized for easier scanning (`quick start`, `what you get`, `choose your setup`, `common commands`)
   - wording was softened to reduce heavy jargon while keeping technical accuracy for both new and advanced users
+  - README now includes a high-visibility warning that `npm i create-use-forge` only installs and does not run the initializer
+  - install section language now emphasizes `Create an app` commands to reduce npmjs install-snippet confusion
+  - README ordering now prioritizes npm-first onboarding (create commands and naming rules first), with maintainer/release details grouped in a dedicated lower `Maintainers` section
+  - README copy pass now follows humanizer guidance: direct language, reduced abstraction in user-facing sections, and clearer audience split between first-run users and maintainers
 - Packaged CLI asset lookup was corrected so the branded favicon is resolved from the installed package root instead of the user's current working directory.
 - Release-prep verification completed locally:
   - `pnpm install --frozen-lockfile`
