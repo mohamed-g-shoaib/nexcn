@@ -152,6 +152,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - Forge generated `index.html` and `site.webmanifest` favicon references, but the bundled copy step resolved `assets/branding/favicon.ico` one directory too high
   - hotfix `0.1.1` resolves the asset from both source and published `dist/` layouts
   - `0.1.1` is published and `latest` resolves to it on npm
+  - next publish must be `0.1.2` because npm versions are immutable and `0.1.1` cannot be overwritten
   - generated `D:\Developer\testforge\public\favicon.ico` was patched manually from `assets/branding/favicon.ico`
 - CLI generation output was made quieter for the hotfix:
   - nested subprocess output is captured instead of streamed on successful commands
@@ -170,7 +171,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - local tarball smoke tests should use `npm exec --package <tarball>` rather than `npm create <tarball>`
 - Root npm package metadata has been prepared for the first public package pass:
   - package name is now `create-use-forge` because npm blocked `create-forge` as too similar to the existing `createforge` package
-  - current published version is `0.1.1`
+  - package version is prepared as `0.1.2` for the next npm publish
   - package is no longer private
   - license is MIT with a root `LICENSE` file
   - homepage points to `https://use-forge.vercel.app/`
