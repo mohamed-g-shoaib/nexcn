@@ -78,6 +78,16 @@ The marketing site has undergone comprehensive audits and refinements across mul
 - Follows same pattern as generated Forge starters
 - Zero TypeScript errors, zero linting errors
 
+### Session 6: Live Example Links (2026-04-11)
+- Added live example links below features list in Header component
+- Minimal presentation: "See how it looks at:" followed by inline links
+- RTL Example: https://forge-example-rtl.vercel.app/
+- Example: https://forge-example.vercel.app/
+- Links include click sound interaction via useUiSound hook with 100ms delay before opening
+- Uses window.open with noopener,noreferrer for security
+- Maintains scaffolded baseline style with underline decoration that transitions on hover
+- Zero TypeScript errors, zero linting errors
+
 ### Technical Quality: 10/10
 - Zero anti-patterns
 - Proper React/Next.js implementation
@@ -183,7 +193,7 @@ The page structure:
 ### Modified
 - `marketing-site/app/globals.css` (theme, hover protection, contrast)
 - `marketing-site/app/layout.tsx` (added complete metadata, metadataBase, OG tags)
-- `marketing-site/components/marketing/header.tsx` (features as icon list, max-widths)
+- `marketing-site/components/marketing/header.tsx` (features as icon list, max-widths, live example links)
 - `marketing-site/components/marketing/page-shell.tsx` (removed Features component)
 - `marketing-site/components/marketing/install-helper.tsx` (H2 size, labels)
 - `marketing-site/components/ui/button.tsx` (scale, transitions)
@@ -192,5 +202,5 @@ The page structure:
 - `marketing-site/hooks/use-ui-sound.ts` (useState → useMemo)
 - `marketing-site/lib/marketing.ts` (centralized data, updated labels)
 - `spec/skills.md` (added humanizer reference)
-- `spec/marketing-site.md` (documented SEO session, error pages session)
-- `spec/context.md` (documented error pages implementation)
+- `spec/marketing-site.md` (documented SEO session, error pages session, example links session)
+- `spec/context.md` (documented error pages implementation, example links)

@@ -142,6 +142,12 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - not-found page includes only Go home action (Go back removed due to edge case where user lands directly on 404 with no history)
   - all buttons respect sound interactions via useUiSound hook with 100ms delay before navigation
   - fallback screens are centered, minimal, and match the established aesthetic
+- Marketing site header now includes live example links below the features list:
+  - "See how it looks at:" followed by inline links to deployed examples
+  - RTL Example: https://forge-example-rtl.vercel.app/
+  - Example: https://forge-example.vercel.app/
+  - links include click sound interaction via useUiSound hook with 100ms delay
+  - minimal presentation matching the scaffolded baseline style
 - Generated app fallback templates were aligned with the marketing-site edge-case fix:
   - generated not-found copy is now `This route does not exist yet.` / `هذا المسار غير موجود بعد.`
   - generated not-found pages expose only `Go home`

@@ -1,11 +1,25 @@
 "use client"
 
-import { PackageIcon, SlidersHorizontalIcon, LanguagesIcon } from "lucide-react"
+import * as React from "react"
+import { PackageIcon, SlidersHorizontalIcon, LanguagesIcon, ExternalLinkIcon } from "lucide-react"
 
 import { StackPill } from "@/components/marketing/stack-pill"
 import { MARKETING_STACK } from "@/lib/marketing"
+import { useUiSound } from "@/hooks/use-ui-sound"
 
 export function Header() {
+  const { playSound } = useUiSound()
+
+  function handleExampleClick(url: string) {
+    return (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault()
+      playSound("click-soft")
+      setTimeout(() => {
+        window.open(url, "_blank", "noopener,noreferrer")
+      }, 100)
+    }
+  }
+
   return (
     <section className="flex flex-col gap-8">
       {/* Hero copy: one headline, one supporting line */}
@@ -44,6 +58,30 @@ export function Header() {
             />
             <span className="text-pretty text-muted-foreground">
               RTL and Arabic support when you need it. Single-language English when you don't.
+            </span>
+          </li>
+          <li className="flex items-start gap-3">
+            <ExternalLinkIcon
+              aria-hidden="true"
+              className="mt-[0.2rem] size-4 shrink-0 text-muted-foreground"
+            />
+            <span className="text-pretty text-muted-foreground">
+              See how it looks at:{" "}
+              <a
+                href="https://forge-example-rtl.vercel.app/"
+                onClick={handleExampleClick("https://forge-example-rtl.vercel.app/")}
+                className="text-foreground underline decoration-muted-foreground underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                RTL Example
+              </a>
+              {" · "}
+              <a
+                href="https://forge-example.vercel.app/"
+                onClick={handleExampleClick("https://forge-example.vercel.app/")}
+                className="text-foreground underline decoration-muted-foreground underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                Example
+              </a>
             </span>
           </li>
         </ul>
