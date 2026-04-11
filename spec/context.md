@@ -1,6 +1,6 @@
 # Forge Context
 
-Last updated: 2026-04-10
+Last updated: 2026-04-11
 
 ## Purpose
 
@@ -14,7 +14,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
 - Forge is now additionally being shaped as a published initializer experience:
   - published package direction: `create-use-forge`
   - direct executable direction: `forge`
-  - expected initializer entrypoints after npm publish:
+  - expected initializer entrypoints:
     - `npm create use-forge@latest`
     - `pnpm create use-forge`
     - `bun create use-forge`
@@ -151,13 +151,17 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - shadcn Vite scaffold does not create a favicon by default
   - Forge generated `index.html` and `site.webmanifest` favicon references, but the bundled copy step resolved `assets/branding/favicon.ico` one directory too high
   - hotfix `0.1.1` resolves the asset from both source and published `dist/` layouts
+  - `0.1.1` is published and `latest` resolves to it on npm
   - generated `D:\Developer\testforge\public\favicon.ico` was patched manually from `assets/branding/favicon.ico`
 - CLI generation output was made quieter for the hotfix:
   - nested subprocess output is captured instead of streamed on successful commands
   - Forge now prints concise step labels and final next steps by default
   - interactive terminals use a restrained Clack spinner for long-running steps
+  - active steps show elapsed time and completed steps show duration
+  - heavy steps can show broad expectation hints instead of fake percentages
   - non-interactive output stays plain and deterministic
   - failed subprocesses still include the command, exit code, and captured output tail for debugging
+  - exact `bunx --bun create-use-forge@0.1.1 generate` smoke test confirmed the quieter generation flow; bare package-manager create commands may need cache refresh after publish
   - follows the same pattern as generated Forge starters
 - Release and publishing preparation is now documented in [release-and-publishing.md](/D:/Developer/nexcn/spec/release-and-publishing.md):
   - Vercel deployment should use `marketing-site` as the project root directory
@@ -166,7 +170,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - local tarball smoke tests should use `npm exec --package <tarball>` rather than `npm create <tarball>`
 - Root npm package metadata has been prepared for the first public package pass:
   - package name is now `create-use-forge` because npm blocked `create-forge` as too similar to the existing `createforge` package
-  - version is now `0.1.0`
+  - current published version is `0.1.1`
   - package is no longer private
   - license is MIT with a root `LICENSE` file
   - homepage points to `https://use-forge.vercel.app/`

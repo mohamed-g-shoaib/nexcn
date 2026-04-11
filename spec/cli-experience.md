@@ -1,6 +1,6 @@
 # Forge CLI Experience
 
-Last updated: 2026-04-10
+Last updated: 2026-04-11
 
 ## Purpose
 
@@ -193,6 +193,9 @@ Default output should include:
 When stdout is an interactive terminal, long-running steps should use a small `@clack/prompts` spinner and resolve into a completed step line.
 When stdout is not interactive, Forge should print plain deterministic step lines instead.
 Forge must respect `NO_COLOR`.
+Active steps should show elapsed time so the user can tell Forge is still working.
+Completed steps should show their duration.
+Known heavy steps may show broad expectation copy such as `Fresh installs can take a few minutes.`, but Forge should avoid exact percentages or fake ETAs for opaque subprocesses.
 
 Default output should not include successful subprocess logs from:
 
@@ -342,10 +345,8 @@ Resolution basis:
 - Bun CLI help states Bun runs npm templates via `create-<template>`
 - Yarn classic docs and local CLI help both define `yarn create <starter-kit-package>` for `create-*` starter kits
 
-Current caution:
-
-- these `use-forge` entrypoints still need registry verification after `create-use-forge` is published
-
+- `create-use-forge` is now published on npm and `latest` resolves to the current published package.
+- registry-backed entrypoints should still be smoke-tested after each publish because package-manager caches can briefly hide new versions
 - local verification for Yarn in this workspace required running outside the Forge repo because the repo `packageManager` field can interfere with Yarn when executed inside the project root
 - the currently installed local Yarn was `1.22.22`, so the verified `yarn create` behavior is grounded in Yarn Classic documentation and CLI output
 
