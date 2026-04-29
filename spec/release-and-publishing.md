@@ -70,7 +70,7 @@ The package-manager initializer model resolves `npm create use-forge` to the pac
 Current local release state on 2026-04-30:
 
 - package name is `create-use-forge`
-- package version is `0.1.3`
+- package version is `0.1.4`
 - root package metadata is already finalized for publish
 - `npm pack --dry-run` is clean
 - local tarball smoke checks for both executable names pass when run against a clean npm cache
@@ -86,7 +86,7 @@ Historical note:
 The root `package.json` already has the required publish metadata:
 
 - `"private": false`
-- version set to `0.1.3`
+- version set to `0.1.4`
 - MIT license
 - repository, homepage, and bugs metadata
 - keywords for framework and starter discovery
@@ -156,13 +156,13 @@ npm pack
 Test the tarball from a temporary directory outside the Forge repo:
 
 ```bash
-npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.3.tgz -- forge --help
+npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.4.tgz -- forge --help
 ```
 
 Also verify direct executable behavior:
 
 ```bash
-npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.3.tgz -- create-use-forge --help
+npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.4.tgz -- create-use-forge --help
 ```
 
 If these local tarball checks fail, do not publish.

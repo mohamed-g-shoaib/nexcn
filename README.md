@@ -166,7 +166,7 @@ The npm package name is `create-use-forge`, and it exposes:
 - `forge`
 - `create-use-forge`
 
-The current package version is `0.1.3`.
+The current package version is `0.1.4`.
 
 The marketing site is deployed from `marketing-site/` on Vercel. The remaining public release steps are npm publish and registry verification.
 
