@@ -5,10 +5,16 @@ import {
   createRootRoute,
   useParams,
 } from "@tanstack/react-router"
+import { useTranslation } from "react-i18next"
 import appCss from "../styles.css?url"
 import type * as React from "react"
+
 import { AppProviders } from "@/components/app-providers"
-import { defaultLocale, getDirectionForLocale, isLocale } from "@/lib/i18n"
+import { FallbackActions } from "@/components/fallback-actions"
+import { FallbackScreen } from "@/components/fallback-screen"
+import { RouteError } from "@/components/route-error"
+import { useRouteLocale } from "@/hooks/use-route-locale"
+import { defaultLocale, getLocaleHref, isLocale } from "@/lib/i18n"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -30,6 +36,14 @@ export const Route = createRootRoute({
       {
         name: "robots",
         content: "index, follow",
+      },
+      {
+        property: "og:locale",
+        content: "en_US",
+      },
+      {
+        property: "og:locale:alternate",
+        content: "ar_AR",
       },
       {
         property: "og:title",
@@ -78,17 +92,17 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  errorComponent: RootErrorScreen,
   shellComponent: RootDocument,
-  notFoundComponent: NotFoundScreen,
+  notFoundComponent: RootNotFoundScreen,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const params = useParams({ strict: false })
   const locale = isLocale(params.locale) ? params.locale : defaultLocale
-  const direction = getDirectionForLocale(locale)
 
   return (
-    <html lang={locale} dir={direction} suppressHydrationWarning>
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
         <meta name="color-scheme" content="dark light" />
         <HeadContent />
@@ -106,20 +120,27 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NotFoundScreen() {
+function RootNotFoundScreen() {
+  const { t } = useTranslation()
+  const { direction, locale } = useRouteLocale()
+
   return (
-    <main className="flex min-h-svh items-center justify-center px-6 py-10">
-      <section className="w-full max-w-md">
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Forge
-          </p>
-          <h1 className="text-xl font-medium tracking-tight">Page not found.</h1>
-          <p className="text-sm leading-6 text-muted-foreground">
-            This route does not exist yet.
-          </p>
-        </div>
-      </section>
-    </main>
+    <FallbackScreen
+      eyebrow={t("Fallback.eyebrow")}
+      locale={locale}
+      direction={direction}
+      title={t("Fallback.notFoundTitle")}
+      description={t("Fallback.notFoundDescription")}
+      action={
+        <FallbackActions
+          homeHref={getLocaleHref("/", locale)}
+          homeLabel={t("Fallback.homeLabel")}
+        />
+      }
+    />
   )
+}
+
+function RootErrorScreen({ reset }: { error: unknown; reset: () => void }) {
+  return <RouteError onRetry={reset} />
 }

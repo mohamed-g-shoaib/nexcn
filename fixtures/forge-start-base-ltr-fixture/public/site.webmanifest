@@ -1,6 +1,6 @@
 {
-  "name": "regen-start-base-ltr",
-  "short_name": "regen-start-base-ltr",
+  "name": "forge-start-base-ltr-fixture",
+  "short_name": "forge-start-base-ltr-fixture",
   "icons": [
     {
       "src": "/favicon.ico",

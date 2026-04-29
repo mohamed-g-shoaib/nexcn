@@ -19,3 +19,7 @@ export function getAlternateLocale(locale: Locale): Locale {
 export function getLocaleHref(pathname: string, _locale: Locale): string {
   return pathname
 }
+
+export function getLocaleFromPathname(_pathname: string): Locale {
+  return "en"
+}

@@ -1,6 +1,6 @@
 # Forge Context
 
-Last updated: 2026-04-29
+Last updated: 2026-04-30
 
 ## Purpose
 
@@ -65,10 +65,34 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - do not start the full TanStack Start spec until the Vite i18n migration and Vite fixture refresh are finished
 - The short break is over and the Vite i18n pass is now finished.
 - Active resume goals for the next pass:
+  - keep the retained Next fixtures healthy as regression targets
   - keep the retained Vite fixtures healthy as regression targets
-  - write the full TanStack Start i18n spec next, now that the Vite pass is complete
-  - implement the TanStack Start `react-i18next` migration after that spec is locked
+  - keep the retained TanStack Start fixtures healthy as regression targets
   - keep generated output free of dead locale-provider files, imports, and translation branches across all frameworks
+  - move back to release and publish readiness work now that all three framework i18n paths are aligned
+- The TanStack Start planning direction is now locked at the spec layer:
+  - Forge will use `react-i18next` for `start + rtl`
+  - the spec keeps route locale as the primary truth
+  - the spec treats SSR hydration safety as a first-class requirement, not an afterthought
+  - the spec moves translation ownership out of `src/hooks/use-locale.tsx` and into dedicated `src/i18n/*` files
+  - the spec preserves TanStack Start's route-boundary not-found requirements under `/$locale`
+- The TanStack Start i18n migration to `react-i18next` is now complete:
+  - a TanStack Start-specific production contract exists at [spec/i18n/tanstack-start-react-i18next.md](/D:/Developer/forge/spec/i18n/tanstack-start-react-i18next.md)
+  - the active Start overlay source no longer relies on `src/hooks/use-locale.tsx`
+  - the Start RTL direction now uses route-based locale truth with TanStack Router plus `i18next` / `react-i18next`
+  - generated Start RTL apps now emit `src/i18n/config.ts`, `src/i18n/resources.ts`, and `src/i18n/types.ts`
+  - generated Start RTL apps now use translation hooks in starter, toggle, not-found, and error surfaces instead of provider-owned inline dictionaries
+  - generated Start apps keep `html lang` and `html dir` aligned with the active route locale through the root document shell
+  - generated Start fallback handling now uses shared fallback surfaces and actions instead of locale-provider copy branches
+- TanStack Start generator verification now completed successfully:
+  - root `pnpm typecheck`, `pnpm test`, and `pnpm build` passed after the Start overlay refactor
+  - a fresh temporary `start + base + rtl` smoke app generated successfully and passed generated-app `build`, `lint`, `format:check`, and `typecheck`
+  - a short `pnpm dev` sanity run on the smoke app timed out without surfacing an immediate startup error
+  - all four retained Start fixtures were regenerated successfully and passed generated-app verification:
+    - `forge-start-base-ltr-fixture`
+    - `forge-start-base-rtl-fixture`
+    - `forge-start-radix-ltr-fixture`
+    - `forge-start-radix-rtl-fixture`
 - Root [`.gitignore`](/D:/Developer/forge/.gitignore) now ignores `tmp/` so smoke-test projects and their install artifacts do not pollute git status.
 - Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.

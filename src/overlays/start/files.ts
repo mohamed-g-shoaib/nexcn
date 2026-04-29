@@ -3,19 +3,23 @@ import type { GenerationContext } from "../../types.js";
 import { getCssImportDeclarationsTemplate } from "../shared/types.js";
 import {
   getAppProvidersTemplate,
-  getLocaleHookTemplate,
   getThemeProviderTemplate,
   getUiSoundHookTemplate,
 } from "./providers.js";
 import {
+  getI18nConfigTemplate,
   getI18nTemplate,
+  getI18nTypesTemplate,
   getIndexRouteTemplate,
   getLocaleIndexRouteTemplate,
   getLocaleLayoutRouteTemplate,
+  getResourceStoreTemplate,
   getRootRouteTemplate,
+  getRouteLocaleHookTemplate,
   getViteConfigTemplate,
 } from "./routing.js";
 import {
+  getFallbackActionsTemplate,
   getFallbackScreenTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
@@ -53,7 +57,7 @@ export function getStartOverlayFiles(
     ],
     [
       path.join(projectDirectory, "src", "components", "theme-toggle.tsx"),
-      getThemeToggleTemplate(),
+      getThemeToggleTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "components", "starter-shell.tsx"),
@@ -64,12 +68,12 @@ export function getStartOverlayFiles(
       getFallbackScreenTemplate(),
     ],
     [
-      path.join(projectDirectory, "src", "components", "route-error.tsx"),
-      getRouteErrorTemplate(),
+      path.join(projectDirectory, "src", "components", "fallback-actions.tsx"),
+      getFallbackActionsTemplate(),
     ],
     [
-      path.join(projectDirectory, "src", "hooks", "use-locale.tsx"),
-      getLocaleHookTemplate(context.config.rtl),
+      path.join(projectDirectory, "src", "components", "route-error.tsx"),
+      getRouteErrorTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "hooks", "use-ui-sound.ts"),
@@ -109,6 +113,22 @@ export function getStartOverlayFiles(
 
   if (context.config.rtl) {
     files.set(
+      path.join(projectDirectory, "src", "i18n", "config.ts"),
+      getI18nConfigTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "src", "i18n", "resources.ts"),
+      getResourceStoreTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "src", "i18n", "types.ts"),
+      getI18nTypesTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "src", "hooks", "use-route-locale.ts"),
+      getRouteLocaleHookTemplate(),
+    );
+    files.set(
       path.join(projectDirectory, "src", "routes", "$locale", "route.tsx"),
       getLocaleLayoutRouteTemplate(),
     );
@@ -120,7 +140,6 @@ export function getStartOverlayFiles(
       path.join(projectDirectory, "src", "components", "language-toggle.tsx"),
       getLanguageToggleTemplate(),
     );
-    return files;
   }
 
   return files;

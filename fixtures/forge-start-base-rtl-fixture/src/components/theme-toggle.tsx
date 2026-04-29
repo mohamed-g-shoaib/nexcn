@@ -1,21 +1,21 @@
+import { useTranslation } from "react-i18next"
 import { MoonStarIcon, SunMediumIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { useLocale } from "@/hooks/use-locale"
-import { useUiSound } from "@/hooks/use-ui-sound"
 import { useTheme } from "@/components/theme-provider"
+import { useUiSound } from "@/hooks/use-ui-sound"
 
 export function ThemeToggle() {
-  const { messages } = useLocale()
+  const { t } = useTranslation()
   const { mounted, resolvedTheme, setTheme } = useTheme()
   const { playSound } = useUiSound()
 
   const isDark = resolvedTheme === "dark"
   const nextThemeLabel = !mounted
-    ? messages.themeToggleFallbackLabel
+    ? t("ThemeToggle.fallbackLabel")
     : isDark
-      ? messages.themeToggleToLightLabel
-      : messages.themeToggleToDarkLabel
+      ? t("ThemeToggle.toLightLabel")
+      : t("ThemeToggle.toDarkLabel")
 
   function handleToggle() {
     if (!mounted) {

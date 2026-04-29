@@ -26,3 +26,9 @@ export function getLocaleHref(pathname: string, locale: Locale): string {
 
   return pathname === "/" ? `/${locale}` : `/${locale}${pathname}`
 }
+
+export function getLocaleFromPathname(pathname: string): Locale {
+  const localeSegment = pathname.split("/").filter(Boolean)[0]
+
+  return isLocale(localeSegment) ? localeSegment : defaultLocale
+}

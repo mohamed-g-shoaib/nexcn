@@ -1,7 +1,11 @@
 import { HeadContent, ScriptOnce, Scripts, createRootRoute } from "@tanstack/react-router"
 import appCss from "../styles.css?url"
 import type * as React from "react"
+
 import { AppProviders } from "@/components/app-providers"
+import { FallbackActions } from "@/components/fallback-actions"
+import { FallbackScreen } from "@/components/fallback-screen"
+import { RouteError } from "@/components/route-error"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -71,8 +75,9 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  errorComponent: RootErrorScreen,
   shellComponent: RootDocument,
-  notFoundComponent: NotFoundScreen,
+  notFoundComponent: RootNotFoundScreen,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -95,20 +100,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   )
 }
 
-function NotFoundScreen() {
+function RootNotFoundScreen() {
   return (
-    <main className="flex min-h-svh items-center justify-center px-6 py-10">
-      <section className="w-full max-w-md">
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Forge
-          </p>
-          <h1 className="text-xl font-medium tracking-tight">Page not found.</h1>
-          <p className="text-sm leading-6 text-muted-foreground">
-            This route does not exist yet.
-          </p>
-        </div>
-      </section>
-    </main>
+    <FallbackScreen
+      title="Page not found."
+      description="This route does not exist yet."
+      action={<FallbackActions homeHref="/" homeLabel="Go home" />}
+    />
   )
+}
+
+function RootErrorScreen({ reset }: { error: unknown; reset: () => void }) {
+  return <RouteError onRetry={reset} />
 }
