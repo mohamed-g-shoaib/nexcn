@@ -70,6 +70,20 @@ This file is intentionally a summary, not a replacement for the underlying skill
   - `vercel-composition-patterns`
 - Priority for Forge: Very high for any Next-based starter
 
+### `next-intl-app-router`
+
+- Purpose: next-intl implementation for prefix-based locale routing, server/client translation APIs, and navigation wrappers.
+- Use when:
+  - implementing or updating i18n in Next.js App Router
+  - configuring prefix-based routing (e.g., `/en`, `/ar`)
+  - setting up locale-aware navigation and middleware
+  - handling RTL direction sync at the provider and document levels
+- Best paired with:
+  - `next-best-practices`
+  - `shadcn`
+  - `vercel-react-best-practices`
+- Priority for Forge: Very high for RTL variants
+
 ### `react-vite-best-practices`
 
 - Purpose: React + Vite optimization guide for build configuration, code splitting, asset handling, HMR, env vars, and bundle analysis.

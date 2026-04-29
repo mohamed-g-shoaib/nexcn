@@ -66,6 +66,17 @@
       "sourceType": "github",
       "computedHash": "db85045827ebeb83ac8dbc992b69188755eeb74dcf01cbf5e694d58aa494a106"
     },
+    "next-intl-app-router": {
+      "source": "liuchiawei/agent-skills",
+      "sourceType": "github",
+      "computedHash": "dda9e89338746e27dfd49ae8923266c49d01872b07cf13d3600ac9431ac087c3"
+    },
+    "react-i18next": {
+      "source": "yildizberkay/skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-i18next/SKILL.md",
+      "computedHash": "d925b8f583576bb059c943c3f6a3b77b5b98fcec3a87b9bdffa7b6e1e69dcf47"
+    },
     "react-useeffect": {
       "source": "softaworks/agent-toolkit",
       "sourceType": "github",
