@@ -28,9 +28,9 @@ export function Header() {
           Start building without the cleanup tax.
         </h1>
         <p className="max-w-2xl text-pretty text-base leading-7 text-muted-foreground">
-          Forge generates minimal starters with theme support, click interaction sounds, and
-          pre-configured linters and formatters. The structure stays easy to own after the first
-          commit.
+          Forge generates minimal starters with theme support, click interaction sounds,
+          framework-appropriate i18n, and pre-configured linters and formatters. The structure
+          stays easy to own after the first commit.
         </p>
         <ul className="flex flex-col gap-3.5 text-sm leading-relaxed">
           <li className="flex items-start gap-3">
@@ -57,7 +57,8 @@ export function Header() {
               className="mt-[0.2rem] size-4 shrink-0 text-muted-foreground"
             />
             <span className="text-pretty text-muted-foreground">
-              RTL and Arabic support when you need it. Single-language English when you don't.
+              RTL and Arabic support when you need it. Next.js uses next-intl. Vite and TanStack
+              Start use react-i18next.
             </span>
           </li>
           <li className="flex items-start gap-3">

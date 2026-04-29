@@ -240,7 +240,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - local tarball smoke tests should use `npm exec --package <tarball>` rather than `npm create <tarball>`
 - Root npm package metadata has been prepared for the first public package pass:
   - package name is now `create-use-forge` because npm blocked `create-forge` as too similar to the existing `createforge` package
-  - package version is prepared as `0.1.2` for the next npm publish
+  - package version is now `0.1.3`
   - package is no longer private
   - license is MIT with a root `LICENSE` file
   - homepage points to `https://use-forge.vercel.app/`
@@ -263,6 +263,7 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `pnpm build`
   - `npm pack --dry-run`
   - tarball smoke tests for both `forge --help` and `create-use-forge --help`
+  - when npm local cache is noisy, a clean `--cache` directory works for the tarball smoke path
 - Remaining release actions require account or registry access:
   - publish with `npm publish`
   - verify public registry entrypoints after publish

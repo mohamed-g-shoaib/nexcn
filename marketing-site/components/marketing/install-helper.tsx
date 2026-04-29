@@ -350,7 +350,8 @@ export function InstallHelper() {
         <TabsContent value="forge" className="flex flex-col gap-4">
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
             Build the full command up front when you want explicit framework, UI primitives, RTL
-            support, and formatter or linter choices.
+            support, and formatter or linter choices. Forge uses next-intl for Next.js RTL
+            starters, and react-i18next for Vite and TanStack Start.
           </p>
 
           <div className="flex flex-col gap-3">

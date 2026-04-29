@@ -22,12 +22,14 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://use-forge.vercel.app/"),
   title: "Forge - Start building without the cleanup tax",
   description:
-    "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.",
+    "Forge generates minimal starters with theme support, click interaction sounds, framework-appropriate i18n, and pre-configured linters and formatters. Choose Next.js, Vite, or TanStack Start with Base UI or Radix UI.",
   keywords: [
     "React starter",
     "Next.js starter",
     "Vite starter",
     "TanStack Start",
+    "next-intl",
+    "react-i18next",
     "React boilerplate",
     "shadcn starter",
     "Base UI",
@@ -57,13 +59,13 @@ export const metadata: Metadata = {
     siteName: "Forge",
     title: "Forge - Start building without the cleanup tax",
     description:
-      "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters.",
+      "Forge generates minimal starters with theme support, click interaction sounds, and framework-appropriate i18n.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Forge - Start building without the cleanup tax",
     description:
-      "Forge generates minimal starters with theme support, click interaction sounds, and pre-configured linters and formatters.",
+      "Forge generates minimal starters with theme support, click interaction sounds, and framework-appropriate i18n.",
   },
 };
 

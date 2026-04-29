@@ -4,7 +4,7 @@
 
 Forge is a CLI that scaffolds clean React starters you can edit immediately.
 
-It uses shadcn for the scaffold, then applies Forge setup for app shell wiring, theme support, optional RTL routing, sound hooks, fallback pages, metadata, code-quality tooling, and starter docs.
+It uses shadcn for the scaffold, then applies Forge setup for app shell wiring, theme support, optional RTL routing, framework-appropriate i18n, sound hooks, fallback pages, metadata, code-quality tooling, and starter docs.
 
 Website: [use-forge.vercel.app](https://use-forge.vercel.app/)
 
@@ -57,6 +57,8 @@ Each generated app includes:
 - a minimal starter page
 - a theme switch
 - a language switch only when RTL is enabled
+- `next-intl` for Next.js RTL starters
+- `react-i18next` for Vite and TanStack Start RTL starters
 - framework-native error and not-found pages
 - favicon and core metadata
 - sound hooks for clicks and theme switching
@@ -82,6 +84,12 @@ Direction:
 
 - `--ltr` for English only
 - `--rtl` for English and Arabic with locale routes
+
+I18n in RTL mode:
+
+- Next.js uses `next-intl`
+- Vite uses `react-i18next`
+- TanStack Start uses `react-i18next`
 
 Package manager:
 
@@ -151,14 +159,16 @@ forge generate
 
 ## Current status
 
-Forge is in its first public release pass.
+Forge is release-ready locally for the current generator surface.
 
 The npm package name is `create-use-forge`, and it exposes:
 
 - `forge`
 - `create-use-forge`
 
-The marketing site is deployed from `marketing-site/` on Vercel. npm publish is the remaining public release step.
+The current package version is `0.1.3`.
+
+The marketing site is deployed from `marketing-site/` on Vercel. The remaining public release steps are npm publish and registry verification.
 
 ## Maintainers
 

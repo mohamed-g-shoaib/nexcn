@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Forge - Generate minimal React starters",
     short_name: "Forge",
     description:
-      "Forge generates minimal starters with theme support, RTL, and your choice of code quality tools like ESLint or Biome.",
+      "Forge generates minimal starters with theme support, RTL, next-intl or react-i18next depending on framework, and your choice of code quality tools.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

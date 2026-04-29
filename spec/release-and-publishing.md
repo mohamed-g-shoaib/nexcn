@@ -1,6 +1,6 @@
 # Forge release and publishing
 
-Last updated: 2026-04-10
+Last updated: 2026-04-30
 
 ## Purpose
 
@@ -67,30 +67,31 @@ The package-manager initializer model resolves `npm create use-forge` to the pac
 
 ## Current npm readiness
 
-Observed on 2026-04-10:
+Current local release state on 2026-04-30:
+
+- package name is `create-use-forge`
+- package version is `0.1.3`
+- root package metadata is already finalized for publish
+- `npm pack --dry-run` is clean
+- local tarball smoke checks for both executable names pass when run against a clean npm cache
+
+Historical note:
 
 - `npm publish` for `create-forge@0.1.0` failed with `E403`
 - npm blocked `create-forge` because it was too similar to the existing `createforge` package
 - Forge switched the npm package name to `create-use-forge`
-- initial publish attempt reached npm auth and failed on package-name policy, not build output
 
-Do not publish version `0.0.0`.
+## Current root package.json state
 
-## Required root package.json changes
+The root `package.json` already has the required publish metadata:
 
-Before publishing, finalize the root `package.json`.
-
-Required changes:
-
-- set `"private": false`
-- set the first public version, likely `"0.1.0"`
-- add a license field after the license decision is made
-- add repository metadata
-- add homepage metadata pointing to the marketing site
-- add bugs metadata
-- add useful npm keywords
-- keep the `bin` map for both `forge` and `create-use-forge`
-- add a `files` allowlist so npm does not publish internal project material
+- `"private": false`
+- version set to `0.1.3`
+- MIT license
+- repository, homepage, and bugs metadata
+- keywords for framework and starter discovery
+- both `forge` and `create-use-forge` in `bin`
+- a `files` allowlist that keeps publish contents narrow
 
 Current required `bin` shape:
 
@@ -125,15 +126,7 @@ Do not publish:
 
 ## LICENSE file
 
-Add a root `LICENSE` file before publishing.
-
-Default recommendation:
-
-- MIT, if Forge is intended to be a permissive open-source CLI
-
-If the package should restrict commercial reuse, template copying, or redistribution, choose a different license before publishing. Do not leave the npm package unlicensed by accident.
-
-The `package.json` license field and `LICENSE` file must agree.
+The root `LICENSE` file is already present and matches the `package.json` license field (`MIT`).
 
 ## Pre-publish checklist
 
@@ -163,18 +156,20 @@ npm pack
 Test the tarball from a temporary directory outside the Forge repo:
 
 ```bash
-npm exec --package D:\Developer\nexcn\create-use-forge-0.1.0.tgz -- forge --help
+npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.3.tgz -- forge --help
 ```
 
 Also verify direct executable behavior:
 
 ```bash
-npm exec --package D:\Developer\nexcn\create-use-forge-0.1.0.tgz -- create-use-forge --help
+npm exec --cache D:\Developer\forge\tmp\release-smoke-cache --package D:\Developer\forge\create-use-forge-0.1.3.tgz -- create-use-forge --help
 ```
 
 If these local tarball checks fail, do not publish.
 
 `npm create` should be used for the published registry initializer, not for a local tarball path. Local tarball testing should use `npm exec` or `npx`.
+
+If npm's default `_npx` cache is in a bad state locally, use a clean `--cache` directory for the smoke check instead of treating that as a package failure.
 
 ## npm account setup
 
@@ -242,20 +237,18 @@ If npm has not been published yet, the marketing site can still deploy, but inst
 Recommended order:
 
 1. Verify the generator locally.
-2. Finalize root `package.json`.
-3. Add the root `LICENSE`.
-4. Run root typecheck, tests, and build.
-5. Run `npm pack --dry-run`.
-6. Test the local package tarball outside the repo.
-7. Deploy `marketing-site/` on Vercel.
-8. Publish `create-use-forge` to npm.
-9. Verify all public initializer commands.
-10. Update the marketing site if the final command or package name changes.
-11. Tag the release in git after npm and Vercel are both verified.
+2. Run root typecheck, tests, and build.
+3. Run `npm pack --dry-run`.
+4. Test the local package tarball outside the repo.
+5. Deploy `marketing-site/` on Vercel if needed.
+6. Publish `create-use-forge` to npm.
+7. Verify all public initializer commands.
+8. Update the marketing site if the final command or package name changes.
+9. Tag the release in git after npm and Vercel are both verified.
 
 ## Documentation updates
 
-After the first successful npm publish, update:
+After the next successful npm publish, update:
 
 - root `README.md`
 - `marketing-site` install helper copy if needed
