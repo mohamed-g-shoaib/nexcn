@@ -1,0 +1,23 @@
+{
+  "StarterShell": {
+    "eyebrow": "فورج",
+    "heading": "الواجهة جاهزة لتبدأ التعديل.",
+    "description": "استبدل هذه الشاشة من src/App.tsx. عدل src/components/ لعناصر الواجهة، أو src/routes/ لأسطح المسارات، أو public/locales/ للنصوص المترجمة."
+  },
+  "ThemeToggle": {
+    "toLightLabel": "فاتح",
+    "toDarkLabel": "داكن"
+  },
+  "LanguageToggle": {
+    "label": "English"
+  },
+  "Fallback": {
+    "eyebrow": "فورج",
+    "notFoundTitle": "الصفحة غير موجودة.",
+    "notFoundDescription": "هذا المسار غير موجود بعد.",
+    "errorTitle": "حدث خطأ ما.",
+    "errorDescription": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    "homeLabel": "العودة للرئيسية",
+    "retryLabel": "أعد المحاولة"
+  }
+}

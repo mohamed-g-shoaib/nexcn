@@ -8,10 +8,10 @@ function getDirectionProviderImport(base: BaseLibrary): string {
   return 'import { Direction, Tooltip } from "radix-ui";';
 }
 
-function getDirectionProviderOpen(base: BaseLibrary): string {
+function getDirectionProviderOpen(base: BaseLibrary, directionExpression: string): string {
   return base === "base"
-    ? "<DirectionProvider direction={direction}>"
-    : "<Direction.Provider dir={direction}>";
+    ? `<DirectionProvider direction={${directionExpression}}>`
+    : `<Direction.Provider dir={${directionExpression}}>`;
 }
 
 function getDirectionProviderClose(base: BaseLibrary): string {
@@ -35,7 +35,6 @@ import type * as React from "react";
 ${getDirectionProviderImport(base)}
 
 import { ThemeProvider } from "@/components/theme-provider";
-import { LocaleProvider } from "@/hooks/use-locale";
 
 function AppShellProviders({
   children,
@@ -43,60 +42,8 @@ function AppShellProviders({
   children: React.ReactNode;
 }) {
   return (
-    ${base === "base" ? '<DirectionProvider direction="ltr">' : '<Direction.Provider dir="ltr">'}
+    ${getDirectionProviderOpen(base, '"ltr"')}
       ${getTooltipProviderOpen(base)}
-        {children}
-      </Tooltip.Provider>
-    ${base === "base" ? "</DirectionProvider>" : "</Direction.Provider>"}
-  );
-}
-
-export function AppProviders({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <ThemeProvider>
-      <LocaleProvider>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
-    </ThemeProvider>
-  );
-}
-`;
-  }
-
-  return `"use client";
-
-import * as React from "react";
-${getDirectionProviderImport(base)}
-
-import { ThemeProvider } from "@/components/theme-provider";
-import { LocaleProvider, useLocale } from "@/hooks/use-locale";
-
-function DocumentRootSync() {
-  const { direction, locale } = useLocale();
-
-  React.useEffect(() => {
-    document.documentElement.dir = direction;
-    document.documentElement.lang = locale;
-  }, [direction, locale]);
-
-  return null;
-}
-
-function AppShellProviders({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const { direction } = useLocale();
-
-  return (
-    ${getDirectionProviderOpen(base)}
-      ${getTooltipProviderOpen(base)}
-        <DocumentRootSync />
         {children}
       </Tooltip.Provider>
     ${getDirectionProviderClose(base)}
@@ -110,167 +57,66 @@ export function AppProviders({
 }) {
   return (
     <ThemeProvider>
-      <LocaleProvider>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
+      <AppShellProviders>{children}</AppShellProviders>
     </ThemeProvider>
   );
-}
-`;
-}
-
-export function getLocaleHookTemplate(rtl: boolean): string {
-  if (!rtl) {
-    return `"use client";
-
-/* eslint-disable react-refresh/only-export-components */
-
-import * as React from "react";
-
-type LocaleMessages = {
-  eyebrow: string;
-  heading: string;
-  description: string;
-  themeToggleToLightLabel: string;
-  themeToggleToDarkLabel: string;
-};
-
-type LocaleContextValue = {
-  locale: "en";
-  direction: "ltr";
-  messages: LocaleMessages;
-};
-
-const MESSAGES: LocaleMessages = {
-  eyebrow: "Forge",
-  heading: "Your starter is ready to customize.",
-  description:
-    "Replace this screen in src/App.tsx. Edit src/components/ for UI pieces, or app-providers.tsx for theme and shared app behavior.",
-  themeToggleToLightLabel: "Light",
-  themeToggleToDarkLabel: "Dark"
-};
-
-const LocaleContext = React.createContext<LocaleContextValue | null>(null);
-
-export function LocaleProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const value: LocaleContextValue = {
-    locale: "en",
-    direction: "ltr",
-    messages: MESSAGES
-  };
-
-  return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
-}
-
-export function useLocale(): LocaleContextValue {
-  const context = React.useContext(LocaleContext);
-
-  if (!context) {
-    throw new Error("useLocale must be used within LocaleProvider.");
-  }
-
-  return context;
 }
 `;
   }
 
   return `"use client";
 
-/* eslint-disable react-refresh/only-export-components */
-
 import * as React from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
+${getDirectionProviderImport(base)}
 
-import {
-  type Direction,
-  type Locale,
-  defaultLocale,
-  getAlternateLocale,
-  getDirectionForLocale,
-  getLocaleHref,
-  isLocale,
-} from "@/lib/i18n";
+import { ThemeProvider } from "@/components/theme-provider";
+import i18n from "@/i18n/config";
+import { getDirectionForLocale, getLocaleFromPathname } from "@/lib/i18n";
 
-type LocaleMessages = {
-  eyebrow: string;
-  heading: string;
-  description: string;
-  themeToggleToLightLabel: string;
-  themeToggleToDarkLabel: string;
-  languageLabel: string;
-};
+function RouteLocaleSync() {
+  const location = useLocation();
+  const locale = getLocaleFromPathname(location.pathname);
+  const direction = getDirectionForLocale(locale);
 
-type LocaleContextValue = {
-  locale: Locale;
-  direction: Direction;
-  messages: LocaleMessages;
-  nextLocale: Locale;
-  switchLocale: () => void;
-};
+  React.useEffect(() => {
+    document.documentElement.lang = locale;
+    document.documentElement.dir = direction;
+    void i18n.changeLanguage(locale);
+  }, [direction, locale]);
 
-const MESSAGES: Record<Locale, LocaleMessages> = {
-  en: {
-    eyebrow: "Forge",
-    heading: "Your starter is ready to customize.",
-    description:
-      "Replace this screen in src/App.tsx. Edit src/components/ for UI pieces, or app-providers.tsx for theme, language, and shared app behavior.",
-    themeToggleToLightLabel: "Light",
-    themeToggleToDarkLabel: "Dark",
-    languageLabel: "Arabic",
-  },
-  ar: {
-    eyebrow: "فورج",
-    heading: "الواجهة جاهزة لتبدأ التعديل.",
-    description:
-      "استبدل هذه الشاشة من src/App.tsx. عدل src/components/ لعناصر الواجهة، أو app-providers.tsx للمظهر واللغة والسلوك العام.",
-    themeToggleToLightLabel: "فاتح",
-    themeToggleToDarkLabel: "داكن",
-    languageLabel: "English",
-  },
-};
+  return null;
+}
 
-const LocaleContext = React.createContext<LocaleContextValue | null>(null);
-
-export function LocaleProvider({
+function AppShellProviders({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const localeSegment = location.pathname.split("/").filter(Boolean)[0];
-  const locale = isLocale(localeSegment) ? localeSegment : defaultLocale;
-  const nextLocale = getAlternateLocale(locale);
+  const locale = getLocaleFromPathname(location.pathname);
   const direction = getDirectionForLocale(locale);
 
-  const value = React.useMemo<LocaleContextValue>(
-    () => ({
-      locale,
-      direction,
-      messages: MESSAGES[locale],
-      nextLocale,
-      switchLocale: () => {
-        navigate(getLocaleHref(location.pathname, nextLocale), { replace: true });
-      },
-    }),
-    [direction, locale, location.pathname, navigate, nextLocale],
+  return (
+    ${getDirectionProviderOpen(base, "direction")}
+      ${getTooltipProviderOpen(base)}
+        <RouteLocaleSync />
+        {children}
+      </Tooltip.Provider>
+    ${getDirectionProviderClose(base)}
   );
-
-  return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }
 
-export function useLocale(): LocaleContextValue {
-  const context = React.useContext(LocaleContext);
-
-  if (!context) {
-    throw new Error("useLocale must be used within LocaleProvider.");
-  }
-
-  return context;
+export function AppProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ThemeProvider>
+      <AppShellProviders>{children}</AppShellProviders>
+    </ThemeProvider>
+  );
 }
 `;
 }

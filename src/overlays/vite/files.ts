@@ -3,11 +3,18 @@ import type { GenerationContext } from "../../types.js";
 import { getCssImportDeclarationsTemplate } from "../shared/types.js";
 import {
   getAppProvidersTemplate,
-  getLocaleHookTemplate,
   getThemeProviderTemplate,
   getUiSoundHookTemplate,
 } from "./providers.js";
-import { getAppTemplate, getI18nTemplate } from "./routing.js";
+import {
+  getAppTemplate,
+  getI18nConfigTemplate,
+  getI18nTemplate,
+  getLocaleStarterPageTemplate,
+  getNotFoundScreenTemplate,
+  getRouteLocaleHookTemplate,
+  getTranslationFileTemplate,
+} from "./routing.js";
 import {
   getIndexHtmlTemplate,
   getMainTemplate,
@@ -15,6 +22,7 @@ import {
 } from "./shell.js";
 import {
   getAppErrorBoundaryTemplate,
+  getFallbackActionsTemplate,
   getFallbackScreenTemplate,
   getLanguageToggleTemplate,
   getReadmeTemplate,
@@ -55,7 +63,7 @@ export function getViteOverlayFiles(
     ],
     [
       path.join(projectDirectory, "src", "components", "theme-toggle.tsx"),
-      getThemeToggleTemplate(),
+      getThemeToggleTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "components", "starter-shell.tsx"),
@@ -66,16 +74,20 @@ export function getViteOverlayFiles(
       getFallbackScreenTemplate(),
     ],
     [
-      path.join(projectDirectory, "src", "components", "app-error-boundary.tsx"),
-      getAppErrorBoundaryTemplate(),
+      path.join(projectDirectory, "src", "components", "fallback-actions.tsx"),
+      getFallbackActionsTemplate(),
     ],
     [
-      path.join(projectDirectory, "src", "hooks", "use-locale.tsx"),
-      getLocaleHookTemplate(context.config.rtl),
+      path.join(projectDirectory, "src", "components", "app-error-boundary.tsx"),
+      getAppErrorBoundaryTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "hooks", "use-ui-sound.ts"),
       getUiSoundHookTemplate(),
+    ],
+    [
+      path.join(projectDirectory, "src", "lib", "i18n.ts"),
+      getI18nTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "src", "sounds", "click-soft.ts"),
@@ -110,14 +122,40 @@ export function getViteOverlayFiles(
 
   if (context.config.rtl) {
     files.set(
-      path.join(projectDirectory, "src", "lib", "i18n.ts"),
-      getI18nTemplate(true),
+      path.join(projectDirectory, "src", "i18n", "config.ts"),
+      getI18nConfigTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "src", "hooks", "use-route-locale.ts"),
+      getRouteLocaleHookTemplate(),
     );
     files.set(
       path.join(projectDirectory, "src", "components", "language-toggle.tsx"),
       getLanguageToggleTemplate(),
     );
+    files.set(
+      path.join(projectDirectory, "src", "routes", "locale-starter-page.tsx"),
+      getLocaleStarterPageTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "src", "routes", "not-found-screen.tsx"),
+      getNotFoundScreenTemplate(true),
+    );
+    files.set(
+      path.join(projectDirectory, "public", "locales", "en", "translation.json"),
+      getTranslationFileTemplate("en"),
+    );
+    files.set(
+      path.join(projectDirectory, "public", "locales", "ar", "translation.json"),
+      getTranslationFileTemplate("ar"),
+    );
+    return files;
   }
+
+  files.set(
+    path.join(projectDirectory, "src", "routes", "not-found-screen.tsx"),
+    getNotFoundScreenTemplate(false),
+  );
 
   return files;
 }

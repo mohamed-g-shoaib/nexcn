@@ -21,6 +21,10 @@ export function getAlternateLocale(locale: Locale): Locale {
 export function getLocaleHref(pathname: string, _locale: Locale): string {
   return pathname;
 }
+
+export function getLocaleFromPathname(_pathname: string): Locale {
+  return "en";
+}
 `;
   }
 
@@ -52,59 +56,21 @@ export function getLocaleHref(pathname: string, locale: Locale): string {
 
   return pathname === "/" ? \`/\${locale}\` : \`/\${locale}\${pathname}\`;
 }
+
+export function getLocaleFromPathname(pathname: string): Locale {
+  const localeSegment = pathname.split("/").filter(Boolean)[0];
+
+  return isLocale(localeSegment) ? localeSegment : defaultLocale;
+}
 `;
 }
 
 export function getAppTemplate(rtl: boolean): string {
   if (!rtl) {
-    return `import { Route, Routes, useLocation, useNavigate } from "react-router";
+    return `import { Route, Routes } from "react-router";
 
-import { Button } from "@/components/ui/button";
-import { FallbackScreen } from "@/components/fallback-screen";
-import { useUiSound } from "@/hooks/use-ui-sound";
+import { NotFoundScreen } from "@/routes/not-found-screen";
 import { StarterShell } from "@/components/starter-shell";
-
-function NotFoundScreen() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { playSound } = useUiSound();
-  const routeLocale = location.pathname.split("/").filter(Boolean)[0];
-  const copy =
-    routeLocale === "ar"
-      ? {
-          title: "الصفحة غير موجودة.",
-          description: "هذا المسار غير موجود بعد.",
-          homeLabel: "العودة للرئيسية"
-        }
-      : {
-          title: "Page not found.",
-          description: "This route does not exist yet.",
-          homeLabel: "Go home"
-        };
-  const segments = location.pathname.split("/").filter(Boolean);
-  const homeHref = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? \`/\${segments[0]}\` : "/";
-
-  return (
-    <FallbackScreen
-      title={copy.title}
-      description={copy.description}
-      action={
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="h-9 rounded-full px-3"
-          onClick={() => {
-            playSound("click-soft");
-            window.setTimeout(() => navigate(homeHref), 100);
-          }}
-        >
-          {copy.homeLabel}
-        </Button>
-      }
-    />
-  );
-}
 
 export default function App() {
   return (
@@ -117,65 +83,11 @@ export default function App() {
 `;
   }
 
-  return `import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from "react-router";
+  return `import { Navigate, Route, Routes } from "react-router";
 
-import { Button } from "@/components/ui/button";
-import { FallbackScreen } from "@/components/fallback-screen";
-import { useUiSound } from "@/hooks/use-ui-sound";
-import { StarterShell } from "@/components/starter-shell";
-import { defaultLocale, isLocale } from "@/lib/i18n";
-
-function LocaleStarterPage() {
-  const params = useParams();
-
-  if (!isLocale(params.locale)) {
-    return <Navigate replace to={\`/\${defaultLocale}\`} />;
-  }
-
-  return <StarterShell />;
-}
-
-function NotFoundScreen() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { playSound } = useUiSound();
-  const routeLocale = location.pathname.split("/").filter(Boolean)[0];
-  const copy =
-    routeLocale === "ar"
-      ? {
-          title: "الصفحة غير موجودة.",
-          description: "هذا المسار غير موجود بعد.",
-          homeLabel: "العودة للرئيسية"
-        }
-      : {
-          title: "Page not found.",
-          description: "This route does not exist yet.",
-          homeLabel: "Go home"
-        };
-  const segments = location.pathname.split("/").filter(Boolean);
-  const homeHref = segments.length > 0 && (segments[0] === "en" || segments[0] === "ar") ? \`/\${segments[0]}\` : "/";
-
-  return (
-    <FallbackScreen
-      title={copy.title}
-      description={copy.description}
-      action={
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          className="h-9 rounded-full px-3"
-          onClick={() => {
-            playSound("click-soft");
-            window.setTimeout(() => navigate(homeHref), 100);
-          }}
-        >
-          {copy.homeLabel}
-        </Button>
-      }
-    />
-  );
-}
+import { defaultLocale } from "@/lib/i18n";
+import { LocaleStarterPage } from "@/routes/locale-starter-page";
+import { NotFoundScreen } from "@/routes/not-found-screen";
 
 export default function App() {
   return (
@@ -184,6 +96,178 @@ export default function App() {
       <Route path="/:locale" element={<LocaleStarterPage />} />
       <Route path="*" element={<NotFoundScreen />} />
     </Routes>
+  );
+}
+`;
+}
+
+export function getRouteLocaleHookTemplate(): string {
+  return `"use client";
+
+import { useLocation } from "react-router";
+
+import { getDirectionForLocale, getLocaleFromPathname } from "@/lib/i18n";
+
+export function useRouteLocale() {
+  const location = useLocation();
+  const locale = getLocaleFromPathname(location.pathname);
+  const direction = getDirectionForLocale(locale);
+
+  return {
+    locale,
+    direction,
+    pathname: location.pathname,
+  };
+}
+`;
+}
+
+export function getI18nConfigTemplate(): string {
+  return `import i18n from "i18next";
+import Backend from "i18next-http-backend";
+import { initReactI18next } from "react-i18next";
+
+import { defaultLocale, getLocaleFromPathname, locales } from "@/lib/i18n";
+
+const initialLanguage =
+  typeof window === "undefined"
+    ? defaultLocale
+    : getLocaleFromPathname(window.location.pathname);
+
+void i18n
+  .use(Backend)
+  .use(initReactI18next)
+  .init({
+    lng: initialLanguage,
+    fallbackLng: defaultLocale,
+    supportedLngs: [...locales],
+    ns: ["translation"],
+    defaultNS: "translation",
+    interpolation: {
+      escapeValue: false,
+    },
+    react: {
+      useSuspense: false,
+    },
+    backend: {
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
+  });
+
+export default i18n;
+`;
+}
+
+export function getTranslationFileTemplate(locale: "en" | "ar"): string {
+  if (locale === "en") {
+    return `{
+  "StarterShell": {
+    "eyebrow": "Forge",
+    "heading": "Your starter is ready to customize.",
+    "description": "Replace this screen in src/App.tsx. Edit src/components/ for UI pieces, src/routes/ for route surfaces, or public/locales/ for translated copy."
+  },
+  "ThemeToggle": {
+    "toLightLabel": "Light",
+    "toDarkLabel": "Dark"
+  },
+  "LanguageToggle": {
+    "label": "Arabic"
+  },
+  "Fallback": {
+    "eyebrow": "Forge",
+    "notFoundTitle": "Page not found.",
+    "notFoundDescription": "This route does not exist yet.",
+    "errorTitle": "Something went wrong.",
+    "errorDescription": "An unexpected error occurred. Please try again.",
+    "homeLabel": "Go home",
+    "retryLabel": "Try again"
+  }
+}
+`;
+  }
+
+  return `{
+  "StarterShell": {
+    "eyebrow": "فورج",
+    "heading": "الواجهة جاهزة لتبدأ التعديل.",
+    "description": "استبدل هذه الشاشة من src/App.tsx. عدل src/components/ لعناصر الواجهة، أو src/routes/ لأسطح المسارات، أو public/locales/ للنصوص المترجمة."
+  },
+  "ThemeToggle": {
+    "toLightLabel": "فاتح",
+    "toDarkLabel": "داكن"
+  },
+  "LanguageToggle": {
+    "label": "English"
+  },
+  "Fallback": {
+    "eyebrow": "فورج",
+    "notFoundTitle": "الصفحة غير موجودة.",
+    "notFoundDescription": "هذا المسار غير موجود بعد.",
+    "errorTitle": "حدث خطأ ما.",
+    "errorDescription": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    "homeLabel": "العودة للرئيسية",
+    "retryLabel": "أعد المحاولة"
+  }
+}
+`;
+}
+
+export function getLocaleStarterPageTemplate(): string {
+  return `import { Navigate, useParams } from "react-router";
+
+import { StarterShell } from "@/components/starter-shell";
+import { defaultLocale, isLocale } from "@/lib/i18n";
+
+export function LocaleStarterPage() {
+  const params = useParams();
+
+  if (!isLocale(params.locale)) {
+    return <Navigate replace to={\`/\${defaultLocale}\`} />;
+  }
+
+  return <StarterShell />;
+}
+`;
+}
+
+export function getNotFoundScreenTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `import { FallbackActions } from "@/components/fallback-actions";
+import { FallbackScreen } from "@/components/fallback-screen";
+
+export function NotFoundScreen() {
+  return (
+    <FallbackScreen
+      title="Page not found."
+      description="This route does not exist yet."
+      action={<FallbackActions homeHref="/" homeLabel="Go home" />}
+    />
+  );
+}
+`;
+  }
+
+  return `import { useTranslation } from "react-i18next";
+
+import { FallbackActions } from "@/components/fallback-actions";
+import { FallbackScreen } from "@/components/fallback-screen";
+import { defaultLocale, getLocaleHref } from "@/lib/i18n";
+import { useRouteLocale } from "@/hooks/use-route-locale";
+
+export function NotFoundScreen() {
+  const { t } = useTranslation();
+  const { direction, locale, pathname } = useRouteLocale();
+  const homeHref = pathname === "/" ? \`/\${defaultLocale}\` : getLocaleHref("/", locale);
+
+  return (
+    <FallbackScreen
+      eyebrow={t("Fallback.eyebrow")}
+      locale={locale}
+      direction={direction}
+      title={t("Fallback.notFoundTitle")}
+      description={t("Fallback.notFoundDescription")}
+      action={<FallbackActions homeHref={homeHref} homeLabel={t("Fallback.homeLabel")} />}
+    />
   );
 }
 `;

@@ -4,16 +4,19 @@ import { MoonStarIcon, SunMediumIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
-import { useLocale } from "@/hooks/use-locale"
 import { useUiSound } from "@/hooks/use-ui-sound"
 
+const COPY = {
+  toLightLabel: "Light",
+  toDarkLabel: "Dark",
+} as const
+
 export function ThemeToggle() {
-  const { messages } = useLocale()
   const { resolvedTheme, setTheme } = useTheme()
   const { playSound } = useUiSound()
 
   const isDark = resolvedTheme === "dark"
-  const nextThemeLabel = isDark ? messages.themeToggleToLightLabel : messages.themeToggleToDarkLabel
+  const nextThemeLabel = isDark ? COPY.toLightLabel : COPY.toDarkLabel
 
   function handleToggle() {
     const nextTheme = isDark ? "light" : "dark"

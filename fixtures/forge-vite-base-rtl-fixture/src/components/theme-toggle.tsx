@@ -1,19 +1,19 @@
 "use client"
 
+import { useTranslation } from "react-i18next"
 import { MoonStarIcon, SunMediumIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
-import { useLocale } from "@/hooks/use-locale"
 import { useUiSound } from "@/hooks/use-ui-sound"
 
 export function ThemeToggle() {
-  const { messages } = useLocale()
+  const { t } = useTranslation()
   const { resolvedTheme, setTheme } = useTheme()
   const { playSound } = useUiSound()
 
   const isDark = resolvedTheme === "dark"
-  const nextThemeLabel = isDark ? messages.themeToggleToLightLabel : messages.themeToggleToDarkLabel
+  const nextThemeLabel = isDark ? t("ThemeToggle.toLightLabel") : t("ThemeToggle.toDarkLabel")
 
   function handleToggle() {
     const nextTheme = isDark ? "light" : "dark"

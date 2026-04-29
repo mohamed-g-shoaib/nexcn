@@ -1,6 +1,6 @@
 # Forge Context
 
-Last updated: 2026-04-11
+Last updated: 2026-04-29
 
 ## Purpose
 
@@ -32,6 +32,44 @@ This file is the working memory for the Forge rebuild. It exists to keep the pro
   - `start + radix + rtl`
   - `start + base + non-rtl`
   - `start + radix + non-rtl`
+- Forge now has a framework-specific i18n spec folder at [spec/i18n/](/D:/Developer/forge/spec/i18n) so Next, Vite, and TanStack Start can evolve independently instead of sharing one mixed i18n plan.
+- The Next.js RTL generator path has now been migrated away from provider-owned translation state and onto `next-intl`:
+  - generated Next RTL apps now emit `i18n/routing.ts`, `i18n/request.ts`, and `i18n/navigation.ts`
+  - generated Next RTL apps now emit `messages/en.json` and `messages/ar.json`
+  - generated Next RTL apps now scope `NextIntlClientProvider` to `app/[locale]/layout.tsx`
+  - locale-aware Next navigation now uses the generated `@/i18n/navigation` wrapper
+  - generated Next RTL fallback surfaces now include localized `app/[locale]/not-found.tsx` and `app/[locale]/error.tsx`
+  - generated Next RTL apps no longer emit `hooks/use-locale.tsx`
+  - generated Next RTL apps no longer depend on `x-forge-locale` header plumbing
+- The retained Next fixtures were regenerated after the `next-intl` migration and passed generator verification again.
+- The Vite i18n migration to `react-i18next` is now complete:
+  - a Vite-specific production contract exists at [spec/i18n/vite-react-i18next.md](/D:/Developer/forge/spec/i18n/vite-react-i18next.md)
+  - the active Vite overlay source no longer relies on `src/hooks/use-locale.tsx`
+  - the Vite RTL direction now uses route-based locale truth with React Router plus `i18next` / `react-i18next`
+  - generated Vite RTL apps now emit `src/i18n/config.ts`, `public/locales/en/translation.json`, and `public/locales/ar/translation.json`
+  - generated Vite RTL apps now use translation hooks in starter, toggle, and fallback surfaces instead of provider-owned inline dictionaries
+  - generated Vite apps keep `document.documentElement.lang` and `dir` synchronized from the active route locale through provider-level external sync only
+  - generated Vite fallback handling now uses shared route-aware fallback surfaces instead of locale-provider copy branches
+- Vite generator verification now completed successfully:
+  - root `pnpm typecheck`, `pnpm test`, and `pnpm build` passed after the Vite overlay refactor
+  - a fresh temporary `vite + base + rtl` smoke app generated successfully and passed generated-app `lint`, `format:check`, `typecheck`, and `build`
+  - all four retained Vite fixtures were regenerated successfully and passed generated-app verification:
+    - `forge-vite-base-ltr-fixture`
+    - `forge-vite-base-rtl-fixture`
+    - `forge-vite-radix-ltr-fixture`
+    - `forge-vite-radix-rtl-fixture`
+- Break-state conclusion for when work resumes:
+  - keep the current Vite migration direction on `react-i18next`
+  - treat TanStack Start as also using `react-i18next` for Forge rather than introducing Paraglide
+  - this choice is meant to reduce tool diversity and user learning overhead, not to mirror TanStack's own preferred example stack
+  - do not start the full TanStack Start spec until the Vite i18n migration and Vite fixture refresh are finished
+- The short break is over and the Vite i18n pass is now finished.
+- Active resume goals for the next pass:
+  - keep the retained Vite fixtures healthy as regression targets
+  - write the full TanStack Start i18n spec next, now that the Vite pass is complete
+  - implement the TanStack Start `react-i18next` migration after that spec is locked
+  - keep generated output free of dead locale-provider files, imports, and translation branches across all frameworks
+- Root [`.gitignore`](/D:/Developer/forge/.gitignore) now ignores `tmp/` so smoke-test projects and their install artifacts do not pollute git status.
 - Forge can now scaffold through shadcn, apply the Next overlay, install the sound feature pack, and verify the generated app with typecheck and build steps.
 - The Next overlay implementation has been split into smaller focused modules under `src/overlays/next/` so the overlay coordinator stays small and easier to extend.
 - Forge can now generate retained fixtures into `fixtures/` via `forge generate --fixture`.
@@ -363,11 +401,13 @@ Current Next.js implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the preferred locale
+- use `next-intl` as the Next.js App Router i18n implementation
 - follow official Next.js App Router documentation instead of custom workarounds when conventions exist
 - use documented file conventions for:
   - `not-found`
   - `error`
   - `global-error`
+- keep translations in message files instead of provider-owned inline dictionaries
 - prefer the documented theme integration path over custom replacements when working with App Router
 - when RTL mode is disabled:
   - generate a single-language LTR app shell
@@ -382,6 +422,7 @@ Current Vite implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the default locale
+- Vite should move to `react-i18next` rather than keeping translations inside `hooks/use-locale.tsx`
 - derive runtime `document.documentElement.lang` and `dir` from the active route locale
 - when RTL mode is disabled:
   - generate a single-language LTR app shell
@@ -396,6 +437,7 @@ Current TanStack Start implementation direction:
   - `/en`
   - `/ar`
 - use `/` only as an entry path that redirects to the default locale
+- TanStack Start should use `react-i18next` in Forge for consistency with the Vite path
 - derive `html lang` and `html dir` from the active route locale in the root document shell
 - when RTL mode is disabled:
   - generate a single-language LTR app shell

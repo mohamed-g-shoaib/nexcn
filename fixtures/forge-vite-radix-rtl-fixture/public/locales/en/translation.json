@@ -1,0 +1,23 @@
+{
+  "StarterShell": {
+    "eyebrow": "Forge",
+    "heading": "Your starter is ready to customize.",
+    "description": "Replace this screen in src/App.tsx. Edit src/components/ for UI pieces, src/routes/ for route surfaces, or public/locales/ for translated copy."
+  },
+  "ThemeToggle": {
+    "toLightLabel": "Light",
+    "toDarkLabel": "Dark"
+  },
+  "LanguageToggle": {
+    "label": "Arabic"
+  },
+  "Fallback": {
+    "eyebrow": "Forge",
+    "notFoundTitle": "Page not found.",
+    "notFoundDescription": "This route does not exist yet.",
+    "errorTitle": "Something went wrong.",
+    "errorDescription": "An unexpected error occurred. Please try again.",
+    "homeLabel": "Go home",
+    "retryLabel": "Try again"
+  }
+}

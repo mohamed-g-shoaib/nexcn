@@ -11,7 +11,14 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "react-router"],
+    include: [
+      "react",
+      "react-dom",
+      "react-router",
+      "i18next",
+      "react-i18next",
+      "i18next-http-backend",
+    ],
   },
   server: {
     port: 3000,

@@ -1,30 +1,37 @@
 "use client"
 
 import * as React from "react"
+import { useLocation } from "react-router"
 import { DirectionProvider } from "@base-ui/react/direction-provider"
 import { Tooltip } from "@base-ui/react/tooltip"
 
 import { ThemeProvider } from "@/components/theme-provider"
-import { LocaleProvider, useLocale } from "@/hooks/use-locale"
+import i18n from "@/i18n/config"
+import { getDirectionForLocale, getLocaleFromPathname } from "@/lib/i18n"
 
-function DocumentRootSync() {
-  const { direction, locale } = useLocale()
+function RouteLocaleSync() {
+  const location = useLocation()
+  const locale = getLocaleFromPathname(location.pathname)
+  const direction = getDirectionForLocale(locale)
 
   React.useEffect(() => {
-    document.documentElement.dir = direction
     document.documentElement.lang = locale
+    document.documentElement.dir = direction
+    void i18n.changeLanguage(locale)
   }, [direction, locale])
 
   return null
 }
 
 function AppShellProviders({ children }: { children: React.ReactNode }) {
-  const { direction } = useLocale()
+  const location = useLocation()
+  const locale = getLocaleFromPathname(location.pathname)
+  const direction = getDirectionForLocale(locale)
 
   return (
     <DirectionProvider direction={direction}>
       <Tooltip.Provider delay={400} closeDelay={150} timeout={500}>
-        <DocumentRootSync />
+        <RouteLocaleSync />
         {children}
       </Tooltip.Provider>
     </DirectionProvider>
@@ -34,9 +41,7 @@ function AppShellProviders({ children }: { children: React.ReactNode }) {
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <LocaleProvider>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
+      <AppShellProviders>{children}</AppShellProviders>
     </ThemeProvider>
   )
 }
