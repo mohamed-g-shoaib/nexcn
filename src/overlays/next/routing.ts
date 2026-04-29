@@ -72,13 +72,11 @@ export default async function RootLayout({
 `;
   }
 
-  return `import { headers } from "next/headers";
-import type { Metadata } from "next";
+  return `import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { type Locale, defaultLocale, getDirectionForLocale, isLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({
@@ -98,17 +96,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const requestHeaders = await headers();
-  const headerLocale = requestHeaders.get("x-forge-locale") ?? undefined;
-  const initialLocale: Locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
-  const initialDirection = getDirectionForLocale(initialLocale);
-
   return (
-    <html
-      lang={initialLocale}
-      dir={initialDirection}
-      suppressHydrationWarning
-    >
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       ${getLayoutBodyTemplate("<ThemeProvider>{children}</ThemeProvider>")}
     </html>
   );
@@ -117,13 +106,16 @@ export default async function RootLayout({
 }
 
 export function getLocaleLayoutTemplate(): string {
-  return `import { notFound } from "next/navigation";
+  return `import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 import { AppProviders } from "@/components/app-providers";
-import { type Locale, isLocale, locales } from "@/lib/i18n";
+import { routing } from "@/i18n/routing";
+import { getDirectionForLocale } from "@/lib/i18n";
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
 export default async function LocaleLayout({
@@ -135,70 +127,160 @@ export default async function LocaleLayout({
 }>) {
   const { locale } = await params;
 
-  if (!isLocale(locale)) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  return <AppProviders locale={locale as Locale}>{children}</AppProviders>;
+  setRequestLocale(locale);
+  const messages = await getMessages();
+  const direction = getDirectionForLocale(locale);
+
+  return (
+    <NextIntlClientProvider messages={messages}>
+      <div lang={locale} dir={direction}>
+        <AppProviders>{children}</AppProviders>
+      </div>
+    </NextIntlClientProvider>
+  );
 }
 `;
 }
 
-export function getPageTemplate(): string {
-  return `import { StarterShell } from "@/components/starter-shell";
+export function getPageTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `import { StarterShell } from "@/components/starter-shell";
 
 export default function Page() {
   return <StarterShell />;
 }
 `;
+  }
+
+  return `import { setRequestLocale } from "next-intl/server";
+
+import { StarterShell } from "@/components/starter-shell";
+
+export default async function Page({
+  params
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  setRequestLocale(locale);
+
+  return <StarterShell />;
+}
+`;
+}
+
+export function getRoutingTemplate(): string {
+  return `import { defineRouting } from "next-intl/routing";
+
+export const routing = defineRouting({
+  locales: ["en", "ar"],
+  defaultLocale: "en"
+});
+
+export type Locale = (typeof routing.locales)[number];
+`;
+}
+
+export function getRequestTemplate(): string {
+  return `import { hasLocale } from "next-intl";
+import { getRequestConfig } from "next-intl/server";
+
+import { routing } from "./routing";
+
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = hasLocale(routing.locales, requested)
+    ? requested
+    : routing.defaultLocale;
+
+  return {
+    locale,
+    messages: (await import(\`../messages/\${locale}.json\`)).default
+  };
+});
+`;
+}
+
+export function getNavigationTemplate(): string {
+  return `import { createNavigation } from "next-intl/navigation";
+
+import { routing } from "./routing";
+
+export const { Link, redirect, usePathname, useRouter, getPathname } =
+  createNavigation(routing);
+`;
+}
+
+export function getMessagesTemplate(locale: "en" | "ar"): string {
+  if (locale === "en") {
+    return `{
+  "StarterShell": {
+    "eyebrow": "Forge",
+    "heading": "Your starter is ready to customize.",
+    "description": "Replace this screen in app/[locale]/page.tsx. Edit components/ for UI pieces, app-providers.tsx for shared providers, or messages/ for translated copy."
+  },
+  "ThemeToggle": {
+    "fallbackLabel": "Theme",
+    "toLightLabel": "Light",
+    "toDarkLabel": "Dark"
+  },
+  "LanguageToggle": {
+    "label": "Arabic"
+  },
+  "Fallback": {
+    "eyebrow": "Forge",
+    "notFoundTitle": "Page not found.",
+    "notFoundDescription": "This route does not exist yet.",
+    "errorTitle": "Something went wrong.",
+    "errorDescription": "An unexpected error occurred. Please try again.",
+    "homeLabel": "Go home",
+    "retryLabel": "Try again"
+  }
+}
+`;
+  }
+
+  return `{
+  "StarterShell": {
+    "eyebrow": "فورج",
+    "heading": "الواجهة جاهزة لتبدأ التعديل.",
+    "description": "استبدل هذه الشاشة من app/[locale]/page.tsx. عدل components/ لعناصر الواجهة، أو app-providers.tsx للمزودات المشتركة، أو messages/ للنصوص المترجمة."
+  },
+  "ThemeToggle": {
+    "fallbackLabel": "المظهر",
+    "toLightLabel": "فاتح",
+    "toDarkLabel": "داكن"
+  },
+  "LanguageToggle": {
+    "label": "English"
+  },
+  "Fallback": {
+    "eyebrow": "فورج",
+    "notFoundTitle": "الصفحة غير موجودة.",
+    "notFoundDescription": "هذا المسار غير موجود بعد.",
+    "errorTitle": "حدث خطأ ما.",
+    "errorDescription": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+    "homeLabel": "العودة للرئيسية",
+    "retryLabel": "أعد المحاولة"
+  }
+}
+`;
 }
 
 export function getProxyTemplate(): string {
-  return `import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+  return `import createMiddleware from "next-intl/middleware";
 
-import { defaultLocale, isLocale, locales } from "./lib/i18n";
+import { routing } from "./i18n/routing";
 
-function getPreferredLocale(request: NextRequest) {
-  const acceptLanguage = request.headers.get("accept-language")?.toLowerCase() ?? "";
-
-  for (const locale of locales) {
-    if (acceptLanguage.includes(locale)) {
-      return locale;
-    }
-  }
-
-  return defaultLocale;
-}
-
-function withLocaleHeader(request: NextRequest, locale: string) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-forge-locale", locale);
-
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders
-    }
-  });
-}
-
-export function proxy(request: NextRequest) {
-  const segments = request.nextUrl.pathname.split("/").filter(Boolean);
-  const routeLocale = segments.length > 0 && isLocale(segments[0]) ? segments[0] : null;
-
-  if (request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL(\`/\${getPreferredLocale(request)}\`, request.url));
-  }
-
-  if (routeLocale) {
-    return withLocaleHeader(request, routeLocale);
-  }
-
-  return NextResponse.next();
-}
+export const proxy = createMiddleware(routing);
 
 export const config = {
-  matcher: ["/", "/(en|ar)/:path*"]
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\\\..*).*)"
 };
 `;
 }
@@ -220,36 +302,53 @@ export default function NotFound() {
 `;
   }
 
-  return `import { headers } from "next/headers";
+  return `import { getLocale, getTranslations } from "next-intl/server";
 
 import { FallbackActions } from "@/components/fallback-actions";
 import { FallbackScreen } from "@/components/fallback-screen";
-import { defaultLocale, isLocale } from "@/lib/i18n";
-
-const MESSAGES = {
-  en: {
-    title: "Page not found.",
-    description: "This route does not exist yet.",
-    homeLabel: "Go home"
-  },
-  ar: {
-    title: "الصفحة غير موجودة.",
-    description: "هذا المسار غير موجود بعد.",
-    homeLabel: "العودة للرئيسية"
-  }
-} as const;
+import { getDirectionForLocale, isLocale } from "@/lib/i18n";
 
 export default async function NotFound() {
-  const requestHeaders = await headers();
-  const headerLocale = requestHeaders.get("x-forge-locale") ?? undefined;
-  const locale = isLocale(headerLocale) ? headerLocale : defaultLocale;
-  const copy = MESSAGES[locale];
+  const requestLocale = await getLocale();
+  const locale = isLocale(requestLocale) ? requestLocale : "en";
+  const direction = getDirectionForLocale(locale);
+  const t = await getTranslations("Fallback");
 
   return (
     <FallbackScreen
-      title={copy.title}
-      description={copy.description}
-      action={<FallbackActions homeHref={\`/\${locale}\`} homeLabel={copy.homeLabel} />}
+      eyebrow={t("eyebrow")}
+      locale={locale}
+      direction={direction}
+      title={t("notFoundTitle")}
+      description={t("notFoundDescription")}
+      action={<FallbackActions homeHref={\`/\${locale}\`} homeLabel={t("homeLabel")} />}
+    />
+  );
+}
+`;
+}
+
+export function getLocaleNotFoundTemplate(): string {
+  return `import { getLocale, getTranslations } from "next-intl/server";
+
+import { FallbackActions } from "@/components/fallback-actions";
+import { FallbackScreen } from "@/components/fallback-screen";
+import { getDirectionForLocale, isLocale } from "@/lib/i18n";
+
+export default async function LocaleNotFound() {
+  const requestLocale = await getLocale();
+  const locale = isLocale(requestLocale) ? requestLocale : "en";
+  const direction = getDirectionForLocale(locale);
+  const t = await getTranslations("Fallback");
+
+  return (
+    <FallbackScreen
+      eyebrow={t("eyebrow")}
+      locale={locale}
+      direction={direction}
+      title={t("notFoundTitle")}
+      description={t("notFoundDescription")}
+      action={<FallbackActions homeHref={\`/\${locale}\`} homeLabel={t("homeLabel")} />}
     />
   );
 }
@@ -282,21 +381,8 @@ export default function RouteErrorBoundary({
 
   return `"use client";
 
-import { useParams } from "next/navigation";
-
 import { FallbackActions } from "@/components/fallback-actions";
 import { ErrorView } from "@/components/error-view";
-
-const MESSAGES = {
-  en: {
-    homeLabel: "Go home",
-    retryLabel: "Try again"
-  },
-  ar: {
-    homeLabel: "العودة للرئيسية",
-    retryLabel: "أعد المحاولة"
-  }
-} as const;
 
 export default function RouteErrorBoundary({
   reset
@@ -304,23 +390,48 @@ export default function RouteErrorBoundary({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const params = useParams<{ locale?: string }>();
-  const locale = params.locale === "ar" ? "ar" : "en";
-  const copy = MESSAGES[locale];
+  return (
+    <ErrorView
+      title="Something went wrong."
+      description="An unexpected error occurred. Please try again."
+      action={<FallbackActions homeHref="/" homeLabel="Go home" retryLabel="Try again" onRetry={reset} />}
+    />
+  );
+}
+`;
+}
+
+export function getLocaleErrorTemplate(): string {
+  return `"use client";
+
+import { useLocale, useTranslations } from "next-intl";
+
+import { FallbackActions } from "@/components/fallback-actions";
+import { ErrorView } from "@/components/error-view";
+import { type Locale, getDirectionForLocale } from "@/lib/i18n";
+
+export default function LocaleErrorBoundary({
+  reset
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  const locale = useLocale() as Locale;
+  const direction = getDirectionForLocale(locale);
+  const t = useTranslations("Fallback");
 
   return (
     <ErrorView
-      title={locale === "ar" ? "حدث خطأ ما." : "Something went wrong."}
-      description={
-        locale === "ar"
-          ? "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
-          : "An unexpected error occurred. Please try again."
-      }
+      eyebrow={t("eyebrow")}
+      locale={locale}
+      direction={direction}
+      title={t("errorTitle")}
+      description={t("errorDescription")}
       action={
         <FallbackActions
           homeHref={\`/\${locale}\`}
-          homeLabel={copy.homeLabel}
-          retryLabel={copy.retryLabel}
+          homeLabel={t("homeLabel")}
+          retryLabel={t("retryLabel")}
           onRetry={reset}
         />
       }
@@ -336,10 +447,11 @@ export function getGlobalErrorTemplate(): string {
 import "./globals.css";
 
 import * as React from "react";
-import { ErrorView } from "@/components/error-view";
-import { FallbackActions } from "@/components/fallback-actions";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { ErrorView } from "@/components/error-view";
+import { FallbackActions } from "@/components/fallback-actions";
+import { type Direction } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({
@@ -352,44 +464,63 @@ const fontMono = Geist_Mono({
   variable: "--font-mono"
 });
 
+type LocaleCopy = {
+  locale: "en" | "ar";
+  direction: Direction;
+  eyebrow: string;
+  title: string;
+  description: string;
+  homeLabel: string;
+  retryLabel: string;
+  homeHref: string;
+};
+
+const ENGLISH_COPY: LocaleCopy = {
+  locale: "en",
+  direction: "ltr",
+  eyebrow: "Forge",
+  title: "Something went wrong.",
+  description: "An unexpected error occurred. Please try again.",
+  homeLabel: "Go home",
+  retryLabel: "Try again",
+  homeHref: "/en"
+};
+
+const ARABIC_COPY: LocaleCopy = {
+  locale: "ar",
+  direction: "rtl",
+  eyebrow: "فورج",
+  title: "حدث خطأ ما.",
+  description: "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.",
+  homeLabel: "العودة للرئيسية",
+  retryLabel: "أعد المحاولة",
+  homeHref: "/ar"
+};
+
 export default function GlobalError({
   reset
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const [locale, setLocale] = React.useState<"en" | "ar">("en");
+  const [copy, setCopy] = React.useState<LocaleCopy>(ENGLISH_COPY);
 
   React.useEffect(() => {
-    setLocale(document.documentElement.lang === "ar" ? "ar" : "en");
+    setCopy(document.documentElement.lang === "ar" ? ARABIC_COPY : ENGLISH_COPY);
   }, []);
 
-  const copy =
-    locale === "ar"
-      ? {
-          homeLabel: "العودة للرئيسية",
-          retryLabel: "أعد المحاولة",
-          homeHref: "/ar"
-        }
-      : {
-          homeLabel: "Go home",
-          retryLabel: "Try again",
-          homeHref: "/"
-        };
-
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang={copy.locale} dir={copy.direction} suppressHydrationWarning>
       <body
         className={cn("antialiased", "font-sans", geist.variable, fontMono.variable)}
         suppressHydrationWarning
       >
         <ErrorView
-          title={locale === "ar" ? "حدث خطأ ما." : "Something went wrong."}
-          description={
-            locale === "ar"
-              ? "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
-              : "An unexpected error occurred. Please try again."
-          }
+          eyebrow={copy.eyebrow}
+          locale={copy.locale}
+          direction={copy.direction}
+          title={copy.title}
+          description={copy.description}
           action={
             <FallbackActions
               homeHref={copy.homeHref}
@@ -408,10 +539,7 @@ export default function GlobalError({
 
 export function getI18nTemplate(rtl: boolean): string {
   if (!rtl) {
-    return `export const locales = ["en"] as const;
-export const defaultLocale = "en";
-
-export type Locale = (typeof locales)[number];
+    return `export type Locale = "en";
 export type Direction = "ltr" | "rtl";
 
 export function isLocale(value: string | undefined): value is Locale {
@@ -425,21 +553,17 @@ export function getDirectionForLocale(_locale: Locale): Direction {
 export function getAlternateLocale(locale: Locale): Locale {
   return locale;
 }
-
-export function getLocaleHref(pathname: string, _locale: Locale): string {
-  return pathname;
-}
 `;
   }
 
-  return `export const locales = ["en", "ar"] as const;
-export const defaultLocale = "en";
+  return `import type { Locale as RoutingLocale } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 
-export type Locale = (typeof locales)[number];
+export type Locale = RoutingLocale;
 export type Direction = "ltr" | "rtl";
 
 export function isLocale(value: string | undefined): value is Locale {
-  return value === "en" || value === "ar";
+  return routing.locales.some((locale) => locale === value);
 }
 
 export function getDirectionForLocale(locale: Locale): Direction {
@@ -449,22 +573,12 @@ export function getDirectionForLocale(locale: Locale): Direction {
 export function getAlternateLocale(locale: Locale): Locale {
   return locale === "ar" ? "en" : "ar";
 }
-
-export function getLocaleHref(pathname: string, locale: Locale): string {
-  const segments = pathname.split("/").filter(Boolean);
-
-  if (segments.length > 0 && isLocale(segments[0])) {
-    segments[0] = locale;
-    return \`/\${segments.join("/")}\`;
-  }
-
-  return pathname === "/" ? \`/\${locale}\` : \`/\${locale}\${pathname}\`;
-}
 `;
 }
 
-export function getNextConfigTemplate(): string {
-  return `import path from "node:path";
+export function getNextConfigTemplate(rtl: boolean): string {
+  if (!rtl) {
+    return `import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -477,5 +591,24 @@ const nextConfig = {
 };
 
 export default nextConfig;
+`;
+  }
+
+  return `import path from "node:path";
+import { fileURLToPath } from "node:url";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const currentDirectory = path.dirname(fileURLToPath(import.meta.url));
+
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+  turbopack: {
+    root: currentDirectory
+  }
+};
+
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+
+export default withNextIntl(nextConfig);
 `;
 }

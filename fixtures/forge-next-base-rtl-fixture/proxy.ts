@@ -1,28 +1,9 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import createMiddleware from "next-intl/middleware"
 
-import { defaultLocale, locales } from "./lib/i18n"
+import { routing } from "./i18n/routing"
 
-function getPreferredLocale(request: NextRequest) {
-  const acceptLanguage = request.headers.get("accept-language")?.toLowerCase() ?? ""
-
-  for (const locale of locales) {
-    if (acceptLanguage.includes(locale)) {
-      return locale
-    }
-  }
-
-  return defaultLocale
-}
-
-export function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname !== "/") {
-    return NextResponse.next()
-  }
-
-  return NextResponse.redirect(new URL(`/${getPreferredLocale(request)}`, request.url))
-}
+export const proxy = createMiddleware(routing)
 
 export const config = {
-  matcher: "/",
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
 }

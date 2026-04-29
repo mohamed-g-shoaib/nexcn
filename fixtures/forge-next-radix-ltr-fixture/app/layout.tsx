@@ -1,12 +1,10 @@
-import { cookies } from "next/headers"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import "./globals.css"
 import { AppProviders } from "@/components/app-providers"
+import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
-
-type ThemeCookieValue = "dark" | "light" | "system"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -17,14 +15,6 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
-
-function getThemeFromCookie(value: string | undefined): ThemeCookieValue {
-  if (value === "dark" || value === "light" || value === "system") {
-    return value
-  }
-
-  return "system"
-}
 
 export const metadata: Metadata = {
   title: "forge-next-radix-ltr-fixture",
@@ -50,24 +40,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const cookieStore = await cookies()
-  const storedTheme = getThemeFromCookie(cookieStore.get("forge-theme")?.value)
-  const initialThemeClass = storedTheme === "system" ? undefined : storedTheme
-  const initialColorScheme = storedTheme === "system" ? undefined : storedTheme
-
   return (
-    <html
-      lang="en"
-      dir="ltr"
-      className={initialThemeClass}
-      style={initialColorScheme ? { colorScheme: initialColorScheme } : undefined}
-      suppressHydrationWarning
-    >
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body
         className={cn("antialiased", "font-sans", geist.variable, fontMono.variable)}
         suppressHydrationWarning
       >
-        <AppProviders>{children}</AppProviders>
+        <ThemeProvider>
+          <AppProviders>{children}</AppProviders>
+        </ThemeProvider>
       </body>
     </html>
   )

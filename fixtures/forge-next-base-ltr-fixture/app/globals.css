@@ -137,6 +137,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  a[href],
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
+
   ::selection {
     background: color-mix(in oklch, var(--foreground) 18%, transparent);
     color: var(--foreground);

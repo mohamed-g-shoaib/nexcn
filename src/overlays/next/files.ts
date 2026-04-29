@@ -3,7 +3,6 @@ import type { GenerationContext } from "../../types.js";
 import { getCssImportDeclarationsTemplate } from "../shared/types.js";
 import {
   getAppProvidersTemplate,
-  getLocaleHookTemplate,
   getThemeProviderTemplate,
   getUiSoundHookTemplate,
 } from "./providers.js";
@@ -11,12 +10,18 @@ import {
   getErrorTemplate,
   getGlobalErrorTemplate,
   getI18nTemplate,
+  getLocaleErrorTemplate,
   getLocaleLayoutTemplate,
-  getNotFoundTemplate,
+  getLocaleNotFoundTemplate,
+  getMessagesTemplate,
+  getNavigationTemplate,
   getNextConfigTemplate,
+  getNotFoundTemplate,
   getPageTemplate,
   getProxyTemplate,
+  getRequestTemplate,
   getRootLayoutTemplate,
+  getRoutingTemplate,
 } from "./routing.js";
 import {
   getFallbackActionsTemplate,
@@ -48,7 +53,7 @@ export function getNextOverlayFiles(
     ],
     [
       path.join(projectDirectory, "components", "theme-toggle.tsx"),
-      getThemeToggleTemplate(),
+      getThemeToggleTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "components", "starter-shell.tsx"),
@@ -65,10 +70,6 @@ export function getNextOverlayFiles(
     [
       path.join(projectDirectory, "components", "fallback-actions.tsx"),
       getFallbackActionsTemplate(),
-    ],
-    [
-      path.join(projectDirectory, "hooks", "use-locale.tsx"),
-      getLocaleHookTemplate(context.config.rtl),
     ],
     [
       path.join(projectDirectory, "hooks", "use-ui-sound.ts"),
@@ -90,7 +91,10 @@ export function getNextOverlayFiles(
       path.join(projectDirectory, "sounds", "switch-off.ts"),
       getSoundAssetTemplate("switch-off"),
     ],
-    [path.join(projectDirectory, "next.config.mjs"), getNextConfigTemplate()],
+    [
+      path.join(projectDirectory, "next.config.mjs"),
+      getNextConfigTemplate(context.config.rtl),
+    ],
     [
       path.join(projectDirectory, "README.md"),
       getReadmeTemplate(
@@ -101,9 +105,18 @@ export function getNextOverlayFiles(
         context.config.base,
       ),
     ],
-    [path.join(projectDirectory, "app", "not-found.tsx"), getNotFoundTemplate(context.config.rtl)],
-    [path.join(projectDirectory, "app", "error.tsx"), getErrorTemplate(context.config.rtl)],
-    [path.join(projectDirectory, "app", "global-error.tsx"), getGlobalErrorTemplate()],
+    [
+      path.join(projectDirectory, "app", "not-found.tsx"),
+      getNotFoundTemplate(context.config.rtl),
+    ],
+    [
+      path.join(projectDirectory, "app", "error.tsx"),
+      getErrorTemplate(context.config.rtl),
+    ],
+    [
+      path.join(projectDirectory, "app", "global-error.tsx"),
+      getGlobalErrorTemplate(),
+    ],
   ]);
 
   if (context.config.rtl) {
@@ -117,13 +130,26 @@ export function getNextOverlayFiles(
     );
     files.set(
       path.join(projectDirectory, "app", "[locale]", "page.tsx"),
-      getPageTemplate(),
+      getPageTemplate(true),
+    );
+    files.set(
+      path.join(projectDirectory, "app", "[locale]", "not-found.tsx"),
+      getLocaleNotFoundTemplate(),
+    );
+    files.set(
+      path.join(projectDirectory, "app", "[locale]", "error.tsx"),
+      getLocaleErrorTemplate(),
     );
     files.set(
       path.join(projectDirectory, "components", "language-toggle.tsx"),
       getLanguageToggleTemplate(),
     );
     files.set(path.join(projectDirectory, "proxy.ts"), getProxyTemplate());
+    files.set(path.join(projectDirectory, "i18n", "routing.ts"), getRoutingTemplate());
+    files.set(path.join(projectDirectory, "i18n", "request.ts"), getRequestTemplate());
+    files.set(path.join(projectDirectory, "i18n", "navigation.ts"), getNavigationTemplate());
+    files.set(path.join(projectDirectory, "messages", "en.json"), getMessagesTemplate("en"));
+    files.set(path.join(projectDirectory, "messages", "ar.json"), getMessagesTemplate("ar"));
     return files;
   }
 
@@ -131,6 +157,6 @@ export function getNextOverlayFiles(
     path.join(projectDirectory, "app", "layout.tsx"),
     getRootLayoutTemplate(false, context.config.projectName),
   );
-  files.set(path.join(projectDirectory, "app", "page.tsx"), getPageTemplate());
+  files.set(path.join(projectDirectory, "app", "page.tsx"), getPageTemplate(false));
   return files;
 }

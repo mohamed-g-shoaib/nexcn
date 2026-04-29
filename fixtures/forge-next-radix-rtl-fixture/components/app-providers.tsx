@@ -1,24 +1,26 @@
 "use client"
 
 import * as React from "react"
+import { useLocale } from "next-intl"
 import { Direction, Tooltip } from "radix-ui"
 
-import { ThemeProvider } from "@/components/theme-provider"
-import { LocaleProvider, useLocale } from "@/hooks/use-locale"
+import { type Locale, getDirectionForLocale } from "@/lib/i18n"
 
 function DocumentRootSync() {
-  const { direction, locale } = useLocale()
+  const locale = useLocale() as Locale
+  const direction = getDirectionForLocale(locale)
 
   React.useEffect(() => {
-    document.documentElement.dir = direction
     document.documentElement.lang = locale
+    document.documentElement.dir = direction
   }, [direction, locale])
 
   return null
 }
 
 function AppShellProviders({ children }: { children: React.ReactNode }) {
-  const { direction } = useLocale()
+  const locale = useLocale() as Locale
+  const direction = getDirectionForLocale(locale)
 
   return (
     <Direction.Provider dir={direction}>
@@ -30,18 +32,6 @@ function AppShellProviders({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function AppProviders({
-  locale,
-  children,
-}: {
-  locale: "en" | "ar"
-  children: React.ReactNode
-}) {
-  return (
-    <ThemeProvider>
-      <LocaleProvider locale={locale}>
-        <AppShellProviders>{children}</AppShellProviders>
-      </LocaleProvider>
-    </ThemeProvider>
-  )
+export function AppProviders({ children }: { children: React.ReactNode }) {
+  return <AppShellProviders>{children}</AppShellProviders>
 }
