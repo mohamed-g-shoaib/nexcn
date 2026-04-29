@@ -71,6 +71,12 @@
       "sourceType": "github",
       "computedHash": "dda9e89338746e27dfd49ae8923266c49d01872b07cf13d3600ac9431ac087c3"
     },
+    "paraglide-js": {
+      "source": "zhuojg/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/paraglide-js/SKILL.md",
+      "computedHash": "ab8d2ff4e069b6a976d179129804714ffb116ed2d6eed1e085e7293a67d1e824"
+    },
     "react-i18next": {
       "source": "yildizberkay/skills",
       "sourceType": "github",
